@@ -60,8 +60,13 @@ class HomePage extends StatelessWidget {
                     Card(
                       shape: CircleBorder(),
                       child: IconButton(
-                        icon: Icon(Icons.info_outline),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        icon: Text(
+                          '?',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                          ),
+                        ),
+                        onPressed: () {},
                       ),
                     ),
                   ],
@@ -108,7 +113,7 @@ class HomePage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Icon(Icons.check_box),
+                    Icon(Icons.beenhere),
                     SizedBox(
                       height: Dimens.insetXs,
                     ),
