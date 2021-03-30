@@ -1,0 +1,7 @@
+class Dimens {
+  static const insetM = 16.0;
+  static const insetS = 8.0;
+  static const insetXs = 4.0;
+
+  Dimens._();
+}
