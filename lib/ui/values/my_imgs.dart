@@ -1,0 +1,3 @@
+class MyImgs {
+  MyImgs._();
+}

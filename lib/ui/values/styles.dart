@@ -1,0 +1,3 @@
+class Styles {
+  Styles._();
+}
