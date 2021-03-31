@@ -51,6 +51,21 @@ class ProfilePage extends StatelessWidget {
 
   static Widget _buildHeader(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final buildCircleBtn = ({
+      required IconData icData,
+      required void Function() onTap,
+    }) =>
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(Dimens.insetXs),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icData),
+          ),
+        );
     return Container(
       height: _heightHeader,
       color: colorScheme.primary,
@@ -60,13 +75,9 @@ class ProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: EdgeInsets.all(Dimens.insetXs),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(Icons.keyboard_arrow_left),
+            buildCircleBtn(
+              icData: Icons.keyboard_arrow_left,
+              onTap: () => Navigator.pop(context),
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -87,13 +98,9 @@ class ProfilePage extends StatelessWidget {
                 Text('User Name'),
               ],
             ),
-            Container(
-              padding: EdgeInsets.all(Dimens.insetXs),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(Icons.edit),
+            buildCircleBtn(
+              icData: Icons.edit,
+              onTap: () {},
             ),
           ],
         ),
