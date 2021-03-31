@@ -13,13 +13,48 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildDrawer(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Drawer(
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Container(
-              color: Colors.yellow,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
             ),
+            child: null,
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text(Strings.home),
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(Strings.profile),
+          ),
+          ListTile(
+            leading: Icon(Icons.close),
+            title: Text(Strings.lookingOrders),
+          ),
+          ListTile(
+            leading: Icon(Icons.attach_money),
+            title: Text(Strings.earnings),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text(Strings.capital),
+          ),
+          ListTile(
+            leading: Icon(Icons.close),
+            title: Text(Strings.diamonds),
+          ),
+          ListTile(
+            leading: Icon(Icons.attach_money),
+            title: Text(Strings.commission),
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text(Strings.logOut),
           ),
         ],
       ),
@@ -27,18 +62,19 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(0, 0),
-            ),
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
+    final colorScheme = Theme.of(context).colorScheme;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(0, 0),
           ),
-          Padding(
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
+        ),
+        SafeArea(
+          child: Padding(
             padding: const EdgeInsets.all(Dimens.insetM),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,6 +88,7 @@ class HomePage extends StatelessWidget {
                           shape: CircleBorder(),
                           child: IconButton(
                             icon: Icon(Icons.list),
+                            color: colorScheme.primary,
                             onPressed: () => Scaffold.of(context).openDrawer(),
                           ),
                         );
@@ -60,8 +97,14 @@ class HomePage extends StatelessWidget {
                     Card(
                       shape: CircleBorder(),
                       child: IconButton(
-                        icon: Icon(Icons.info_outline),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        icon: Text(
+                          '?',
+                          style: TextStyle(
+                            fontSize: Dimens.sizeIconM,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                        onPressed: () {},
                       ),
                     ),
                   ],
@@ -82,13 +125,14 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildUserStatusWgt(BuildContext context) {
     return Card(
+      elevation: Dimens.elevationM,
       child: Padding(
         padding: const EdgeInsets.all(Dimens.insetS),
         child: Column(
@@ -96,8 +140,8 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('App Name'),
-                Text('text'),
+                Text(Strings.heroBear),
+                Text('${Strings.workingCapital}: ${Strings.sCurrency} X'),
               ],
             ),
             SizedBox(
@@ -108,7 +152,7 @@ class HomePage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Icon(Icons.check_box),
+                    Icon(Icons.beenhere),
                     SizedBox(
                       height: Dimens.insetXs,
                     ),
