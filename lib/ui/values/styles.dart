@@ -6,14 +6,16 @@ class Styles {
     cardTheme: _baseTheme.cardTheme.copyWith(
       margin: EdgeInsets.zero,
     ),
+    iconTheme: _baseTheme.iconTheme.copyWith(
+      color: _colorScheme.onBackground,
+    ),
   );
 
   static final _baseTheme = ThemeData.from(colorScheme: _colorScheme);
 
   static const _colorScheme = ColorScheme.light(
-    primary: Colors.white,
-    onPrimary: Colors.black,
-    secondary: MyColors.yellow400,
+    primary: MyColors.yellow400,
+    secondary: MyColors.yellow600,
     onSecondary: Colors.white,
   );
 

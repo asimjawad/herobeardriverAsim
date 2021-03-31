@@ -3,5 +3,9 @@ class Dimens {
   static const insetS = 8.0;
   static const insetXs = 4.0;
 
+  static const elevationM = 5.0;
+
+  static const sizeIconM = 24.0;
+
   Dimens._();
 }

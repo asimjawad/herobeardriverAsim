@@ -12,15 +12,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: Strings.heroBear,
+      title: Strings.heroBearDriver,
       debugShowCheckedModeBanner: false,
       theme: Styles.appTheme,
-      initialBinding: BindingsBuilder(() => Get.put(
-            AppBloc(),
-            permanent: true,
-          )),
+      initialBinding: BindingsBuilder.put(
+        () => AppBloc(),
+        permanent: true,
+      ),
       getPages: [
-        GetPage(
+        GetPage<void>(
           name: '/',
           page: () => HomePage(),
         ),
