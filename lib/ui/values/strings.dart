@@ -15,4 +15,12 @@ class Strings {
   static const String commission = 'Commission';
   static const String logOut = 'Log Out';
   static const String workingCapital = 'Working Capital';
+  static const String acceptance = 'Acceptance';
+  static const String todaysEarning = 'Today\'s Earning';
+  static const String completion = 'Completion';
+
+  // profile page
+  static const String reviews = 'Reviews';
+  static const String trips = 'Trips';
+  static const String years = 'Years';
 }

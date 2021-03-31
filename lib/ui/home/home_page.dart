@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hero_bear_driver/ui/values/dimens.dart';
+import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class HomePage extends StatelessWidget {
+  static const _sizeProfileBadge = 60.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +25,27 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               color: colorScheme.primary,
             ),
-            child: null,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipOval(
+                  child: Container(
+                    color: Colors.white,
+                    width: _sizeProfileBadge,
+                    height: _sizeProfileBadge,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimens.insetS,
+                ),
+                Text('User Name'),
+                SizedBox(
+                  height: Dimens.insetS,
+                ),
+                Text('user email'),
+              ],
+            ),
           ),
           ListTile(
             leading: Icon(Icons.home),
@@ -31,6 +54,7 @@ class HomePage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.person),
             title: Text(Strings.profile),
+            onTap: _onProfilePressed,
           ),
           ListTile(
             leading: Icon(Icons.close),
@@ -156,8 +180,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: Dimens.insetXs,
                     ),
-                    Text('Text'),
-                    Text('Text'),
+                    Text('X %'),
+                    Text(Strings.acceptance),
                   ],
                 ),
                 Column(
@@ -166,8 +190,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: Dimens.insetXs,
                     ),
-                    Text('Text'),
-                    Text('Text'),
+                    Text('\$ X'),
+                    Text(Strings.todaysEarning),
                   ],
                 ),
                 Column(
@@ -176,8 +200,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: Dimens.insetXs,
                     ),
-                    Text('Text'),
-                    Text('Text'),
+                    Text('X %'),
+                    Text(Strings.completion),
                   ],
                 ),
               ],
@@ -186,5 +210,9 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onProfilePressed() {
+    Get.to<void>(ProfilePage());
   }
 }
