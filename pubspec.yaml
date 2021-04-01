@@ -29,6 +29,8 @@ dependencies:
   dio: ^4.0.0
   # for model classes
   json_annotation: ^4.0.1
+  # for pairs, triplets, quadruplets & quintuplets etc
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:
