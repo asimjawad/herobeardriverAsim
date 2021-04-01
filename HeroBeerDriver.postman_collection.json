@@ -1,0 +1,864 @@
+{
+	"info": {
+		"_postman_id": "a86392f7-39fb-4b28-99c2-6e7a6b6a63b6",
+		"name": "HeroBeerDriver",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "driver_login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "phone",
+							"value": "+923154511100",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "device_token",
+							"value": "exFbHlPWSM2hbnk6TJYkSp:APA91bGHJw6u3mHGn-paz0pTrpaWbrgVSNH02khs6wjaFuE7ZwTpdDWivjWDaZR0gpTtZ-QcXVWN9BJEgkV2wBxRCYZJApDyLOqNw4FRR",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/driver_login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_login"
+					],
+					"query": [
+						{
+							"key": "phone",
+							"value": "+92",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"disabled": true
+						},
+						{
+							"key": "device_token",
+							"value": "exFbHlPWSM2hbnk6TJYkSp:APA91bGHJw6u3mHGn-paz0pTrpaWbrgVSNH02khs6wjaFuE7ZwTpdDWivjWDaZR0gpTtZ-QcXVWN9BJEgkV2wBxRCYZJApDyLOqNw4FRR",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register Driver",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "john@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "+923154511100",
+							"type": "text"
+						},
+						{
+							"key": "account_address",
+							"value": "dontknow",
+							"type": "text"
+						},
+						{
+							"key": "account_number",
+							"value": "123456789987",
+							"type": "text"
+						},
+						{
+							"key": "bank_name",
+							"value": "john'sbank",
+							"type": "text"
+						},
+						{
+							"key": "branch_name",
+							"value": "john'sbranch",
+							"type": "text"
+						},
+						{
+							"key": "branch_address",
+							"value": "john'sbranchaddress",
+							"type": "text"
+						},
+						{
+							"key": "licence_image",
+							"type": "file",
+							"src": "/C:/Users/Sigi Technologies/Downloads/kermit66.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/driver_register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_register"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "john@gmail.com",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"disabled": true
+						},
+						{
+							"key": "phone",
+							"value": "+923154511100",
+							"disabled": true
+						},
+						{
+							"key": "account_address",
+							"value": "dontknow",
+							"disabled": true
+						},
+						{
+							"key": "account_number",
+							"value": "123456789987",
+							"disabled": true
+						},
+						{
+							"key": "bank_name",
+							"value": "john'sbank",
+							"disabled": true
+						},
+						{
+							"key": "branch_name",
+							"value": "john'sbranch",
+							"disabled": true
+						},
+						{
+							"key": "branch_address",
+							"value": "john'sbranchaddress",
+							"disabled": true
+						},
+						{
+							"key": "licence_image",
+							"value": "alkshkfjdhajskbdkjlsajkdhajkslhdljkashd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home Screen data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/home_screen_data/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"home_screen_data",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{base_url}}/order_request/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order_request",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Driver Review",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/driver_reviews/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_reviews",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Diamonds",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/get_diamonds/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"get_diamonds",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Comission",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/get_commission/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"get_commission",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "payout_amount",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "transaction_id",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/submit_payment",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"submit_payment"
+					],
+					"query": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"disabled": true
+						},
+						{
+							"key": "payout_amount",
+							"value": "1234",
+							"disabled": true
+						},
+						{
+							"key": "transaction_id",
+							"value": "1234",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Driver Offline",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/set_driver_offline/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"set_driver_offline",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Driver Online",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "latitude",
+							"value": "31.4643683",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "74.243655",
+							"type": "text"
+						},
+						{
+							"key": "device_token",
+							"value": "exFbHlPWSM2hbnk6TJYkSp:APA91bGHJw6u3mHGn-paz0pTrpaWbrgVSNH02khs6wjaFuE7ZwTpdDWivjWDaZR0gpTtZ-QcXVWN9BJEgkV2wBxRCYZJApDyLOqNw4FRR",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/set_driver_online/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"set_driver_online",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Driver Earning History",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "start_date",
+							"value": "2021-03-30",
+							"type": "text"
+						},
+						{
+							"key": "end_date",
+							"value": "2021-3-31",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/driver_earning_history/78",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_earning_history",
+						"78"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order accept by Driver",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "order_no",
+							"value": "'HB-5398537'",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "\"1\"",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/Sigi Technologies/Downloads/kermit66.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/order_accept_by_driver",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order_accept_by_driver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Capital",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "capital",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/set_capital",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"set_capital"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reject_order_request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "order_no",
+							"value": "12465",
+							"type": "text"
+						},
+						{
+							"key": "reason",
+							"value": "\"Driver Not Available\"",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "\"0\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/reject_order_request",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reject_order_request"
+					],
+					"query": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"disabled": true
+						},
+						{
+							"key": "order_no",
+							"value": "12465",
+							"disabled": true
+						},
+						{
+							"key": "reason",
+							"value": "\"Driver Not Available\"",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "\"0\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "driver_forgot_password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "phone",
+							"value": "+923154511100",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/driver_forgot_password",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_forgot_password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete_orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "order_no",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/Sigi Technologies/Downloads/kermit66.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/complete_orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"complete_orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_reason",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/get_reason",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"get_reason"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delivery Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/delivery_summary?driver_id=78&user_id= &order_no=",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"delivery_summary"
+					],
+					"query": [
+						{
+							"key": "driver_id",
+							"value": "78"
+						},
+						{
+							"key": "user_id",
+							"value": " "
+						},
+						{
+							"key": "order_no",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "driver_update_profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "john@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "driver_id",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/Sigi Technologies/Downloads/kermit-the-frog-meme-gun-firearm-frog-852e7ffcd9b60ad57ef1ed9356cb6c67.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/driver_update_profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"driver_update_profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "request_withdraw",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "driver_id",
+							"value": "\"78\"",
+							"type": "text"
+						},
+						{
+							"key": "payout_amount",
+							"value": "\"10\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/request_withdraw",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"request_withdraw"
+					],
+					"query": [
+						{
+							"key": "driver_id",
+							"value": "78",
+							"disabled": true
+						},
+						{
+							"key": "payout_amount",
+							"value": "100",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "request_diamonds",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "driver_id",
+							"value": "\"78\"",
+							"type": "text"
+						},
+						{
+							"key": "diamond",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/request_diamonds",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"request_diamonds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordered_product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/ordered_product/HB-8454800",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ordered_product",
+						"HB-8454800"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://portal.herobear.com.ph/api"
+		}
+	]
+}
