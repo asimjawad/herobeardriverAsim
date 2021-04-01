@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/ui/capital_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:tuple/tuple.dart';
@@ -68,6 +69,7 @@ class HomePage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text(Strings.capital),
+            onTap: _onCapitalPressed,
           ),
           ListTile(
             leading: Icon(Icons.close),
@@ -210,7 +212,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _onProfilePressed() {
-    Get.to<void>(ProfilePage());
-  }
+  void _onProfilePressed() => Get.to<void>(ProfilePage());
+
+  void _onCapitalPressed() => Get.to<void>(CapitalPage());
 }
