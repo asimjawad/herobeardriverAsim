@@ -20,6 +20,7 @@ class ReviewTileWgt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       children: [
         Container(
@@ -31,12 +32,15 @@ class ReviewTileWgt extends StatelessWidget {
           height: 50,
         ),
         SizedBox(
-          width: Dimens.insetS,
+          width: Dimens.insetM,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(this.title),
+            Text(
+              this.title,
+              style: textTheme.headline6,
+            ),
             Text(this.subtitle),
             _buildStars(context),
           ],
