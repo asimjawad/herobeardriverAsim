@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:tuple/tuple.dart';
 
 class HomePage extends StatelessWidget {
   static const _sizeProfileBadge = 60.0;
@@ -155,6 +156,12 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildUserStatusWgt(BuildContext context) {
+    final data = <Tuple2<IconData, String>>[
+      Tuple2(Icons.beenhere, Strings.acceptance),
+      Tuple2(Icons.attach_money, Strings.todaysEarning),
+      Tuple2(Icons.cancel, Strings.completion),
+    ];
+    final theme = Theme.of(context);
     return Card(
       elevation: Dimens.elevationM,
       child: Padding(
@@ -165,46 +172,37 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(Strings.heroBear),
-                Text('${Strings.workingCapital}: ${Strings.sCurrency} X'),
+                Text(
+                  '${Strings.workingCapital}: ${Strings.sCurrency} X',
+                  style: theme.textTheme.subtitle1,
+                ),
               ],
             ),
             SizedBox(
-              height: Dimens.insetS,
+              height: Dimens.insetM,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Icon(Icons.beenhere),
-                    SizedBox(
-                      height: Dimens.insetXs,
+              children: data
+                  .map(
+                    (e) => Column(
+                      children: [
+                        Icon(e.item1),
+                        SizedBox(
+                          height: Dimens.insetS,
+                        ),
+                        Text(
+                          'X %',
+                          style: theme.accentTextTheme.headline4,
+                        ),
+                        SizedBox(
+                          height: Dimens.insetXs,
+                        ),
+                        Text(e.item2),
+                      ],
                     ),
-                    Text('X %'),
-                    Text(Strings.acceptance),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(Icons.attach_money),
-                    SizedBox(
-                      height: Dimens.insetXs,
-                    ),
-                    Text('\$ X'),
-                    Text(Strings.todaysEarning),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(Icons.cancel),
-                    SizedBox(
-                      height: Dimens.insetXs,
-                    ),
-                    Text('X %'),
-                    Text(Strings.completion),
-                  ],
-                ),
-              ],
+                  )
+                  .toList(),
             ),
           ],
         ),
