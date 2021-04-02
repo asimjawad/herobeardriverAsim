@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hero_bear_driver/ui/home/home_page.dart';
+import 'package:hero_bear_driver/ui/auth/login_page.dart';
 
 class SplashPage extends StatelessWidget {
   @override
@@ -15,6 +15,6 @@ class SplashPage extends StatelessWidget {
   }
 
   void _afterBuild(BuildContext context) {
-    Get.to<void>(HomePage());
+    Get.to<void>(LoginPage());
   }
 }

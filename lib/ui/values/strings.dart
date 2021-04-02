@@ -28,4 +28,14 @@ class Strings {
   // capital page
   static const selectCapital = 'Select Capital';
   static const unlimited = 'Unlimited';
+
+  //user login page
+  static const enterPhoneNumber = 'Enter phone number';
+  static const hintTextPassword = 'Password';
+  static const forgotPassword = 'Forgot Password';
+  static const logIn = 'Login';
+  static const welcomeTo = 'Welcome to';
+
+  static const msgLoginText =
+      'Enter your registered phone number and email to continue login';
 }
