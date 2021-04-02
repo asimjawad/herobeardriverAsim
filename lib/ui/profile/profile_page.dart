@@ -8,6 +8,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, _) {
@@ -24,7 +25,10 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                         horizontal: Dimens.insetM,
                       ),
-                      child: Text(Strings.reviews),
+                      child: Text(
+                        Strings.reviews,
+                        style: textTheme.headline2,
+                      ),
                     ),
                   ],
                 ),
@@ -50,7 +54,9 @@ class ProfilePage extends StatelessWidget {
   }
 
   static Widget _buildHeader(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
     final buildCircleBtn = ({
       required IconData icData,
       required void Function() onTap,
@@ -95,7 +101,10 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(
                   height: Dimens.insetM,
                 ),
-                Text('User Name'),
+                Text(
+                  'User Name',
+                  style: Styles.onPrimaryTextTheme.headline2,
+                ),
               ],
             ),
             buildCircleBtn(
@@ -109,6 +118,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   static Widget _buildTripYearWgt(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.all(Dimens.insetM),
       child: Row(
@@ -116,20 +126,32 @@ class ProfilePage extends StatelessWidget {
         children: [
           Column(
             children: [
-              Text('X'),
+              Text(
+                'X',
+                style: textTheme.headline2,
+              ),
               SizedBox(
                 height: Dimens.insetS,
               ),
-              Text(Strings.trips),
+              Text(
+                Strings.trips,
+                style: textTheme.bodyText1,
+              ),
             ],
           ),
           Column(
             children: [
-              Text('X'),
+              Text(
+                'X',
+                style: textTheme.headline2,
+              ),
               SizedBox(
                 height: Dimens.insetS,
               ),
-              Text(Strings.trips),
+              Text(
+                Strings.years,
+                style: textTheme.bodyText1,
+              ),
             ],
           ),
         ],
