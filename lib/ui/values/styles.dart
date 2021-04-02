@@ -3,17 +3,23 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 
 class Styles {
   static final appTheme = _baseTheme.copyWith(
-      cardTheme: _baseTheme.cardTheme.copyWith(
-        margin: EdgeInsets.zero,
-      ),
-      iconTheme: _baseTheme.iconTheme.copyWith(
-        color: _colorScheme.onBackground,
-      ),
-      textTheme: _baseTextTheme,
-      accentTextTheme: _baseTextTheme.apply(
-        bodyColor: _colorScheme.secondary,
-        displayColor: _colorScheme.secondary,
-      ));
+    cardTheme: _baseTheme.cardTheme.copyWith(
+      margin: EdgeInsets.zero,
+    ),
+    iconTheme: _baseTheme.iconTheme.copyWith(
+      color: _colorScheme.onBackground,
+    ),
+    textTheme: _baseTextTheme,
+    accentTextTheme: _baseTextTheme.apply(
+      bodyColor: _colorScheme.secondary,
+      displayColor: _colorScheme.secondary,
+    ),
+  );
+
+  static final onPrimaryTextTheme = _baseTextTheme.apply(
+    bodyColor: Colors.white,
+    displayColor: Colors.white,
+  );
 
   static final _baseTextTheme = _baseTheme.textTheme
       .copyWith(
