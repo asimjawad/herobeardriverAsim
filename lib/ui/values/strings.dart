@@ -25,5 +25,7 @@ class Strings {
   static const trips = 'Trips';
   static const years = 'Years';
 
-// capital page
+  // capital page
+  static const selectCapital = 'Select Capital';
+  static const unlimited = 'Unlimited';
 }
