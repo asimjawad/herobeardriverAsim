@@ -1,35 +1,11 @@
+import 'package:hero_bear_driver/data/models/driver_reviews_model/review_for_driver_reviews_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'driver_reviews_model.g.dart';
+part 'data_for_driver_reviews_model.g.dart';
 
 @JsonSerializable()
-class DriverReviewsModel {
-  DriverReviewsModel({
-    required this.status,
-    required this.data,
-    this.rating,
-    required this.trips,
-    required this.baseUrlProfile,
-  });
-
-  @JsonKey(name: 'status')
-  bool status;
-  @JsonKey(name: 'data')
-  Data data;
-  @JsonKey(name: 'rating')
-  String? rating;
-  @JsonKey(name: 'trips')
-  int trips;
-  @JsonKey(name: 'BASE_URL_PROFILE')
-  String baseUrlProfile;
-
-  factory DriverReviewsModel.fromJson(Map<String, dynamic> json) => _$DriverReviewsModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DriverReviewsModelToJson(this);
-}
-@JsonSerializable()
-class Data {
-  Data({
+class DataForDriverReviewsModel {
+  DataForDriverReviewsModel({
     required this.id,
     required this.name,
     required this.phone,
@@ -121,31 +97,9 @@ class Data {
   @JsonKey(name: 'updated_at')
   DateTime updatedAt;
   @JsonKey(name: 'reviews')
-  List<Review> reviews;
+  List<ReviewForDriverReviewsModel> reviews;
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory DataForDriverReviewsModel.fromJson(Map<String, dynamic> json) => _$DataForDriverReviewsModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
-}
-
-@JsonSerializable()
-class Review {
-  Review({
-    required this.image,
-    required this.name,
-    required this.rating,
-    required this.reviews,
-  });
-  @JsonKey(name: 'image')
-  String image;
-  @JsonKey(name: 'name')
-  String name;
-  @JsonKey(name: 'rating')
-  String rating;
-  @JsonKey(name: 'reviews')
-  String reviews;
-
-  factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ReviewToJson(this);
+  Map<String, dynamic> toJson() => _$DataForDriverReviewsModelToJson(this);
 }

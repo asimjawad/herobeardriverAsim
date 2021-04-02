@@ -1,35 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'earning_model.g.dart';
+part 'order_for_earning_model.g.dart';
 
 @JsonSerializable()
-class EarningModel {
-  EarningModel({
-    required this.status,
-    required this.totalEarning,
-    required this.adminEarning,
-    required this.order,
-    this.diamond,
-  });
-
-  @JsonKey(name: 'status')
-  bool status;
-  @JsonKey(name: 'totalEarning')
-  int totalEarning;
-  @JsonKey(name: 'adminEarning')
-  int adminEarning;
-  @JsonKey(name: 'order')
-  List<Order> order;
-  @JsonKey(name: 'diamond')
-  String? diamond;
-
-  factory EarningModel.fromJson(Map<String, dynamic> json) => _$EarningModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$EarningModelToJson(this);
-}
-@JsonSerializable()
-class Order {
-  Order({
+class OrderForEarningModel {
+  OrderForEarningModel({
     required this.orderNo,
     required this.earning,
     required this.delivery,
@@ -78,7 +53,7 @@ class Order {
   @JsonKey(name: 'restaurant_lng')
   String restaurantLng;
 
-  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  factory OrderForEarningModel.fromJson(Map<String, dynamic> json) => _$OrderForEarningModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderToJson(this);
+  Map<String, dynamic> toJson() => _$OrderForEarningModelToJson(this);
 }
