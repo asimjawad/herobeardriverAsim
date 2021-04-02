@@ -1,4 +1,4 @@
-package com.sigitechnologies.hero_bear_driver
+package com.sigitechnologies.herobeardriver
 
 import io.flutter.embedding.android.FlutterActivity
 

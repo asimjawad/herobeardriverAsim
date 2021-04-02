@@ -1,0 +1,283 @@
+{
+  "project_info": {
+    "project_number": "859100409663",
+    "firebase_url": "https://herobeardelivery-4eabd.firebaseio.com",
+    "project_id": "herobeardelivery-4eabd",
+    "storage_bucket": "herobeardelivery-4eabd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859100409663:android:db6cba8d3f9c16d877ad8a",
+        "android_client_info": {
+          "package_name": "com.sigitechnlogies.herobeardriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859100409663-739526418u5otdqns9521mnf486sf0a3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "7beac7115b507b30dfcf5889586f9fd6f058f273"
+          }
+        },
+        {
+          "client_id": "859100409663-74r63tknnpqkqlbjp4oasqjf2srrgdlu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "a4236a1c76aabc4842551b0b39cb05c8e2806d00"
+          }
+        },
+        {
+          "client_id": "859100409663-aegkcbb6f67qf995ap8qer4fd190kmsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "7f46e6ed8b24580873e421f9a7821a53f19c9a69"
+          }
+        },
+        {
+          "client_id": "859100409663-bimdj53255lvse4e50mpqpd34sd8but2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "50ac0d2e036bd1d20458a8d13be084e3d90113c1"
+          }
+        },
+        {
+          "client_id": "859100409663-n5tl00e7c9467lh9a1p3dkoeanhii2st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "aac613db9a95be8147de8d3e0e86037e9026ee07"
+          }
+        },
+        {
+          "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcahWeAYftrkpAUJc15_rTDqaOxAZ-gOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859100409663-38v1899hiob318ouk0ta87hn950i943c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SigiTechnologies.HeroBearDelivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859100409663:android:72f711350dabcc5b77ad8a",
+        "android_client_info": {
+          "package_name": "com.sigitechnologies.food_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859100409663-3guo9io28pknuvq5cva3s09rogv2i6ci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.food_delivery",
+            "certificate_hash": "7f46e6ed8b24580873e421f9a7821a53f19c9a69"
+          }
+        },
+        {
+          "client_id": "859100409663-5kt5aj6jhu8mbq2hmnpgpu4ahcaqnpu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.food_delivery",
+            "certificate_hash": "50ac0d2e036bd1d20458a8d13be084e3d90113c1"
+          }
+        },
+        {
+          "client_id": "859100409663-im9a8s1a47g3g0oi4d1dt9gcu6vd9qd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.food_delivery",
+            "certificate_hash": "aac613db9a95be8147de8d3e0e86037e9026ee07"
+          }
+        },
+        {
+          "client_id": "859100409663-in2hfic7n6bcllqk4fkktfvcod4svo87.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.food_delivery",
+            "certificate_hash": "ac7cafe6a9e1b79edf8344e9a11699f43cb7dba8"
+          }
+        },
+        {
+          "client_id": "859100409663-neu1e07ss3oc3vmc7d7kbtmfkiolu9kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.food_delivery",
+            "certificate_hash": "a4236a1c76aabc4842551b0b39cb05c8e2806d00"
+          }
+        },
+        {
+          "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcahWeAYftrkpAUJc15_rTDqaOxAZ-gOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859100409663-38v1899hiob318ouk0ta87hn950i943c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SigiTechnologies.HeroBearDelivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859100409663:android:d877acfe5f850d6577ad8a",
+        "android_client_info": {
+          "package_name": "com.sigitechnologies.herobear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859100409663-op1pe01i3fdcipcmloi0unj5n11o46cc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobear",
+            "certificate_hash": "7beac7115b507b30dfcf5889586f9fd6f058f273"
+          }
+        },
+        {
+          "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcahWeAYftrkpAUJc15_rTDqaOxAZ-gOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859100409663-38v1899hiob318ouk0ta87hn950i943c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SigiTechnologies.HeroBearDelivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859100409663:android:6c77e2d963a34b8b77ad8a",
+        "android_client_info": {
+          "package_name": "com.sigitechnologies.herobeardriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859100409663-3of0hnq51r1e338jh0uhponrh1mibvrb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobeardriver",
+            "certificate_hash": "7beac7115b507b30dfcf5889586f9fd6f058f273"
+          }
+        },
+        {
+          "client_id": "859100409663-er5jefaf1d7jqusva9h8kjl9gu9d4cge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobeardriver",
+            "certificate_hash": "a4236a1c76aabc4842551b0b39cb05c8e2806d00"
+          }
+        },
+        {
+          "client_id": "859100409663-lgao02btrafea225ujeh8t5bsc5pm0lj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobeardriver",
+            "certificate_hash": "50ac0d2e036bd1d20458a8d13be084e3d90113c1"
+          }
+        },
+        {
+          "client_id": "859100409663-puf81gncgpa7thprkkh4u0kmpve3vegv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobeardriver",
+            "certificate_hash": "7f46e6ed8b24580873e421f9a7821a53f19c9a69"
+          }
+        },
+        {
+          "client_id": "859100409663-tid7nrblhmsp88lv4n9bc29j3rlr64lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnologies.herobeardriver",
+            "certificate_hash": "aac613db9a95be8147de8d3e0e86037e9026ee07"
+          }
+        },
+        {
+          "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcahWeAYftrkpAUJc15_rTDqaOxAZ-gOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859100409663-38v1899hiob318ouk0ta87hn950i943c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SigiTechnologies.HeroBearDelivery"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
