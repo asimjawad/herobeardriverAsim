@@ -23,4 +23,11 @@ class Strings {
   static const String reviews = 'Reviews';
   static const String trips = 'Trips';
   static const String years = 'Years';
+
+  // order confirm page
+  static const String decline = 'Decline';
+  static const String acceptOrder = 'Accept Order';
+  static const String order = 'Order';
+  static const String estimatedEarning = 'Estimated Earning';
+  static const String pickedAt = 'Picked At';
 }
