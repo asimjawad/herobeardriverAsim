@@ -28,14 +28,10 @@ class Strings {
   // capital page
   static const selectCapital = 'Select Capital';
   static const unlimited = 'Unlimited';
-  static const String reviews = 'Reviews';
-  static const String trips = 'Trips';
-  static const String years = 'Years';
-
   // order confirm page
-  static const String decline = 'Decline';
-  static const String acceptOrder = 'Accept Order';
-  static const String order = 'Order';
-  static const String estimatedEarning = 'Estimated Earning';
-  static const String pickedAt = 'Picked At';
+  static const decline = 'Decline';
+  static const acceptOrder = 'Accept Order';
+  static const order = 'Order';
+  static const estimatedEarning = 'Estimated Earning';
+  static const pickedAt = 'Picked At';
 }

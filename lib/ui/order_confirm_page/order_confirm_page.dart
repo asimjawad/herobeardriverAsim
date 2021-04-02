@@ -86,7 +86,7 @@ class OrderConfirmPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15,bottom: 20,),
-                        child: Text(_restaurantName,style: Styles.appTheme.textTheme.headline3,),
+                        child: Text(_restaurantName,style: Styles.appTheme.textTheme.headline3,maxLines: 2,textAlign: TextAlign.start,),
                       ),
                       Text('$_orderNumber ${Strings.order}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
                       Padding(
