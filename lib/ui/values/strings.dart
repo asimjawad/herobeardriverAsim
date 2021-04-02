@@ -28,4 +28,10 @@ class Strings {
   // capital page
   static const selectCapital = 'Select Capital';
   static const unlimited = 'Unlimited';
+  // order confirm page
+  static const decline = 'Decline';
+  static const acceptOrder = 'Accept Order';
+  static const order = 'Order';
+  static const estimatedEarning = 'Estimated Earning';
+  static const pickedAt = 'Picked At';
 }
