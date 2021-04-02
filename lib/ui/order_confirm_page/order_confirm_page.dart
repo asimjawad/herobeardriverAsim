@@ -66,57 +66,55 @@ class OrderConfirmPage extends StatelessWidget {
             child: ScrollConfiguration(
               behavior: PlainScrollBehavior(),
               child: SingleChildScrollView(
+                padding: EdgeInsets.all(Dimens.insetM),
                 scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20,),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(Strings.pickedAt,style: Styles.appTheme.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600),),
-                            Text(_time,style: Styles.appTheme.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600),),
-                            ProgressTimerWidget(),
-                          ],
-                        ),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20,),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(Strings.pickedAt,style: Styles.appTheme.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600),),
+                          Text(_time,style: Styles.appTheme.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w600),),
+                          ProgressTimerWidget(),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15,bottom: 20,),
-                        child: Text(_restaurantName,style: Styles.appTheme.textTheme.headline3,maxLines: 2,textAlign: TextAlign.start,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15,bottom: 20,),
+                      child: Text(_restaurantName,style: Styles.appTheme.textTheme.headline3,maxLines: 2,textAlign: TextAlign.start,),
+                    ),
+                    Text('$_orderNumber ${Strings.order}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(Strings.estimatedEarning,style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
+                          Text('\$ ${_price}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
+                        ],
                       ),
-                      Text('$_orderNumber ${Strings.order}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(Strings.estimatedEarning,style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
-                            Text('\$ ${_price}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: GestureDetector(
-                          onTap: (){
-                          },
-                          child: Container(
-                            height: 45,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: MyColors.yellow400,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(child: Text(Strings.acceptOrder,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GestureDetector(
+                        onTap: (){
+                        },
+                        child: Container(
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: MyColors.yellow400,
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          child: Center(child: Text(Strings.acceptOrder,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),),),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
