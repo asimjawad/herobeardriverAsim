@@ -60,4 +60,12 @@ class Strings {
   // lengthy messages
   static const msgLoginText =
       'Enter your registered phone number and email to continue login';
+
+  // order pick page
+  static const direction = 'Direction';
+  static const call = 'Call';
+  static const totalItem = 'Total Item';
+  static const orderDetails = 'Order Details';
+  static const pickUpAt = 'Pick Up At ';
+  static const customerDetails = 'Customer Details';
 }

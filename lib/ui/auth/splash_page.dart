@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/home/home_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 
 class SplashPage extends StatelessWidget {
   final _appBloc = Get.find<AppBloc>();
@@ -20,7 +21,7 @@ class SplashPage extends StatelessWidget {
 
   void _afterBuild(BuildContext context) async {
     if (await _appBloc.isUserLoggedIn()) {
-      Get.to<void>(HomePage());
+      Get.to<void>(PickOrderPage());
     } else {
       Get.to<void>(LoginPage());
     }
