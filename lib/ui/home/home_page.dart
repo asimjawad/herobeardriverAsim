@@ -4,14 +4,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
+import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
+import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:tuple/tuple.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const _sizeProfileBadge = 60.0;
   final _appBloc = Get.find<AppBloc>();
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +44,8 @@ class HomePage extends StatelessWidget {
                 ClipOval(
                   child: Container(
                     color: Colors.white,
-                    width: _sizeProfileBadge,
-                    height: _sizeProfileBadge,
+                    width: HomePage._sizeProfileBadge,
+                    height: HomePage._sizeProfileBadge,
                   ),
                 ),
                 SizedBox(
@@ -135,7 +142,9 @@ class HomePage extends StatelessWidget {
                             color: colorScheme.primary,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to<void>(OrderConfirmPage());
+                        },
                       ),
                     ),
                   ],
@@ -148,7 +157,9 @@ class HomePage extends StatelessWidget {
                       height: Dimens.insetS,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _settingModalBottomSheet(context);
+                      },
                       child: Text(Strings.goOnline),
                     ),
                   ],
@@ -223,5 +234,14 @@ class HomePage extends StatelessWidget {
   void _onLogOut() async {
     await _appBloc.logOut();
     Get.offAll<void>(() => LoginPage());
+  }
+
+  void _settingModalBottomSheet(BuildContext context){
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (_){
+          return BottomSheetCheck();
+        }
+    );
   }
 }
