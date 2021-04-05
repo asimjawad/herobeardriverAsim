@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_model.g.dart';
+part 'user_login_model.g.dart';
 
 @JsonSerializable()
-class LoginModel {
-  LoginModel({
+class UserLoginModel {
+  UserLoginModel({
     required this.userId,
     required this.name,
     required this.email,
@@ -14,6 +14,7 @@ class LoginModel {
     required this.statusCode,
     required this.message,
   });
+
   @JsonKey(name: 'user_id')
   int userId;
   @JsonKey(name: 'name')
@@ -31,7 +32,8 @@ class LoginModel {
   @JsonKey(name: 'message')
   String message;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => _$LoginModelFromJson(json);
+  factory UserLoginModel.fromJson(Map<String, dynamic> json) =>
+      _$UserLoginModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoginModelToJson(this);
+  Map<String, dynamic> toJson() => _$UserLoginModelToJson(this);
 }
