@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
-import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
-import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
+import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
-import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -105,7 +102,9 @@ class _HomePageState extends State<HomePage> {
       future: _appBloc.getHomeData(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return _buildBodyContent(context, snapshot.data!);
+          return HomeMapPage(
+            model: snapshot.data!,
+          );
         } else if (snapshot.hasError) {
           // todo: handle here
           throw UnimplementedError();
@@ -117,137 +116,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBodyContent(
-      BuildContext context, HomeScreenDashboardModel model) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(0, 0),
-          ),
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.insetM),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Builder(
-                      builder: (context) {
-                        return Card(
-                          shape: CircleBorder(),
-                          child: IconButton(
-                            icon: Icon(Icons.list),
-                            color: colorScheme.primary,
-                            onPressed: () => Scaffold.of(context).openDrawer(),
-                          ),
-                        );
-                      },
-                    ),
-                    Card(
-                      shape: CircleBorder(),
-                      child: IconButton(
-                        icon: Text(
-                          '?',
-                          style: TextStyle(
-                            fontSize: Dimens.sizeIconM,
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                        onPressed: () {
-                          Get.to<void>(OrderConfirmPage());
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildUserStatusWgt(context, model),
-                    SizedBox(
-                      height: Dimens.insetS,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _settingModalBottomSheet(context);
-                      },
-                      child: Text(Strings.goOnline),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUserStatusWgt(
-      BuildContext context, HomeScreenDashboardModel model) {
-    final data = <Tuple3<IconData, String, String>>[
-      Tuple3(Icons.beenhere, Strings.acceptance, '${model.acceptance} %'),
-      Tuple3(Icons.attach_money, Strings.todaysEarning,
-          '${Strings.sCurrency}${model.todaysEarning}'),
-      Tuple3(Icons.cancel, Strings.completion, '${model.decline} %'),
-    ];
-    final theme = Theme.of(context);
-    return Card(
-      elevation: Dimens.elevationM,
-      child: Padding(
-        padding: const EdgeInsets.all(Dimens.insetS),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(Strings.heroBear),
-                Text(
-                  '${Strings.workingCapital}: ${Strings.sCurrency}${model.capital}',
-                  style: theme.textTheme.subtitle1,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: Dimens.insetM,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: data
-                  .map(
-                    (e) => Column(
-                  children: [
-                    Icon(e.item1),
-                    SizedBox(
-                      height: Dimens.insetS,
-                    ),
-                    Text(
-                      e.item3,
-                          style: theme.accentTextTheme.headline4,
-                        ),
-                    SizedBox(
-                      height: Dimens.insetXs,
-                    ),
-                    Text(e.item2),
-                  ],
-                ),
-              )
-                  .toList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _onProfilePressed() => Get.to<void>(ProfilePage());
 
   void _onCapitalPressed() => Get.to<void>(CapitalPage());
@@ -255,14 +123,5 @@ class _HomePageState extends State<HomePage> {
   void _onLogOut() async {
     await _appBloc.logOut();
     Get.offAll<void>(() => LoginPage());
-  }
-
-  void _settingModalBottomSheet(BuildContext context){
-    showModalBottomSheet<void>(
-        context: context,
-        builder: (_){
-          return BottomSheetCheck();
-        }
-    );
   }
 }

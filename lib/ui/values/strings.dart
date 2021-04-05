@@ -11,6 +11,7 @@ class Strings {
   static const profile = 'Profile';
   static const lookingOrders = 'Looking Orders';
   static const earnings = 'Earnings';
+  static const youAreOffline = 'You are Offline';
 
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
