@@ -4,6 +4,8 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 class SelectAReason extends StatelessWidget {
   final _itemCount = 1;
   final _reason = Strings.deliveryIsTooFar;
+  static const double marginH = 3;
+  static const double marginV = 5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +36,7 @@ class SelectAReason extends StatelessWidget {
       children: [
         Text(reason,style: Styles.appTheme.textTheme.bodyText1,),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: marginH,vertical: marginV),
           child: Container(
             width: double.infinity,
             color: Colors.black,

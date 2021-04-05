@@ -9,6 +9,9 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
   List<CheckBoxListTileModel> checkBoxListTileModel =
   CheckBoxListTileModel.getUsers();
   bool visi = false;
+  static const double marginVisi = 10.0;
+  final double btnHeight = 40;
+  static const double sizedB = 22;
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -32,8 +35,8 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 22,
-                    width: 22,
+                    height: sizedB,
+                    width: sizedB,
                     child: Checkbox(
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onChanged: (val){
@@ -52,7 +55,7 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
           },
         ),
         Center(child: visi ? Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: marginVisi),
           child: Text(Strings.makeSureYouHaveAllOfAbove,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.red),),
         ) : Container()),
         Padding(
@@ -75,11 +78,11 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
               }
             },
             child: Container(
-              height: 40,
+              height: btnHeight,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: MyColors.yellow400,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(marginVisi),
               ),
               child: Center(child: Text(Strings.startYourRide,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),)),
             ),

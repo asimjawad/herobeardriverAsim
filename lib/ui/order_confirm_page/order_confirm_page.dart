@@ -15,7 +15,14 @@ class OrderConfirmPage extends StatelessWidget {
   final String _time = '11:04 AM';
   final double _price = 20.00;
   final double size = 50;
-  int percentage= 0;
+  final double height = 45;
+  final double width = 80;
+  final double posT = 5;
+  final double posR = 10;
+  static const double posC = 15;
+  static const double posCs = 10;
+  static const double padT = 20;
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +43,16 @@ class OrderConfirmPage extends StatelessWidget {
                     zoomControlsEnabled: false,
                   ),
                   Positioned(
-                    top: 5,
-                    right: 10,
+                    top: posT,
+                    right: posR,
                     child: SafeArea(
                       child: InkWell(
                         onTap: (){
                           Get.to<void>(OrderDeclinePage());
                         },
                         child: Container(
-                          height: 45,
-                          width: 80,
+                          height: height,
+                          width: width,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -55,7 +62,7 @@ class OrderConfirmPage extends StatelessWidget {
                               ),
                             ],
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(posC),
                           ),
                           child: Center(child: Text(Strings.decline,style: Styles.appTheme.textTheme.bodyText2?.copyWith(color: Colors.white),)),
                         ),
@@ -78,7 +85,7 @@ class OrderConfirmPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 20,),
+                      padding: const EdgeInsets.only(top: padT,),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -89,31 +96,31 @@ class OrderConfirmPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15,bottom: 20,),
+                      padding: const EdgeInsets.only(top: posC,bottom: padT,),
                       child: Text(_restaurantName,style: Styles.appTheme.textTheme.headline3,maxLines: 2,textAlign: TextAlign.start,),
                     ),
                     Text('$_orderNumber ${Strings.order}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: padT),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(Strings.estimatedEarning,style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
-                          Text('\$ ${_price}',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
+                          Text('\$ $_price',style: Styles.appTheme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w500),),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.insetM),
                       child: GestureDetector(
                         onTap: (){
                         },
                         child: Container(
-                          height: 45,
+                          height: height,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: MyColors.yellow400,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(posCs),
                           ),
                           child: Center(child: Text(Strings.acceptOrder,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),),),
                         ),
