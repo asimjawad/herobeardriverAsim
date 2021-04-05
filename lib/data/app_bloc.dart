@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
@@ -48,4 +49,9 @@ class AppBloc extends DisposableInterface {
   }
 
   Future<void> logOut() => _repository.clearUser();
+
+  Future<HomeScreenDashboardModel> getHomeData() async {
+    final user = await this.user;
+    return _repository.getHomeData(user.userId);
+  }
 }

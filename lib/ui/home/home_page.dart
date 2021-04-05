@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
 import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
@@ -100,6 +101,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
+    return FutureBuilder<HomeScreenDashboardModel>(
+      future: _appBloc.getHomeData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _buildBodyContent(context, snapshot.data!);
+        } else if (snapshot.hasError) {
+          // todo: handle here
+          throw UnimplementedError();
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _buildBodyContent(
+      BuildContext context, HomeScreenDashboardModel model) {
     final colorScheme = Theme.of(context).colorScheme;
     return Stack(
       fit: StackFit.expand,
@@ -152,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildUserStatusWgt(context),
+                    _buildUserStatusWgt(context, model),
                     SizedBox(
                       height: Dimens.insetS,
                     ),
@@ -172,11 +191,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildUserStatusWgt(BuildContext context) {
-    final data = <Tuple2<IconData, String>>[
-      Tuple2(Icons.beenhere, Strings.acceptance),
-      Tuple2(Icons.attach_money, Strings.todaysEarning),
-      Tuple2(Icons.cancel, Strings.completion),
+  Widget _buildUserStatusWgt(
+      BuildContext context, HomeScreenDashboardModel model) {
+    final data = <Tuple3<IconData, String, String>>[
+      Tuple3(Icons.beenhere, Strings.acceptance, '${model.acceptance} %'),
+      Tuple3(Icons.attach_money, Strings.todaysEarning,
+          '${Strings.sCurrency}${model.todaysEarning}'),
+      Tuple3(Icons.cancel, Strings.completion, '${model.decline} %'),
     ];
     final theme = Theme.of(context);
     return Card(
@@ -190,7 +211,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(Strings.heroBear),
                 Text(
-                  '${Strings.workingCapital}: ${Strings.sCurrency} X',
+                  '${Strings.workingCapital}: ${Strings.sCurrency}${model.capital}',
                   style: theme.textTheme.subtitle1,
                 ),
               ],
@@ -209,9 +230,9 @@ class _HomePageState extends State<HomePage> {
                       height: Dimens.insetS,
                     ),
                     Text(
-                      'X %',
-                      style: theme.accentTextTheme.headline4,
-                    ),
+                      e.item3,
+                          style: theme.accentTextTheme.headline4,
+                        ),
                     SizedBox(
                       height: Dimens.insetXs,
                     ),

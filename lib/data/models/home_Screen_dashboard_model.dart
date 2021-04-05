@@ -9,9 +9,10 @@ class HomeScreenDashboardModel {
     required this.acceptance,
     required this.decline,
     required this.todaysEarning,
-    required this.capital,
+    this.capital = 0,
     this.driverStatus,
   });
+
   @JsonKey(name: 'status')
   bool status;
   @JsonKey(name: 'acceptance')
@@ -19,13 +20,22 @@ class HomeScreenDashboardModel {
   @JsonKey(name: 'decline')
   int decline;
   @JsonKey(name: 'todaysEarning')
-  String todaysEarning;
-  @JsonKey(name: 'capital')
-  String capital;
+  int todaysEarning;
+  @JsonKey(ignore: true)
+  double capital;
   @JsonKey(name: 'driver_status')
   String? driverStatus;
 
-  factory HomeScreenDashboardModel.fromJson(Map<String, dynamic> json) => _$HomeScreenDashboardModelFromJson(json);
+  factory HomeScreenDashboardModel.fromJson(Map<String, dynamic> json) {
+    final model = _$HomeScreenDashboardModelFromJson(json);
+    dynamic capital = json['capital'];
+    if (capital is String) {
+      model.capital = double.parse(capital);
+    } else if (capital is int) {
+      model.capital = capital.toDouble();
+    }
+    return model;
+  }
 
   Map<String, dynamic> toJson() => _$HomeScreenDashboardModelToJson(this);
 }
