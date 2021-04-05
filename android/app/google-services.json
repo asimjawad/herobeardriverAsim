@@ -55,6 +55,14 @@
           }
         },
         {
+          "client_id": "859100409663-rv6eupc2bl2hqlca976mn4ou4vrqdkor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sigitechnlogies.herobeardriver",
+            "certificate_hash": "23ed9e1869af6822963d3f7f3813570223a2eff9"
+          }
+        },
+        {
           "client_id": "859100409663-p03loqcraa0sp8835lvsgfpqi6c5s81v.apps.googleusercontent.com",
           "client_type": 3
         }
