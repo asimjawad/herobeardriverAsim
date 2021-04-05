@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sigitechnologies.hero_bear_driver">
+    package="com.sigitechnologies.herobeardriver">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="hero_bear_driver"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="com.sigitechnologies.herobeardriver.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
