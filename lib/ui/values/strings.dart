@@ -15,10 +15,16 @@ class Strings {
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
   static const logOut = 'Log Out';
+  static const makeSureYouHaveAllOfAbove = 'Make sure you have all of above';
+  static const makeSureYouAreReadyTogo = 'Make sure you\'re ready to go';
   static const workingCapital = 'Working Capital';
   static const acceptance = 'Acceptance';
   static const todaysEarning = 'Today\'s Earning';
   static const completion = 'Completion';
+  static const enoughGas = 'Enough Gas';
+  static const startYourRide = 'START YOUR RIDE';
+  static const phoneCharged = 'Phone Charged';
+  static const hotBagAndSpaceBlanket = 'Hot Bag & Space Blanket';
 
   // profile page
   static const reviews = 'Reviews';
@@ -34,4 +40,12 @@ class Strings {
   static const order = 'Order';
   static const estimatedEarning = 'Estimated Earning';
   static const pickedAt = 'Picked At';
+
+  // order cancel page
+  static const declineCapWords = 'DECLINE';
+  static const areyousureyouwanttodeclinethisorder = 'Are you sure you want to decline this order?';
+  static const goBack = 'GO BACK';
+  static const pleaseSelectAReason = 'Please select a reason:';
+  static const yourethebestHeroBeardriverforthisorder = "You're the best HeroBear driver for this order.";
+  static const deliveryIsTooFar = 'Delivery is too far';
 }
