@@ -13,6 +13,9 @@ class HomeScreenDashboardModel {
     this.driverStatus,
   });
 
+  static const statusOnline = 'online';
+  static const statusOffline = 'offline';
+
   @JsonKey(name: 'status')
   bool status;
   @JsonKey(name: 'acceptance')
