@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_form_wgt.dart';
+import 'package:hero_bear_driver/ui/home/home_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class LoginPage extends StatelessWidget {
+  final _appBloc = Get.find<AppBloc>();
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -34,12 +40,41 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            LoginFormWgt(),
+            LoginFormWgt(
+              onLogin: (phoneNo, pwd) => _onLogin(context, phoneNo, pwd),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _onLogin() {}
+  void _onLogin(BuildContext context, String phoneNo, String password) {
+    showDialog<void>(
+      context: context,
+      builder: (builderContext) {
+        () async {
+          var success = false;
+          try {
+            final user = await _appBloc.logIn(
+              phoneNo: phoneNo,
+              password: password,
+            );
+            // todo: show msg when not approved
+            if (user.approved == UserLoginModel.sApproved) {
+              success = true;
+            }
+          } catch (e) {}
+          if (success) {
+            Get.offAll<void>(HomePage());
+          } else {
+            Navigator.pop(builderContext);
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
 }

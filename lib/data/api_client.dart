@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
-import 'package:hero_bear_driver/data/models/login_model.dart';
+import 'package:hero_bear_driver/data/models/user_login_model.dart';
 
 class ApiClient {
   static const _baseUrl = 'https://portal.herobear.com.ph/api';
@@ -17,19 +17,20 @@ class ApiClient {
     receiveTimeout: 10000,
   ));
 
-  Future<LoginModel> login({
+  Future<UserLoginModel> logIn({
     required String phoneNo,
     required String password,
     required String deviceToken,
   }) async {
-    final response = await _dio.post<dynamic>(_epDriverLogin, data: {
+    final response =
+        await _dio.post<Map<String, dynamic>>(_epDriverLogin, data: {
       _pPhone: phoneNo,
       _pPassword: password,
       _pDeviceToken: deviceToken,
     });
     if (response.statusCode == HttpStatus.ok) {
-      print('success');
+      return UserLoginModel.fromJson(response.data!);
     }
-    throw (Exception('Unimplemented method'));
+    throw (Exception(response.statusMessage));
   }
 }

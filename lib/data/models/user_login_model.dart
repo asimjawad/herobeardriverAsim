@@ -15,6 +15,8 @@ class UserLoginModel {
     required this.message,
   });
 
+  static const sApproved = "1";
+
   @JsonKey(name: 'user_id')
   int userId;
   @JsonKey(name: 'name')
