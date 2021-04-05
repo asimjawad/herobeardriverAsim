@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
+import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
@@ -35,27 +36,7 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               color: colorScheme.primary,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipOval(
-                  child: Container(
-                    color: Colors.white,
-                    width: _sizeProfileBadge,
-                    height: _sizeProfileBadge,
-                  ),
-                ),
-                SizedBox(
-                  height: Dimens.insetS,
-                ),
-                Text('User Name'),
-                SizedBox(
-                  height: Dimens.insetS,
-                ),
-                Text('user email'),
-              ],
-            ),
+            child: _buildDrawerHeaderContent(),
           ),
           ListTile(
             leading: Icon(Icons.home),
@@ -94,6 +75,45 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDrawerHeaderContent() {
+    return FutureBuilder<UserLoginModel>(
+      future: _appBloc.user,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final user = snapshot.data!;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipOval(
+                child: Container(
+                  color: Colors.white,
+                  width: _sizeProfileBadge,
+                  height: _sizeProfileBadge,
+                ),
+              ),
+              SizedBox(
+                height: Dimens.insetS,
+              ),
+              Text(
+                user.name,
+                style: Styles.onPrimaryTextTheme.headline6,
+              ),
+              SizedBox(
+                height: Dimens.insetS,
+              ),
+              Text(
+                user.email,
+                style: Styles.onPrimaryTextTheme.bodyText2,
+              ),
+            ],
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 

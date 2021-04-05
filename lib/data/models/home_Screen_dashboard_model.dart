@@ -8,7 +8,7 @@ class HomeScreenDashboardModel {
     required this.status,
     required this.acceptance,
     required this.decline,
-    required this.todaysEarning,
+    this.todaysEarning = 0,
     this.capital = 0,
     this.driverStatus,
   });
@@ -19,8 +19,8 @@ class HomeScreenDashboardModel {
   int acceptance;
   @JsonKey(name: 'decline')
   int decline;
-  @JsonKey(name: 'todaysEarning')
-  int todaysEarning;
+  @JsonKey(ignore: true)
+  double todaysEarning;
   @JsonKey(ignore: true)
   double capital;
   @JsonKey(name: 'driver_status')
@@ -33,6 +33,12 @@ class HomeScreenDashboardModel {
       model.capital = double.parse(capital);
     } else if (capital is int) {
       model.capital = capital.toDouble();
+    }
+    dynamic todaysEarning = json['todaysEarning'];
+    if (todaysEarning is String) {
+      model.todaysEarning = double.parse(todaysEarning);
+    } else if (todaysEarning is int) {
+      model.todaysEarning = todaysEarning.toDouble();
     }
     return model;
   }
