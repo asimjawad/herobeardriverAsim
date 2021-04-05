@@ -11,14 +11,14 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
-  static const _sizeProfileBadge = 60.0;
-  final _appBloc = Get.find<AppBloc>();
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  static const _sizeProfileBadge = 60.0;
+  final _appBloc = Get.find<AppBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage> {
                 ClipOval(
                   child: Container(
                     color: Colors.white,
-                    width: HomePage._sizeProfileBadge,
-                    height: HomePage._sizeProfileBadge,
+                    width: _sizeProfileBadge,
+                    height: _sizeProfileBadge,
                   ),
                 ),
                 SizedBox(
@@ -203,22 +203,22 @@ class _HomePageState extends State<HomePage> {
               children: data
                   .map(
                     (e) => Column(
-                      children: [
-                        Icon(e.item1),
-                        SizedBox(
-                          height: Dimens.insetS,
-                        ),
-                        Text(
-                          'X %',
-                          style: theme.accentTextTheme.headline4,
-                        ),
-                        SizedBox(
-                          height: Dimens.insetXs,
-                        ),
-                        Text(e.item2),
-                      ],
+                  children: [
+                    Icon(e.item1),
+                    SizedBox(
+                      height: Dimens.insetS,
                     ),
-                  )
+                    Text(
+                      'X %',
+                      style: theme.accentTextTheme.headline4,
+                    ),
+                    SizedBox(
+                      height: Dimens.insetXs,
+                    ),
+                    Text(e.item2),
+                  ],
+                ),
+              )
                   .toList(),
             ),
           ],
