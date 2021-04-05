@@ -34,12 +34,20 @@ class Strings {
   // capital page
   static const selectCapital = 'Select Capital';
   static const unlimited = 'Unlimited';
+
   // order confirm page
   static const decline = 'Decline';
   static const acceptOrder = 'Accept Order';
   static const order = 'Order';
   static const estimatedEarning = 'Estimated Earning';
   static const pickedAt = 'Picked At';
+
+  //user login page
+  static const enterPhoneNumber = 'Enter phone number';
+  static const hintTextPassword = 'Password';
+  static const forgotPassword = 'Forgot Password';
+  static const logIn = 'Login';
+  static const welcomeTo = 'Welcome To';
 
   // order cancel page
   static const declineCapWords = 'DECLINE';
@@ -48,4 +56,8 @@ class Strings {
   static const pleaseSelectAReason = 'Please select a reason:';
   static const yourethebestHeroBeardriverforthisorder = "You're the best HeroBear driver for this order.";
   static const deliveryIsTooFar = 'Delivery is too far';
+
+  // lengthy messages
+  static const msgLoginText =
+      'Enter your registered phone number and email to continue login';
 }

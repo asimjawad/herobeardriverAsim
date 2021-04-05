@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
-import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/ui/auth/splash_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
-void main() async {
-  await FirebaseMessagingClient.initialize();
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    FirebaseMessagingClient.initState();
-    super.initState();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

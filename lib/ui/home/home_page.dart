@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
 import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
 import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
@@ -10,6 +12,7 @@ import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
   static const _sizeProfileBadge = 60.0;
+  final _appBloc = Get.find<AppBloc>();
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -89,6 +92,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text(Strings.logOut),
+            onTap: _onLogOut,
           ),
         ],
       ),
@@ -227,6 +231,11 @@ class _HomePageState extends State<HomePage> {
 
   void _onCapitalPressed() => Get.to<void>(CapitalPage());
 
+  void _onLogOut() async {
+    await _appBloc.logOut();
+    Get.offAll<void>(() => LoginPage());
+  }
+
   void _settingModalBottomSheet(BuildContext context){
     showModalBottomSheet<void>(
         context: context,
@@ -235,6 +244,4 @@ class _HomePageState extends State<HomePage> {
         }
     );
   }
-
-
 }
