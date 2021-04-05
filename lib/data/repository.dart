@@ -2,10 +2,17 @@ import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
 import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
+import 'package:hero_bear_driver/data/shared_pref_client.dart';
 
 class Repository implements Closable {
   final _apiClient = ApiClient();
   final _firebaseMsgClient = FirebaseMessagingClient();
+  final _sharedPrefClient = SharedPrefClient();
+
+  @override
+  void close() {
+    _firebaseMsgClient.close();
+  }
 
   Future<UserLoginModel> logIn({
     required String phoneNo,
@@ -17,6 +24,7 @@ class Repository implements Closable {
       password: password,
       deviceToken: token ?? 'null',
     );
+    await _sharedPrefClient.saveUser(user);
     return user;
   }
 
@@ -24,8 +32,5 @@ class Repository implements Closable {
 
   void listenNotifications() => _firebaseMsgClient.listenNotifications();
 
-  @override
-  void close() {
-    _firebaseMsgClient.close();
-  }
+  Future<UserLoginModel?> getUser() => _sharedPrefClient.getUser();
 }
