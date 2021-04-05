@@ -15,9 +15,14 @@ class SharedPrefClient {
     return null;
   }
 
-  Future<void> saveUser(UserLoginModel user) async {
+  Future<void> setUser(UserLoginModel user) async {
     final sharedPref = await SharedPreferences.getInstance();
     final json = jsonEncode(user);
     await sharedPref.setString(_kUserModel, json);
+  }
+
+  Future<void> clearUser() async {
+    final sharedPref = await SharedPreferences.getInstance();
+    await sharedPref.remove(_kUserModel);
   }
 }

@@ -24,7 +24,7 @@ class Repository implements Closable {
       password: password,
       deviceToken: token ?? 'null',
     );
-    await _sharedPrefClient.saveUser(user);
+    await _sharedPrefClient.setUser(user);
     return user;
   }
 
@@ -33,4 +33,6 @@ class Repository implements Closable {
   void listenNotifications() => _firebaseMsgClient.listenNotifications();
 
   Future<UserLoginModel?> getUser() => _sharedPrefClient.getUser();
+
+  Future<void> clearUser() => _sharedPrefClient.clearUser();
 }

@@ -30,6 +30,9 @@ class AppBloc extends DisposableInterface {
     super.onInit();
   }
 
+  @override
+  void onClose() => _repository.close();
+
   Future<bool> isUserLoggedIn() async => await _repository.getUser() != null;
 
   Future<UserLoginModel> logIn({
@@ -43,4 +46,6 @@ class AppBloc extends DisposableInterface {
     _user = user;
     return user;
   }
+
+  Future<void> logOut() => _repository.clearUser();
 }
