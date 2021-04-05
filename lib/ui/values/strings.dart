@@ -15,6 +15,8 @@ class Strings {
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
   static const logOut = 'Log Out';
+  static const makeSureYouHaveAllOfAbove = 'Make sure you have all of above';
+  static const makeSureYouAreReadyTogo = 'Make sure you\'re ready to go';
   static const workingCapital = 'Working Capital';
   static const acceptance = 'Acceptance';
   static const todaysEarning = 'Today\'s Earning';

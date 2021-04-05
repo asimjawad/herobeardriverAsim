@@ -8,11 +8,17 @@ class BottomSheetCheck extends StatefulWidget {
 class _BottomSheetCheckState extends State<BottomSheetCheck> {
   List<CheckBoxListTileModel> checkBoxListTileModel =
   CheckBoxListTileModel.getUsers();
+  bool visi = false;
   @override
   Widget build(BuildContext context) {
     return  Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(top: Dimens.insetM,left: Dimens.insetM),
+          child: Text(Strings.makeSureYouAreReadyTogo,style: Styles.appTheme.textTheme.headline4,),
+        ),
         ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -45,11 +51,28 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
             );
           },
         ),
+        Center(child: visi ? Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(Strings.makeSureYouHaveAllOfAbove,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.red),),
+        ) : Container()),
         Padding(
           padding: const EdgeInsets.only(bottom: Dimens.insetM,left: Dimens.insetM,right: Dimens.insetM),
           child: InkWell(
             onTap: (){
-              // Get.to<void>(SelectAReason());
+              if(checkBoxListTileModel[0].isCheck == true && checkBoxListTileModel[1].isCheck == true && checkBoxListTileModel[2].isCheck == true)
+                {
+                  //todo: hit the api here and show a dialog while hitting the api
+                  print('hi');
+                  visi = false;
+                  setState(() {
+
+                  });
+                }
+              else{
+                visi = true;
+                setState(() {
+                });
+              }
             },
             child: Container(
               height: 40,
@@ -58,7 +81,7 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
                 color: MyColors.yellow400,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Center(child: Text(Strings.declineCapWords,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),)),
+              child: Center(child: Text(Strings.startYourRide,style: Styles.appTheme.textTheme.headline5?.copyWith(color: Colors.white),)),
             ),
           ),
         ),
