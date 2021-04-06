@@ -5,6 +5,8 @@ import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
+import 'package:hero_bear_driver/ui/commission/commission_page.dart';
+import 'package:hero_bear_driver/ui/driver_earning/driver_earning.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.attach_money),
             title: Text(Strings.earnings),
+            onTap: _onEarningPressed,
           ),
           ListTile(
             leading: Icon(Icons.settings),
@@ -67,6 +70,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.attach_money),
             title: Text(Strings.commission),
+            onTap: _onCommissionPressed,
           ),
           ListTile(
             leading: Icon(Icons.logout),
@@ -139,6 +143,10 @@ class _HomePageState extends State<HomePage> {
   void _onProfilePressed() => Get.to<void>(ProfilePage());
 
   void _onCapitalPressed() => Get.to<void>(CapitalPage());
+
+  void _onEarningPressed() => Get.to<void>(DriverEarning());
+
+  void _onCommissionPressed() => Get.to<void>(CommissionPage());
 
   void _onLogOut() async {
     await _appBloc.logOut();
