@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_list_item.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
-class DriverEarning extends StatefulWidget {
+class DriverEarningPage extends StatefulWidget {
   @override
-  _DriverEarningState createState() => _DriverEarningState();
+  _DriverEarningPageState createState() => _DriverEarningPageState();
 }
 
-class _DriverEarningState extends State<DriverEarning> {
+class _DriverEarningPageState extends State<DriverEarningPage> {
   DateTime currentDate = DateTime.now();
   final _height = 10.0;
   final _width = 5.0;
