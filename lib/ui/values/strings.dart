@@ -5,6 +5,13 @@ class Strings {
   static const heroBearDriver = 'Hero Bear Driver';
   static const capital = 'Capital';
 
+  // splash page
+  static const noInternetConnection = 'No Internet Connection';
+  static const tryAgain = 'Try Again';
+  static const openSettings = 'Open Settings';
+  static const enable = 'Enable';
+  static const sContinue = 'Continue';
+
   // home page
   static const goOnline = 'Go Online';
   static const home = 'Home';
@@ -60,7 +67,7 @@ class Strings {
       "You're the best HeroBear driver for this order.";
   static const deliveryIsTooFar = 'Delivery is too far';
 
-//strings with same name as text
+  // strings with same name as text
   static const String transactionId = 'Transaction ID';
   static const String amount = 'Amount';
   static const String totalCommission = 'TOTAL COMMISSION';
@@ -76,10 +83,6 @@ class Strings {
   static const String delieverDate = 'Delievered Date';
   static const String items = 'Items';
 
-  // lengthy messages
-  static const msgLoginText =
-      'Enter your registered phone number and email to continue login';
-
   //user login page
   static const String hintTextPhoneNumber = 'Enter phone number';
   static const String login = 'Login';
@@ -88,12 +91,16 @@ class Strings {
   static const String welcome = 'Welcome to';
 
   // COMMISSION PAGE
-
   static const String submitCommission = 'SUBMIT HEROBEAR COMMISION';
   static const String amountLabel = 'Commission Amount';
-
-  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
-  static const String msgEmptyFields = 'Please Fill Out All The Fields';
   static const String paymentSubmitBtn = 'SUBMIT PAYMENT';
   static const String dialogTitle = 'SUBMIT COMMISSION';
+
+  // lengthy messages
+  static const msgLoginText =
+      'Enter your registered phone number and email to continue login';
+  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
+  static const String msgEmptyFields = 'Please Fill Out All The Fields';
+  static const msgLocationWhy =
+      'This app requires device location to function.';
 }

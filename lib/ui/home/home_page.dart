@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
+import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
@@ -10,6 +11,7 @@ import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -122,12 +124,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return FutureBuilder<HomeScreenDashboardModel>(
-      future: _appBloc.getHomeData(),
+    final future = () async {
+      return Tuple2<HomeScreenDashboardModel, LocationModel>(
+          await _appBloc.getHomeData(), await _appBloc.location);
+    }.call();
+    return FutureBuilder<Tuple2<HomeScreenDashboardModel, LocationModel>>(
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          final tuple = snapshot.data!;
           return HomeMapPage(
-            model: snapshot.data!,
+            model: tuple.item1,
+            locModel: tuple.item2,
           );
         } else if (snapshot.hasError) {
           // todo: handle here
