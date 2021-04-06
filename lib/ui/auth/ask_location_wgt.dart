@@ -17,11 +17,11 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
   static const _indicatorSize = 15.0;
   static const _indicatorStrokeWidth = 2.0;
   static const _contentPadding = 25.0;
+  static const _sizeIcon = 40.0;
   bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: Dimens.elevationM,
       shape: RoundedRectangleBorder(
@@ -34,6 +34,13 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Icon(
+                Icons.location_on_sharp,
+                size: _sizeIcon,
+              ),
+              SizedBox(
+                height: Dimens.insetM,
+              ),
               Text(
                 Strings.msgLocationWhy,
                 style: Styles.appTheme.textTheme.bodyText1,
@@ -43,36 +50,8 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
                 height: Dimens.insetM,
               ),
               ElevatedButton(
-                onPressed: _onEnableLocation,
-                child: FutureBuilder<LocationPermission>(
-                  future: Geolocator.checkPermission(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final perm = snapshot.data;
-                      if (perm == LocationPermission.deniedForever) {
-                        return Text(Strings.openSettings);
-                      }
-                    }
-                    return Text(Strings.enable);
-                  },
-                ),
-              ),
-              SizedBox(
-                height: Dimens.insetXs,
-              ),
-              ElevatedButton(
                 onPressed: () => _onContinue(),
-                child: _loading
-                    ? SizedBox(
-                        width: _indicatorSize,
-                        height: _indicatorSize,
-                        child: CircularProgressIndicator(
-                          strokeWidth: _indicatorStrokeWidth,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              colorScheme.onPrimary),
-                        ),
-                      )
-                    : Text(Strings.sContinue),
+                child: _buildBtnContent(context),
               ),
             ],
           ),
@@ -81,15 +60,18 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
     );
   }
 
-  void _onEnableLocation() async {
-    try {
-      final perm = await Geolocator.requestPermission();
-      if (perm == LocationPermission.deniedForever) {
-        await Geolocator.openLocationSettings();
-      }
-    } catch (e) {
-      // may throw [PermissionRequestInProgressException]
-    }
+  Widget _buildBtnContent(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return _loading
+        ? SizedBox(
+            height: _indicatorSize,
+            width: _indicatorSize,
+            child: CircularProgressIndicator(
+              strokeWidth: _indicatorStrokeWidth,
+              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
+            ),
+          )
+        : Text(Strings.sContinue);
   }
 
   void _onContinue() async {
@@ -99,10 +81,18 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
       await Future<void>.delayed(Duration(
         seconds: 1,
       ));
-      final perm = await Geolocator.checkPermission();
-      if (perm == LocationPermission.always ||
-          perm == LocationPermission.whileInUse) {
-        widget.onLocationEnabled?.call();
+      if (await Geolocator.isLocationServiceEnabled()) {
+        try {
+          final perm = await Geolocator.requestPermission();
+          if (perm == LocationPermission.deniedForever) {
+            await Geolocator.openAppSettings();
+          }
+          widget.onLocationEnabled?.call();
+        } catch (e) {
+          // may throw [PermissionRequestInProgressException]
+        }
+      } else {
+        await Geolocator.openLocationSettings();
       }
       setState(() => _loading = false);
     }
