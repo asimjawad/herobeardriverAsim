@@ -209,9 +209,9 @@ Future<void> _commisionDialog(
                       onPressed: () {
                         if (amount.text.isNotEmpty &&
                             transactionID.text.isNotEmpty) {
-                          _snackbarMessage(context, Strings.paymentSuccessMsg);
+                          _snackbarMessage(context, Strings.msgPaymentSuccess);
                         } else {
-                          _snackbarMessage(context, Strings.emptyFieldsMsg);
+                          _snackbarMessage(context, Strings.msgEmptyFields);
                         }
                       },
                       child: Container(

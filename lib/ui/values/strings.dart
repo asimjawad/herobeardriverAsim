@@ -52,43 +52,48 @@ class Strings {
 
   // order cancel page
   static const declineCapWords = 'DECLINE';
-  static const areyousureyouwanttodeclinethisorder = 'Are you sure you want to decline this order?';
+  static const areyousureyouwanttodeclinethisorder =
+      'Are you sure you want to decline this order?';
   static const goBack = 'GO BACK';
   static const pleaseSelectAReason = 'Please select a reason:';
-  static const yourethebestHeroBeardriverforthisorder = "You're the best HeroBear driver for this order.";
+  static const yourethebestHeroBeardriverforthisorder =
+      "You're the best HeroBear driver for this order.";
   static const deliveryIsTooFar = 'Delivery is too far';
 
-  // lengthy messages
-  static const msgLoginText =
-      'Enter your registered phone number and email to continue login';
-
-      //user login page
-  static const String hintTextPhoneNumber = 'Enter phone number';
-  static const String login = 'Login';
-  static const String loginText = 'Enter your registered phone number and email to continue login';
-  static const String welcome = 'Welcome to';
-
-  // driver earning page
-   static const String driverEarning = 'Driver Earning';
-   static const String totalEarning = 'Total Earning';
-   static const String dateFrom = 'Date From';
-   static const String dateTo = 'Date To';
-   static const String delieverDate = 'Delievered Date';
-   static const String items = 'Items';
-
-
-   // COMMISSION PAGE
+//strings with same name as text
+  static const String transactionId = 'Transaction ID';
+  static const String amount = 'Amount';
   static const String totalCommission = 'TOTAL COMMISSION';
   static const String paidCommission = 'PAID COMMISSION';
   static const String pendingCommission = 'PENDING COMMISSION';
   static const String status = 'Status';
   static const String createdAt = 'Created at';
+
+  static const String driverEarning = 'Driver Earning';
+  static const String totalEarning = 'Total Earning';
+  static const String dateFrom = 'Date From';
+  static const String dateTo = 'Date To';
+  static const String delieverDate = 'Delievered Date';
+  static const String items = 'Items';
+
+  // lengthy messages
+  static const msgLoginText =
+      'Enter your registered phone number and email to continue login';
+
+  //user login page
+  static const String hintTextPhoneNumber = 'Enter phone number';
+  static const String login = 'Login';
+  static const String loginText =
+      'Enter your registered phone number and email to continue login';
+  static const String welcome = 'Welcome to';
+
+  // COMMISSION PAGE
+
   static const String submitCommission = 'SUBMIT HEROBEAR COMMISION';
   static const String amountLabel = 'Commission Amount';
-  static const String transactionId = 'Transaction ID';
-  static const String amount = 'Amount';
-  static const String paymentSuccessMsg = 'Payment Submitted Successfully!';
-  static const String emptyFieldsMsg = 'Please Fill Out All The Fields';
+
+  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
+  static const String msgEmptyFields = 'Please Fill Out All The Fields';
   static const String paymentSubmitBtn = 'SUBMIT PAYMENT';
   static const String dialogTitle = 'SUBMIT COMMISSION';
 }
