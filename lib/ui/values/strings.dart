@@ -68,4 +68,17 @@ class Strings {
   static const orderDetails = 'Order Details';
   static const pickUpAt = 'Pick Up At ';
   static const customerDetails = 'Customer Details';
+
+  // orders list page
+  static const orderNo = 'Order No: ';
+
+  // order detail page
+  static const orderDetail = 'Order Detail';
+  static const pickUp = 'Pick-Up';
+  static const item = 'item';
+  static const subTotal = 'SubTotal';
+  static const customer = 'Customer';
+
+  //order pick select page
+  static const noOfOrders = 'No. Of Orders';
 }
