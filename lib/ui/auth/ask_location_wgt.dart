@@ -84,10 +84,12 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
       if (await Geolocator.isLocationServiceEnabled()) {
         try {
           final perm = await Geolocator.requestPermission();
-          if (perm == LocationPermission.deniedForever) {
+          if (perm == LocationPermission.always ||
+              perm == LocationPermission.whileInUse) {
+            widget.onLocationEnabled?.call();
+          } else {
             await Geolocator.openAppSettings();
           }
-          widget.onLocationEnabled?.call();
         } catch (e) {
           // may throw [PermissionRequestInProgressException]
         }
