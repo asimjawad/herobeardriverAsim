@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hero_bear_driver/data/models/commission_model/data_for_commission_model.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class CommissionListItem extends StatelessWidget {
+  final DataForCommissionModel commissionData;
+
+  CommissionListItem(this.commissionData);
+
   final _height = 10.0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,11 +17,11 @@ class CommissionListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '123456',
+              commissionData.transactionId,
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(
-              '${Strings.sCurrency}12.0',
+              '${Strings.sCurrency}${commissionData.payoutAmount}',
               style: Theme.of(context).textTheme.headline6,
             )
           ],
@@ -24,9 +30,9 @@ class CommissionListItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('${Strings.status}: pending'),
+            Text('${Strings.status}: ${commissionData.status}'),
             SizedBox(height: _height),
-            Text('${Strings.createdAt}: 21-jan-02 10:31')
+            Text('${Strings.createdAt}: ${commissionData.createdAt}')
           ],
         ),
         SizedBox(height: _height),
