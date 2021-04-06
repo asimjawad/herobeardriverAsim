@@ -34,7 +34,7 @@ class OrderPickSelectPage extends StatelessWidget {
             ShowlineFull(widthMax: true, color: Colors.black54),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top),
+                padding: const EdgeInsets.only(top:Dimens.insetM),
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, index){
                     return Column(
