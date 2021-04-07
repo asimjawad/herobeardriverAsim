@@ -180,8 +180,10 @@ Future<void> _commisionDialog(
     BuildContext context,
     Key _formKey1,
     ColorScheme colorScheme,
-    TextEditingController amount,
-    TextEditingController transactionID) {
+    TextEditingController payoutAmount,
+    TextEditingController transactionId) {
+  final _appBloc = Get.find<AppBloc>();
+
   return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -217,7 +219,7 @@ Future<void> _commisionDialog(
                     Padding(
                       padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       child: TextField(
-                        controller: amount,
+                        controller: payoutAmount,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: Strings.amount),
@@ -226,7 +228,7 @@ Future<void> _commisionDialog(
                     Padding(
                       padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       child: TextField(
-                        controller: transactionID,
+                        controller: transactionId,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: Strings.transactionId),
@@ -234,10 +236,14 @@ Future<void> _commisionDialog(
                     ),
                     SizedBox(height: 20.0),
                     GestureDetector(
-                      onTap: () {
-                        if (amount.text.isNotEmpty &&
-                            transactionID.text.isNotEmpty) {
-                          _snackbarMessage(context, Strings.msgPaymentSuccess);
+                      onTap: () async {
+                        if (payoutAmount.text.isNotEmpty &&
+                            transactionId.text.isNotEmpty) {
+                          dynamic message = await _appBloc.submitPayment(
+                              payoutAmount: payoutAmount.text,
+                              transactionId: transactionId.text);
+                          print(message);
+                          _snackbarMessage(context, message);
                         } else {
                           _snackbarMessage(context, Strings.msgEmptyFields);
                         }
@@ -265,9 +271,9 @@ Future<void> _commisionDialog(
 //snackbar message on modal
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _snackbarMessage(
-    BuildContext context, String message) {
+    BuildContext context, dynamic message) {
   final snackBar = SnackBar(
-    content: Text(message),
+    content: Text(message.toString()),
   );
 
   return ScaffoldMessenger.of(context).showSnackBar(snackBar);
