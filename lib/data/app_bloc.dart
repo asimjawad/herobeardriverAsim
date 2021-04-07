@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
+import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
 
@@ -53,5 +54,25 @@ class AppBloc extends DisposableInterface {
   Future<HomeScreenDashboardModel> getHomeData() async {
     final user = await this.user;
     return _repository.getHomeData(user.userId);
+  }
+
+  Future<void> setUserOnline() async {
+    final user = await this.user;
+    final location = await this.location;
+    await _repository.setUserOnline(
+      user.userId,
+      OnlineModel(
+        g: 'random_text',
+        l: [
+          location.latLng.latitude,
+          location.latLng.longitude,
+        ],
+      ),
+    );
+  }
+
+  Future<void> setUserOffline() async {
+    final user = await this.user;
+    await _repository.setUserOffline(user.userId);
   }
 }
