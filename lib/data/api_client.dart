@@ -62,9 +62,10 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
+  // Get Commission Data
   Future<CommissionModel> getCommissionData(int userId) async {
     final response = await _dio.get<Map<String, dynamic>>(
-      '$_baseUrl$_pCommissionData/$userId',
+      '$_pCommissionData/$userId',
     );
 
     if (response.statusCode == HttpStatus.ok) {
@@ -73,20 +74,20 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
-// get earning history data
+  // Get Earning History Data
   Future<EarningModel> getDriverEarningHistory(
     int userId,
     DateTime startDate,
     DateTime endDate,
   ) async {
     final response = await _dio.post<Map<String, dynamic>>(
-      '$_baseUrl$_epDriverEarningHistory/$userId',
+      '$_epDriverEarningHistory/$userId',
       data: {_pStartDate: startDate, _pEndDate: startDate},
       options: Options(
         contentType: Headers.formUrlEncodedContentType,
       ),
     );
-    //print('$_epDriverEarningHistory/78');
+
     if (response.statusCode == HttpStatus.ok) {
       return EarningModel.fromJson(response.data!);
     }

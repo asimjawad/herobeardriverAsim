@@ -31,6 +31,7 @@ class _CommissionPageState extends State<CommissionPage> {
     const _width = 20.0;
     return Scaffold(
         appBar: AppBar(
+          backwardsCompatibility: false,
           title: Text(
             Strings.commission,
             style: Styles.appTheme.accentTextTheme.headline5
@@ -67,25 +68,13 @@ class _CommissionPageState extends State<CommissionPage> {
                       ),
                     )),
                     Divider(color: MyColors.grey, height: _height),
-                    commission.data!.isNotEmpty
-                        ? ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(Dimens.insetM),
-                            itemCount: commission.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                  child: CommissionListItem(
-                                      commission.data![index]));
-                            },
-                          )
-                        : Center(
-                            heightFactor: 1.7,
-                            child: Image.asset('assets/images/no_data.png'))
+                    _commissionListView(context, commission)
                   ]),
                 );
               }
-              return SizedBox();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }),
         bottomNavigationBar: BottomAppBar(
             child: GestureDetector(
@@ -102,6 +91,22 @@ class _CommissionPageState extends State<CommissionPage> {
               )),
         )));
   }
+}
+
+Widget _commissionListView(BuildContext context, CommissionModel commission) {
+  return Expanded(
+      child: commission.data!.isNotEmpty
+          ? ListView.builder(
+              scrollDirection: Axis.vertical,
+              //shrinkWrap: true,
+              padding: const EdgeInsets.all(Dimens.insetM),
+              itemCount: commission.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    child: CommissionListItem(commission.data![index]));
+              },
+            )
+          : Center(child: Image.asset(MyImgs.noData)));
 }
 
 Widget pendingCommission(BuildContext context, double height,
