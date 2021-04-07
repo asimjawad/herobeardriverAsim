@@ -5,6 +5,9 @@ class Dimens {
 
   static const elevationM = 5.0;
 
+  static const radiusM = 10.0;
+  static const radiusL = 20.0;
+
   static const sizeIconM = 24.0;
 
   Dimens._();

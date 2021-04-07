@@ -32,10 +32,20 @@ dependencies:
   geolocator: ^7.0.1
   get: ^4.1.1
   google_maps_flutter: ^2.0.1
-  intl: ^0.17.0
   json_annotation: ^4.0.1
   shared_preferences: ^2.0.5
   tuple: ^2.0.0
+  # for displaying notifications
+  flutter_local_notifications: ^5.0.0
+  # firebase
+  firebase_core: ^1.0.2
+  firebase_messaging: ^9.1.0
+  firebase_database: ^6.1.1
+  # country code picker
+  country_code_picker: ^2.0.1
+  # for location features
+  geolocator: ^7.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
