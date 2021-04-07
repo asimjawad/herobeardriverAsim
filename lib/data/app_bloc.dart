@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
+import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
@@ -53,5 +55,20 @@ class AppBloc extends DisposableInterface {
   Future<HomeScreenDashboardModel> getHomeData() async {
     final user = await this.user;
     return _repository.getHomeData(user.userId);
+  }
+
+  Future<CommissionModel> getCommissionData() async {
+    final user = await this.user;
+    return _repository.getCommissionData(user.userId);
+  }
+
+  Future<EarningModel> getDriverEarningHistory(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    final user = await this.user;
+    final earningHistory = await _repository.getDriverEarningHistory(
+        user.userId, startDate, endDate);
+    return earningHistory;
   }
 }
