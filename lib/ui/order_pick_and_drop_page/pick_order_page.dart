@@ -6,6 +6,7 @@ import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/orders_list_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/order_pick_select_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PickOrderPage extends StatelessWidget {
   final double _iconSize = 20;
@@ -22,6 +23,12 @@ class PickOrderPage extends StatelessWidget {
   final int _itemCount = 1;
   final int _noOfSngleItem = 3;
   final String _nameofSingleItem = 'Pizza One';
+  final String _restaurantNumber = '03154511100';
+  final double _restaurantLat = 12.22222;
+  final double _restaurantLng = 32.22222;
+  final String _userNumber = '03154511100';
+  final double _userLat = 12.22222;
+  final double _userLng = 32.22222;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +92,7 @@ class PickOrderPage extends StatelessWidget {
                                 ?.copyWith(color: Colors.black54),
                           ),
                         ),
-                        _directionsAndCallRow(),
+                        _directionsAndCallRow(callFunc:()=>_makeCall(number:_restaurantNumber ),mapFunc:()=> _openMaps(lat: _restaurantLat, lon: _restaurantLng)),
                         Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: Dimens.insetS),
@@ -107,7 +114,7 @@ class PickOrderPage extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: _rowV),
-                          child: _directionsAndCallRow(),
+                          child: _directionsAndCallRow(mapFunc:()=> _openMaps(lat: _userLat,lon: _userLng),callFunc:()=> _makeCall(number: _userNumber)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(
@@ -179,7 +186,7 @@ class PickOrderPage extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    SliderWidget(func: gotoOrderPickDriver,),
+                    SliderWidget(func: _gotoOrderPickDriver,),
                     Padding(
                       padding: const EdgeInsets.only(top: _rowV),
                       child: Center(child: Text(Strings.slideAfterArrival,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.white,fontWeight: FontWeight.w700),)),
@@ -195,11 +202,13 @@ class PickOrderPage extends StatelessWidget {
     );
   }
 
-  Widget _directionsAndCallRow() {
+  Widget _directionsAndCallRow({required void Function() mapFunc, required void Function() callFunc}) {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            mapFunc();
+          },
           child: Container(
             height: _containerH,
             // width: 90,
@@ -228,7 +237,9 @@ class PickOrderPage extends StatelessWidget {
           width: _sizedBoxW,
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            callFunc();
+          },
           child: Container(
             height: _containerH,
             // width: 90,
@@ -256,7 +267,22 @@ class PickOrderPage extends StatelessWidget {
       ],
     );
   }
-  void gotoOrderPickDriver(){
+  void _gotoOrderPickDriver(){
     Get.to<void>(()=>OrderPickSelectPage());
+  }
+  void _makeCall({required String number})async{
+    if (await canLaunch(number)) {
+    await launch(number);
+    } else {
+    throw 'Could not launch $number';
+    }
+  }
+    void _openMaps({required double lat,required double lon}) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
