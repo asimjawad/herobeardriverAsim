@@ -42,29 +42,33 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
           padding: EdgeInsets.all(Dimens.insetM / 2),
           itemBuilder: (BuildContext context, index) {
             return Padding(
-              padding: const EdgeInsets.all(Dimens.insetM / 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: sizedB,
-                    width: sizedB,
-                    child: Checkbox(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onChanged: (val) {
-                        itemChange(val!, index);
-                      },
-                      value: checkBoxListTileModel[index].isCheck,
+             padding: const EdgeInsets.all(Dimens.insetM/2),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    checkBoxListTileModel[index].isCheck= !checkBoxListTileModel[index].isCheck;
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: sizedB,
+                      width: sizedB,
+                      child: Checkbox(
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onChanged: (val){
+                          itemChange(val!, index);
+                        },
+                        value: checkBoxListTileModel[index].isCheck,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: Dimens.insetS),
-                    child: Text(
-                      checkBoxListTileModel[index].title,
-                      style: Styles.appTheme.textTheme.bodyText1,
+                    Padding(
+                      padding: const EdgeInsets.only(left:Dimens.insetS),
+                      child: Text(checkBoxListTileModel[index].title,style: Styles.appTheme.textTheme.bodyText1,),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
