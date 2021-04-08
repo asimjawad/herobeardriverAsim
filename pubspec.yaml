@@ -40,6 +40,8 @@ dependencies:
   # for location features
   geolocator: ^7.0.1
   intl: ^0.17.0
+  # for rxjava like features
+  rxdart: ^0.26.0
 
 dev_dependencies:
   flutter_test:

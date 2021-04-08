@@ -11,6 +11,7 @@ import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/ui/widgets/no_internet_wgt.dart';
 import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
@@ -124,22 +125,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    final future = () async {
-      return Tuple2<HomeScreenDashboardModel, LocationModel>(
-          await _appBloc.getHomeData(), await _appBloc.location);
-    }.call();
-    return FutureBuilder<Tuple2<HomeScreenDashboardModel, LocationModel>>(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final tuple = snapshot.data!;
-          return HomeMapPage(
-            model: tuple.item1,
-            locModel: tuple.item2,
+    return FutureBuilder<LocationModel>(
+      future: _appBloc.location,
+      builder: (context, locSnapshot) {
+        if (locSnapshot.hasData) {
+          return StreamBuilder<HomeScreenDashboardModel>(
+            stream: _appBloc.getHomeDataSteam(),
+            builder: (context, homeSnapshot) {
+              if (homeSnapshot.hasData) {
+                return HomeMapPage(
+                  model: homeSnapshot.data!,
+                  locModel: locSnapshot.data!,
+                );
+              } else if (homeSnapshot.hasError) {
+                return NoInternetWgt(
+                    // todo: add [onTryAgain]
+                    );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           );
-        } else if (snapshot.hasError) {
-          // todo: handle here
-          throw UnimplementedError();
+        }
+        if (locSnapshot.hasError) {
+          return NoInternetWgt(
+              // todo: add [onTryAgain]
+              );
         }
         return Center(
           child: CircularProgressIndicator(),

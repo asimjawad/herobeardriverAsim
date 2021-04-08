@@ -9,11 +9,13 @@ import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
 import 'package:hero_bear_driver/ui/values/strings.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AppBloc extends DisposableInterface {
   final _repository = Repository();
   UserLoginModel? _user;
   late String message;
+  final _subjectHomeData = BehaviorSubject<HomeScreenDashboardModel>();
 
   Future<LocationModel> get location async {
     // todo: replace with real location
@@ -56,9 +58,11 @@ class AppBloc extends DisposableInterface {
 
   Future<void> logOut() => _repository.clearSharedPref();
 
-  Future<HomeScreenDashboardModel> getHomeData() async {
-    final user = await this.user;
-    return _repository.getHomeData(user.userId);
+  Stream<HomeScreenDashboardModel> getHomeDataSteam() {
+    if (!_subjectHomeData.hasValue) {
+      _updateHomeDataStream();
+    }
+    return _subjectHomeData.stream;
   }
 
   Future<CommissionModel> getCommissionData() async {
@@ -125,10 +129,17 @@ class AppBloc extends DisposableInterface {
         ],
       ),
     );
+    _updateHomeDataStream();
   }
 
   Future<void> setUserOffline() async {
     final user = await this.user;
     await _repository.setUserOffline(user.userId);
+    _updateHomeDataStream();
+  }
+
+  void _updateHomeDataStream() async {
+    final user = await this.user;
+    _subjectHomeData.add(await _repository.getHomeData(user.userId));
   }
 }
