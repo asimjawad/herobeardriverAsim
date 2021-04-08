@@ -5,7 +5,7 @@ class FirebaseDbClient {
   final _chatDb = FirebaseDatabase.instance.reference().child('online_drivers');
 
   Future<void> setUserOnline(int userId, OnlineModel model) =>
-      _chatDb.child(userId.toString()).set(model);
+      _chatDb.child(userId.toString()).set(model.toJson());
 
   Future<void> setUserOffline(int userId) =>
       _chatDb.child(userId.toString()).remove();

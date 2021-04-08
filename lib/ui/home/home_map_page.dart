@@ -139,9 +139,23 @@ class _HomeMapPageState extends State<HomeMapPage> {
   void _settingModalBottomSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (_) => BottomSheetCheck(
+      builder: (builderContext) => BottomSheetCheck(
         onReady: () {
-          // _appBloc;
+          Navigator.pop(builderContext);
+          showDialog<void>(
+            context: context,
+            builder: (builderContext2) {
+              () async {
+                try {
+                  await _appBloc.setUserOnline();
+                } catch (e) {}
+                Navigator.pop(builderContext2);
+              }.call();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
         },
       ),
     );

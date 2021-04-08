@@ -83,13 +83,12 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
         Padding(
           padding: const EdgeInsets.only(
               bottom: Dimens.insetM, left: Dimens.insetM, right: Dimens.insetM),
-          child: InkWell(
-            onTap: () {
+          child: ElevatedButton(
+            onPressed: () {
               if (checkBoxListTileModel[0].isCheck == true &&
                   checkBoxListTileModel[1].isCheck == true &&
                   checkBoxListTileModel[2].isCheck == true) {
-                //todo: hit the api here and show a dialog while hitting the api
-                // print('hi');
+                widget.onReady?.call();
                 visi = false;
                 setState(() {});
               } else {
@@ -97,17 +96,14 @@ class _BottomSheetCheckState extends State<BottomSheetCheck> {
                 setState(() {});
               }
             },
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(marginVisi),
-                  ),
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(marginVisi),
                 ),
               ),
-              child: Text(Strings.startYourRide),
             ),
+            child: Text(Strings.startYourRide),
           ),
         ),
       ],
