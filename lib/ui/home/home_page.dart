@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.home),
             title: Text(Strings.home),
+            onTap: () => _onHomePressed(context),
           ),
           ListTile(
             leading: Icon(Icons.person),
@@ -158,6 +159,8 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
+  void _onHomePressed(BuildContext context) => Navigator.pop(context);
 
   void _onProfilePressed() => Get.to<void>(ProfilePage());
 
