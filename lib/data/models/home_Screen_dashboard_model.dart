@@ -19,9 +19,9 @@ class HomeScreenDashboardModel {
   @JsonKey(name: 'status')
   bool status;
   @JsonKey(name: 'acceptance')
-  int acceptance;
+  num acceptance;
   @JsonKey(name: 'decline')
-  int decline;
+  num decline;
   @JsonKey(ignore: true)
   double todaysEarning;
   @JsonKey(ignore: true)
@@ -43,6 +43,12 @@ class HomeScreenDashboardModel {
     } else if (todaysEarning is int) {
       model.todaysEarning = todaysEarning.toDouble();
     }
+   /* dynamic acceptance = json['acceptance'];
+    if(acceptance is double){
+      model.acceptance =  acceptance.toDouble();
+    }else if(acceptance is int){
+      model.acceptance = double.parse(acceptance.toString());
+    }*/
     return model;
   }
 

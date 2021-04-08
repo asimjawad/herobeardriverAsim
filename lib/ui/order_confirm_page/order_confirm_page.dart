@@ -6,6 +6,7 @@ import 'package:hero_bear_driver/ui/home/progress_indicator_timer_wgt.dart';
 import 'package:hero_bear_driver/ui/order_decline_page/order_decline_page.dart';
 import 'package:hero_bear_driver/ui/plain_scroll_behavior.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 
 class OrderConfirmPage extends StatelessWidget {
 
@@ -114,6 +115,7 @@ class OrderConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: Dimens.insetM),
                       child: GestureDetector(
                         onTap: (){
+                          Get.to<void>(()=> PickOrderPage());
                         },
                         child: Container(
                           height: height,
