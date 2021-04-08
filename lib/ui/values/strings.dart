@@ -19,6 +19,9 @@ class Strings {
   static const lookingOrders = 'Looking Orders';
   static const earnings = 'Earnings';
   static const youAreOffline = 'You are Offline';
+  static const youAreOnlineIn = 'You are Online in';
+  static const endDelivery = 'End Delivery';
+  static const returnToDelivery = 'Return to delivery';
 
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
