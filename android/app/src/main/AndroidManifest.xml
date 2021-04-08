@@ -4,8 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:label="hero_bear_driver"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name="com.sigitechnologies.herobeardriver.MainActivity"
             android:launchMode="singleTop"

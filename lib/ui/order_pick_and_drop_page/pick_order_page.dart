@@ -182,7 +182,7 @@ class PickOrderPage extends StatelessWidget {
                     SliderWidget(func: gotoOrderPickDriver,),
                     Padding(
                       padding: const EdgeInsets.only(top: _rowV),
-                      child: Center(child: Text('Slide after arrival',style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.white,fontWeight: FontWeight.w700),)),
+                      child: Center(child: Text(Strings.slideAfterArrival,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.white,fontWeight: FontWeight.w700),)),
                     ),
 
                   ],

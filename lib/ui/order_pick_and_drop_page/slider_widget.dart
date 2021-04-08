@@ -3,9 +3,10 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 
 class SliderWidget extends StatefulWidget {
   final ValueChanged<double>? valueChanged;
-  final Function() func;
+  final void Function() func;
+  final BuildContext? context;
 
-  SliderWidget({this.valueChanged,required this.func});
+  SliderWidget({this.valueChanged,required this.func,this.context});
 
   @override
   SliderWidgetState createState() {

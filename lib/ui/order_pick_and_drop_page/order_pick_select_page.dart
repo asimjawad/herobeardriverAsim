@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 import 'package:hero_bear_driver/ui/widgets/order_card_widget.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/order_pick_details_page.dart';
 
 class OrderPickSelectPage extends StatelessWidget {
   final int _itemCount = 2;
@@ -39,7 +42,15 @@ class OrderPickSelectPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, index){
                     return Column(
                       children: [
-                        OrderCard(userName: _userName,orderNo: _orderNo,completeAddress: _completeAddress,price: _price),
+                        GestureDetector(
+                          onTap: (){
+                          /*  showDialog<void>(context: context, builder: (context){
+                              return Container();
+                            });*/
+                            Get.to<void>(()=>OrderPickDetailsPage());
+                          },
+                          child: OrderCard(userName: _userName,orderNo: _orderNo,completeAddress: _completeAddress,price: _price),
+                        ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                       ],
                     );

@@ -81,4 +81,28 @@ class Strings {
 
   //order pick select page
   static const noOfOrders = 'No. Of Orders';
+  static const slideAfterArrival = 'Slide after arrival';
+  static const ok = 'OK';
+  static const done = 'DONE';
+
+  // deliver order page
+  static const deliverDetail = 'Deliver Detail';
+  static const deliverFor = 'Delivery for';
+  static const address = 'Address';
+  static const iHaveArrivedAtCustomer = 'I have arrived at customer';
+
+  //deliver photo and confirm dialog
+  static const holdon = 'HOLD ON!';
+  static const pleaseTakeSnap = 'Please take a snap of the place order, By Tapping Camera icon';
+  static const receivedPaymentFromUser = 'Received payment from user';
+  static const cancel = 'CANCEL';
+  static const pleaseSelectAPhoto = 'Please Select a Photo';
+
+  //order pick details page
+  static const checkForCommonlyMissedItems = 'Check for commonly missed items';
+  static const drinks = 'Drinks';
+  static const sides = 'Sides';
+  static const sauces = 'Sauces';
+  static const utensils = 'Utensils';
+
 }
