@@ -34,23 +34,26 @@ class LoginPageState extends State<LoginFormWgt> {
             child: Row(
               children: [
                 CountryCodePicker(
-                  showFlag: false,
+                  showFlag: true,
+                  searchDecoration:
+                      InputDecoration(contentPadding: EdgeInsets.all(40)),
+                  dialogSize: Size(
+                      MediaQuery.of(context).size.width - Dimens.insetM * 2,
+                      MediaQuery.of(context).size.height -
+                          Dimens.insetM * 2 -
+                          MediaQuery.of(context).padding.top),
                   showDropDownButton: true,
                   onChanged: (code) => _selectedDialCode = code.dialCode,
                   initialSelection: 'IT',
                   favorite: ['+39', 'FR'],
-                  // countryFilter: ['IT', 'FR'],
-                  // flagDecoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(7),
-                  // ),
+                  flagDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                  ),
                 ),
                 Flexible(
                   child: TextFormField(
                     controller: _ctrlPhoneNo,
-                    decoration: const InputDecoration(
-                        // hintText: Strings.hintTextPhoneNumber,
-                        // hintStyle: TextStyle(color: MyColors.grey),
-                        ),
+                    decoration: const InputDecoration(),
                   ),
                 ),
               ],
@@ -63,10 +66,8 @@ class LoginPageState extends State<LoginFormWgt> {
             controller: _ctrlPwd,
             decoration: const InputDecoration(
                 hintText: Strings.hintTextPassword,
-                // hintStyle: TextStyle(color: MyColors.grey),
                 suffixIcon: Icon(
                   Icons.remove_red_eye,
-                  // color: MyColors.grey,
                 )),
           ),
           SizedBox(
