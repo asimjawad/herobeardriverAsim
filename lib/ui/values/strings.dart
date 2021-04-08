@@ -19,6 +19,9 @@ class Strings {
   static const lookingOrders = 'Looking Orders';
   static const earnings = 'Earnings';
   static const youAreOffline = 'You are Offline';
+  static const youAreOnlineIn = 'You are Online in';
+  static const endDelivery = 'End Delivery';
+  static const returnToDelivery = 'Return to delivery';
 
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
@@ -106,4 +109,51 @@ class Strings {
       'This app requires device location to function.';
   static const String msgCapitalUpdate = 'Capital Value Updated!';
   static const String msgCapitalUpdateFail = 'Capital Value Not Updated!';
+
+  // order pick page
+  static const direction = 'Direction';
+  static const call = 'Call';
+  static const totalItem = 'Total Item';
+  static const orderDetails = 'Order Details';
+  static const pickUpAt = 'Pick Up At ';
+  static const customerDetails = 'Customer Details';
+
+  // orders list page
+  static const orderNo = 'Order No: ';
+
+  // order detail page
+  static const orderDetail = 'Order Detail';
+  static const pickUp = 'Pick-Up';
+  static const item = 'item';
+  static const subTotal = 'SubTotal';
+  static const customer = 'Customer';
+
+  //order pick select page
+  static const noOfOrders = 'No. Of Orders';
+  static const slideAfterArrival = 'Slide after arrival';
+  static const ok = 'OK';
+  static const done = 'DONE';
+
+  // deliver order page
+  static const deliverDetail = 'Deliver Detail';
+  static const deliverFor = 'Delivery for';
+  static const address = 'Address';
+  static const iHaveArrivedAtCustomer = 'I have arrived at customer';
+
+  //deliver photo and confirm dialog
+  static const holdon = 'HOLD ON!';
+  static const pleaseTakeSnap = 'Please take a snap of the place order, By Tapping Camera icon';
+  static const receivedPaymentFromUser = 'Received payment from user';
+  static const cancel = 'CANCEL';
+  static const pleaseSelectAPhoto = 'Please Select a Photo';
+
+  //order pick details page
+  static const checkForCommonlyMissedItems = 'Check for commonly missed items';
+  static const drinks = 'Drinks';
+  static const sides = 'Sides';
+  static const sauces = 'Sauces';
+  static const utensils = 'Utensils';
+
+  // loading page
+  static const lookingForOrders = 'Looking for Orders';
 }

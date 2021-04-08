@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/ui/home/progress_indicator_timer_wgt.dart';
 import 'package:hero_bear_driver/ui/order_decline_page/order_decline_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/plain_scroll_behavior.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+// import 'package:hero_bear_driver/data/app_bloc.dart';
 
 class OrderConfirmPage extends StatelessWidget {
 
@@ -23,6 +25,7 @@ class OrderConfirmPage extends StatelessWidget {
   static const double posCs = 10;
   static const double padT = 20;
 
+  // final _appBloc = Get.find<AppBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,11 @@ class OrderConfirmPage extends StatelessWidget {
                     right: posR,
                     child: SafeArea(
                       child: InkWell(
-                        onTap: (){
-                          Get.to<void>(OrderDeclinePage());
-                        },
+                        onTap: () {
+                        /*final res = await _appBloc.orderRequest();
+                          print(res.toJson());*/
+                        Get.to<void>(OrderDeclinePage());
+                      },
                         child: Container(
                           height: height,
                           width: width,
@@ -114,6 +119,7 @@ class OrderConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: Dimens.insetM),
                       child: GestureDetector(
                         onTap: (){
+                          Get.to<void>(()=> PickOrderPage());
                         },
                         child: Container(
                           height: height,
