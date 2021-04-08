@@ -98,12 +98,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
                     SizedBox(
                       height: Dimens.insetS,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _settingModalBottomSheet(context);
-                      },
-                      child: Text(Strings.goOnline),
-                    ),
+                    _buildButton(context, widget.model),
                   ],
                 ),
               ],
@@ -124,7 +119,50 @@ class _HomeMapPageState extends State<HomeMapPage> {
     );
   }
 
+  Widget _buildButton(BuildContext context, HomeScreenDashboardModel model) {
+    var online =
+        widget.model.driverStatus == HomeScreenDashboardModel.statusOnline;
+    return ElevatedButton(
+      onPressed: () => _onGoOnline(context),
+      style: online
+          ? ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(MyColors.red500),
+            )
+          : null,
+      child: Text(online ? Strings.returnToDelivery : Strings.goOnline),
+    );
+  }
+
   Widget _buildOnlineWgt(BuildContext context, HomeScreenDashboardModel model) {
+    if (model.driverStatus == HomeScreenDashboardModel.statusOnline) {
+      final textTheme = Theme.of(context).textTheme;
+      return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_badgeRadius),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.insetM),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(Strings.youAreOnlineIn),
+              SizedBox(
+                height: Dimens.insetS,
+              ),
+              GestureDetector(
+                onTap: () => _onGoOffline(context),
+                child: Text(
+                  Strings.endDelivery,
+                  style: textTheme.subtitle1!.copyWith(
+                    color: MyColors.red500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_badgeRadius),
@@ -136,7 +174,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
     );
   }
 
-  void _settingModalBottomSheet(BuildContext context) {
+  void _onGoOnline(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       builder: (builderContext) => BottomSheetCheck(
@@ -148,6 +186,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
               () async {
                 try {
                   await _appBloc.setUserOnline();
+                  setState(() {});
                 } catch (e) {}
                 Navigator.pop(builderContext2);
               }.call();
@@ -158,6 +197,24 @@ class _HomeMapPageState extends State<HomeMapPage> {
           );
         },
       ),
+    );
+  }
+
+  void _onGoOffline(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (builderContext) {
+        () async {
+          try {
+            await _appBloc.setUserOffline();
+            setState(() {});
+          } catch (e) {}
+          Navigator.pop(builderContext);
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }
