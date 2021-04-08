@@ -156,4 +156,8 @@ class Strings {
 
   // loading page
   static const lookingForOrders = 'Looking for Orders';
+
+  // otp verification pages
+  static const verificationCode = 'Verfication Code';
+  static const msgEnterVerfiication = 'Please enter verification code sent to';
 }

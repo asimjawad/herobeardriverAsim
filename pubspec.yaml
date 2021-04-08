@@ -35,6 +35,7 @@ dependencies:
   firebase_core: ^1.0.2
   firebase_messaging: ^9.1.0
   firebase_database: ^6.1.1
+  firebase_auth: ^1.0.2
   # country code picker
   country_code_picker: ^2.0.1
   # for location features

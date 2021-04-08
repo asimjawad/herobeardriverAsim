@@ -4,9 +4,11 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 
 class LoginFormWgt extends StatefulWidget {
   void Function(String phoneNo, String email)? onLogin;
+  void Function(String phoneNo)? onForgotPassword;
 
   LoginFormWgt({
     this.onLogin,
+    this.onForgotPassword,
   });
 
   @override
@@ -90,7 +92,7 @@ class LoginPageState extends State<LoginFormWgt> {
           Align(
               alignment: Alignment.bottomRight,
               child: InkWell(
-                  onTap: () {},
+                  onTap: _onForgotPassword,
                   child: Text(Strings.forgotPassword,
                       style: Styles.appTheme.accentTextTheme.headline5
                           ?.copyWith(color: colorScheme.onBackground))))
@@ -100,9 +102,14 @@ class LoginPageState extends State<LoginFormWgt> {
   }
 
   void _onLogin() {
-    final dialCode = _selectedDialCode ?? '+33';
-
+    final dialCode = _selectedDialCode ?? '+39';
     final phoneNo = dialCode + _ctrlPhoneNo.text;
     widget.onLogin?.call(phoneNo, _ctrlPwd.text);
+  }
+
+  void _onForgotPassword() {
+    final dialCode = _selectedDialCode ?? '+39';
+    final phoneNo = dialCode + _ctrlPhoneNo.text;
+    widget.onForgotPassword?.call(phoneNo);
   }
 }

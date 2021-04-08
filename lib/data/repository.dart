@@ -9,6 +9,7 @@ import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/shared_pref_client.dart';
+import 'package:hero_bear_driver/data/firebase_auth_client.dart';
 
 import 'models/order_details_model/order_details_model.dart';
 
@@ -17,6 +18,7 @@ class Repository implements Closable {
   final _firebaseMsgClient = FirebaseMessagingClient();
   final _sharedPrefClient = SharedPrefClient();
   final _firebaseDbClient = FirebaseDbClient();
+  final _firebaseAuthClient = FirebaseAuthClient();
 
   @override
   void close() {
@@ -107,10 +109,16 @@ class Repository implements Closable {
     await _firebaseDbClient.setUserOffline(userId);
   }
 
-  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async {
     final response = await _apiClient.orderRequest(driverId: driverId);
     return response;
   }
+
+  Future<String> sendOtp(String phoneNo, Duration autoretrieveTimeout) =>
+      _firebaseAuthClient.sendOtp(phoneNo, autoretrieveTimeout);
+
+  Future<void> onOtpAutoVerificationComplete() =>
+      _firebaseAuthClient.onOtpAutoVerificationComplete();
 
   // get Driver Reviews
   Future<DriverReviewsModel> getDriverReviews(int userId) =>
