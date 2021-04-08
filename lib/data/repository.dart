@@ -2,6 +2,7 @@ import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
 import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
+import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews_model.dart';
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
@@ -45,6 +46,9 @@ class Repository implements Closable {
   Future<CommissionModel> getCommissionData(int userId) =>
       _apiClient.getCommissionData(userId);
 
+  Future<DriverReviewsModel> getDriverReviews(int userId) =>
+      _apiClient.getDriverReviews(userId);
+
   Future<EarningModel> getDriverEarningHistory(
     int userId,
     DateTime startDate,
@@ -56,5 +60,26 @@ class Repository implements Closable {
       endDate,
     );
     return earningHistory;
+  }
+
+  Future<bool> setCapital(
+    int userId,
+    double capital,
+  ) async {
+    var response = await _apiClient.setCapital(userId, capital);
+    return response;
+  }
+
+  Future<bool> submitPayment(
+    int userId, {
+    required String payoutAmount,
+    required String transactionId,
+  }) async {
+    final response = await _apiClient.submitPayment(
+      userId,
+      payoutAmount: payoutAmount,
+      transactionId: transactionId,
+    );
+    return response;
   }
 }

@@ -99,10 +99,13 @@ class Strings {
   // lengthy messages
   static const msgLoginText =
       'Enter your registered phone number and email to continue login';
-  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
   static const String msgEmptyFields = 'Please Fill Out All The Fields';
+  static const String msgPaymentFail = 'Payment Not Submitted. Try Again!';
+  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
   static const msgLocationWhy =
       'This app requires device location to function.';
+  static const String msgCapitalUpdate = 'Capital Value Updated!';
+  static const String msgCapitalUpdateFail = 'Capital Value Not Updated!';
 
   // order pick page
   static const direction = 'Direction';

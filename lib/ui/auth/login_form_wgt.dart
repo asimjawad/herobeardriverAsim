@@ -101,6 +101,7 @@ class LoginPageState extends State<LoginFormWgt> {
 
   void _onLogin() {
     final dialCode = _selectedDialCode ?? '+33';
+
     final phoneNo = dialCode + _ctrlPhoneNo.text;
     widget.onLogin?.call(phoneNo, _ctrlPwd.text);
   }
