@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
@@ -24,6 +25,7 @@ class HomeMapPage extends StatefulWidget {
 class _HomeMapPageState extends State<HomeMapPage> {
   static const _badgeRadius = 25.0;
   static const _mapZoomLvl = 18.0;
+  final _appBloc = Get.find<AppBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +98,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
                     SizedBox(
                       height: Dimens.insetS,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _settingModalBottomSheet(context);
-                      },
-                      child: Text(Strings.goOnline),
-                    ),
+                    _buildButton(context, widget.model),
                   ],
                 ),
               ],
@@ -122,7 +119,50 @@ class _HomeMapPageState extends State<HomeMapPage> {
     );
   }
 
+  Widget _buildButton(BuildContext context, HomeScreenDashboardModel model) {
+    var online =
+        widget.model.driverStatus == HomeScreenDashboardModel.statusOnline;
+    return ElevatedButton(
+      onPressed: () => _onGoOnline(context),
+      style: online
+          ? ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(MyColors.red500),
+            )
+          : null,
+      child: Text(online ? Strings.returnToDelivery : Strings.goOnline),
+    );
+  }
+
   Widget _buildOnlineWgt(BuildContext context, HomeScreenDashboardModel model) {
+    if (model.driverStatus == HomeScreenDashboardModel.statusOnline) {
+      final textTheme = Theme.of(context).textTheme;
+      return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_badgeRadius),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.insetM),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(Strings.youAreOnlineIn),
+              SizedBox(
+                height: Dimens.insetS,
+              ),
+              GestureDetector(
+                onTap: () => _onGoOffline(context),
+                child: Text(
+                  Strings.endDelivery,
+                  style: textTheme.subtitle1!.copyWith(
+                    color: MyColors.red500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_badgeRadius),
@@ -134,10 +174,47 @@ class _HomeMapPageState extends State<HomeMapPage> {
     );
   }
 
-  void _settingModalBottomSheet(BuildContext context) {
+  void _onGoOnline(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (_) => BottomSheetCheck(),
+      builder: (builderContext) => BottomSheetCheck(
+        onReady: () {
+          Navigator.pop(builderContext);
+          showDialog<void>(
+            context: context,
+            builder: (builderContext2) {
+              () async {
+                try {
+                  await _appBloc.setUserOnline();
+                  setState(() {});
+                } catch (e) {}
+                Navigator.pop(builderContext2);
+              }.call();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void _onGoOffline(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (builderContext) {
+        () async {
+          try {
+            await _appBloc.setUserOffline();
+            setState(() {});
+          } catch (e) {}
+          Navigator.pop(builderContext);
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }
