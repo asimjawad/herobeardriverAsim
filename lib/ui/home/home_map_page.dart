@@ -6,7 +6,7 @@ import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
 import 'package:hero_bear_driver/ui/home/user_dashboard_wgt.dart';
-import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
+import 'package:hero_bear_driver/ui/loading_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class HomeMapPage extends StatefulWidget {
@@ -85,7 +85,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
                           ),
                         ),
                         onPressed: () {
-                          Get.to<void>(OrderConfirmPage());
+                          Get.to<void>(() => LoadingPage());
                         },
                       ),
                     ),

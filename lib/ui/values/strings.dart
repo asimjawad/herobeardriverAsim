@@ -154,6 +154,6 @@ class Strings {
   static const sauces = 'Sauces';
   static const utensils = 'Utensils';
 
-// loading page
-
+  // loading page
+  static const lookingForOrders = 'Looking for Orders';
 }
