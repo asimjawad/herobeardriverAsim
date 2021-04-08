@@ -159,5 +159,7 @@ class Strings {
 
   // otp verification pages
   static const verificationCode = 'Verfication Code';
+  static const resendOtp = 'Resend Otp';
+  static const next = 'Next';
   static const msgEnterVerfiication = 'Please enter verification code sent to';
 }

@@ -82,27 +82,32 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onForgotPassword(BuildContext context, String phoneNo) {
-    showDialog<void>(
-      context: context,
-      builder: (builderContext) {
-        () async {
-          try {
-            final timeOut = Duration(seconds: 60);
-            final verefId = await _appBloc.sendOtp(phoneNo, timeOut);
-            Navigator.pop(builderContext);
-            Get.to<void>(() => OtpVerificationPage(
-                  phoneNo: phoneNo,
-                  timeOut: timeOut,
-                  verificationId: verefId,
-                ));
-          } catch (e) {
-            Navigator.pop(builderContext);
-          }
-        }.call();
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+    Get.to<void>(() => OtpVerificationPage(
+          phoneNo: phoneNo,
+          timeOut: Duration(seconds: 60),
+          verificationId: '123456',
+        ));
+    // showDialog<void>(
+    //   context: context,
+    //   builder: (builderContext) {
+    //     () async {
+    //       try {
+    //         final timeOut = Duration(seconds: 60);
+    //         final verefId = await _appBloc.sendOtp(phoneNo, timeOut);
+    //         Navigator.pop(builderContext);
+    //         Get.to<void>(() => OtpVerificationPage(
+    //               phoneNo: phoneNo,
+    //               timeOut: timeOut,
+    //               verificationId: verefId,
+    //             ));
+    //       } catch (e) {
+    //         Navigator.pop(builderContext);
+    //       }
+    //     }.call();
+    //     return Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
   }
 }
