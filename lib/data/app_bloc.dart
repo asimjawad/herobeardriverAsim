@@ -10,12 +10,14 @@ import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
 import 'package:hero_bear_driver/ui/values/strings.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:hero_bear_driver/data/models/order_details_model/order_details_model.dart';
 
 class AppBloc extends DisposableInterface {
   final _repository = Repository();
   UserLoginModel? _user;
   late String message;
   final _subjectHomeData = BehaviorSubject<HomeScreenDashboardModel>();
+  BehaviorSubject<OrderDetailsModel> _orderDetailsSubject = BehaviorSubject();
 
   Future<LocationModel> get location async {
     // todo: replace with real location
@@ -136,6 +138,33 @@ class AppBloc extends DisposableInterface {
     final user = await this.user;
     await _repository.setUserOffline(user.userId);
     _updateHomeDataStream();
+  }
+
+  Future<OrderDetailsModel> orderRequest()async{
+    final user = await this.user;
+    final response = await _repository.orderRequest(driverId: user.userId);
+    return response;
+  }
+
+  void refreshUserData() async {
+    final user = await this.user;
+    _orderDetailsSubject.add(await _repository.orderRequest(driverId: user.userId));
+  }
+
+  Stream<OrderDetailsModel> getUserDataStream() {
+    if (_orderDetailsSubject.valueWrapper == null) {
+          () async {
+            final user = await this.user;
+        // just copied someone's  pride (-v-)
+        try {
+          _orderDetailsSubject
+              .add(await _repository.orderRequest(driverId: user.userId));
+        } catch (e) {
+          _orderDetailsSubject.addError(e);
+        }
+      }.call();
+    }
+    return _orderDetailsSubject.stream;
   }
 
   void _updateHomeDataStream() async {

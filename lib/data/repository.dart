@@ -10,6 +10,8 @@ import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/shared_pref_client.dart';
 
+import 'models/order_details_model/order_details_model.dart';
+
 class Repository implements Closable {
   final _apiClient = ApiClient();
   final _firebaseMsgClient = FirebaseMessagingClient();
@@ -106,5 +108,10 @@ class Repository implements Closable {
   Future<void> setUserOffline(int userId) async {
     await _apiClient.setDriverOffline(userId);
     await _firebaseDbClient.setUserOffline(userId);
+  }
+
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
+    final response = await _apiClient.orderRequest(driverId: driverId);
+    return response;
   }
 }

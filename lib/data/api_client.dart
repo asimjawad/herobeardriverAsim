@@ -6,6 +6,8 @@ import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 
+import 'models/order_details_model/order_details_model.dart';
+
 class ApiClient {
   static const _baseUrl = 'https://portal.herobear.com.ph/api';
 
@@ -16,6 +18,7 @@ class ApiClient {
   static const _epSetCapitalData = '/set_capital';
   static const _epDriverReviews = '/driver_reviews';
   static const _epSubmitPayment = '/submit_payment';
+  static const _epOrderRequest = '/order_request';
   static const _epSetDriverOnline = '/set_driver_online';
   static const _epSetDriverOffline = '/set_driver_offline';
 
@@ -181,5 +184,14 @@ class ApiClient {
     if (response.statusCode != HttpStatus.ok) {
       throw (Exception(response.statusMessage));
     }
+  }
+
+  //request order
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
+    final response = await _dio.get<Map<String, dynamic>>('$_epOrderRequest/$driverId');
+    if(response.statusCode == HttpStatus.ok){
+      return OrderDetailsModel.fromJson(response.data!);
+    }
+    throw (Exception(response.statusMessage));
   }
 }
