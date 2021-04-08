@@ -12,7 +12,6 @@ import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/no_internet_wgt.dart';
-import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
   @override

@@ -8,5 +8,5 @@ class FirebaseDbClient {
       _chatDb.child(userId.toString()).set(model.toJson());
 
   Future<void> setUserOffline(int userId) =>
-      _chatDb.child(userId.toString()).remove();
+      _chatDb.child(userId.toString()).set(null);
 }
