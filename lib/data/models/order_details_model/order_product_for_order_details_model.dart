@@ -18,7 +18,7 @@ class OrderProductForOrderDetailsModel {
   @JsonKey(name: 'qty')
   String qty;
   @JsonKey(name: 'productrequired ')
-  ProductForOrderDetailsModel product;
+  ProductForOrderDetailsModel? product;
 
   factory OrderProductForOrderDetailsModel.fromJson(Map<String, dynamic> json) => _$OrderProductForOrderDetailsModelFromJson(json);
 
