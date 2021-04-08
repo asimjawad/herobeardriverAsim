@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class BottomSheetCheck extends StatefulWidget {
+  final void Function()? onReady;
+
+  BottomSheetCheck({
+    this.onReady,
+  });
+
   @override
   _BottomSheetCheckState createState() => _BottomSheetCheckState();
 }

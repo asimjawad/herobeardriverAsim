@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
@@ -24,6 +25,7 @@ class HomeMapPage extends StatefulWidget {
 class _HomeMapPageState extends State<HomeMapPage> {
   static const _badgeRadius = 25.0;
   static const _mapZoomLvl = 18.0;
+  final _appBloc = Get.find<AppBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +139,11 @@ class _HomeMapPageState extends State<HomeMapPage> {
   void _settingModalBottomSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (_) => BottomSheetCheck(),
+      builder: (_) => BottomSheetCheck(
+        onReady: () {
+          // _appBloc;
+        },
+      ),
     );
   }
 }
