@@ -54,7 +54,7 @@ class AppBloc extends DisposableInterface {
     return user;
   }
 
-  Future<void> logOut() => _repository.clearUser();
+  Future<void> logOut() => _repository.clearSharedPref();
 
   Future<HomeScreenDashboardModel> getHomeData() async {
     final user = await this.user;

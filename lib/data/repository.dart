@@ -21,15 +21,22 @@ class Repository implements Closable {
     _firebaseMsgClient.close();
   }
 
+  Future<String> get _deviceToken async {
+    final token = await _sharedPrefClient.getDeviceToken();
+    return token ??
+        await FirebaseMessagingClient.getDeviceToken() ??
+        'no_token_could_be_generated';
+  }
+
   Future<UserLoginModel> logIn({
     required String phoneNo,
     required String password,
   }) async {
-    final token = await FirebaseMessagingClient.getDeviceToken();
+    final token = await _deviceToken;
     final user = await _apiClient.logIn(
       phoneNo: phoneNo,
       password: password,
-      deviceToken: token ?? 'null',
+      deviceToken: token,
     );
     await _sharedPrefClient.setUser(user);
     return user;
@@ -41,7 +48,7 @@ class Repository implements Closable {
 
   Future<UserLoginModel?> getUser() => _sharedPrefClient.getUser();
 
-  Future<void> clearUser() => _sharedPrefClient.clearUser();
+  Future<void> clearSharedPref() => _sharedPrefClient.clearAll();
 
   Future<HomeScreenDashboardModel> getHomeData(int userId) =>
       _apiClient.getHomeData(userId);
@@ -86,9 +93,18 @@ class Repository implements Closable {
     return response;
   }
 
-  Future<void> setUserOnline(int userId, OnlineModel model) =>
-      _firebaseDbClient.setUserOnline(userId, model);
+  Future<void> setUserOnline(int userId, OnlineModel model) async {
+    await _apiClient.setDriverOnline(
+      driverId: userId,
+      deviceToken: await _deviceToken,
+      latitude: model.l[0],
+      longitude: model.l[1],
+    );
+    await _firebaseDbClient.setUserOnline(userId, model);
+  }
 
-  Future<void> setUserOffline(int userId) =>
-      _firebaseDbClient.setUserOffline(userId);
+  Future<void> setUserOffline(int userId) async {
+    await _apiClient.setDriverOffline(userId);
+    await _firebaseDbClient.setUserOffline(userId);
+  }
 }

@@ -16,6 +16,8 @@ class ApiClient {
   static const _epSetCapitalData = '/set_capital';
   static const _epDriverReviews = '/driver_reviews';
   static const _epSubmitPayment = '/submit_payment';
+  static const _epSetDriverOnline = '/set_driver_online';
+  static const _epSetDriverOffline = '/set_driver_offline';
 
   static const _pPhone = 'phone';
   static const _pPassword = 'password';
@@ -30,6 +32,9 @@ class ApiClient {
 
   static const _pPayoutAmount = 'payout_amount';
   static const _pTransactionId = 'transaction_id';
+
+  static const _pLatitude = 'latitude';
+  static const _pLongitude = 'longitude';
 
   final _dio = Dio(BaseOptions(
     baseUrl: _baseUrl,
@@ -147,5 +152,34 @@ class ApiClient {
       return true;
     }
     throw (Exception(response.statusMessage));
+  }
+
+  Future<void> setDriverOnline({
+    required int driverId,
+    required String deviceToken,
+    required double latitude,
+    required double longitude,
+  }) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      '$_epSetDriverOnline/$driverId',
+      data: {
+        _pDeviceToken: deviceToken,
+        _pLatitude: latitude,
+        _pLongitude: longitude,
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
+    if (response.statusCode != HttpStatus.ok) {
+      throw (Exception(response.statusMessage));
+    }
+  }
+
+  Future<void> setDriverOffline(int driverId) async {
+    final response = await _dio.get<dynamic>('$_epSetDriverOffline/$driverId');
+    if (response.statusCode != HttpStatus.ok) {
+      throw (Exception(response.statusMessage));
+    }
   }
 }

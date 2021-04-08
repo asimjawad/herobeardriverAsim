@@ -5,6 +5,7 @@ part 'online_model.g.dart';
 @JsonSerializable()
 class OnlineModel {
   final String g;
+  /// Pair of latitude and longitude
   final List<double> l;
 
   OnlineModel({
