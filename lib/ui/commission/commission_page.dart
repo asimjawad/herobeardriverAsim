@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
 import 'package:hero_bear_driver/ui/commission/commission_list_item.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
@@ -11,6 +14,7 @@ class _CommissionPageState extends State<CommissionPage> {
   final _formKey1 = GlobalKey<FormState>();
   final amount = TextEditingController();
   final transactionID = TextEditingController();
+  final _appBloc = Get.find<AppBloc>();
 
   @override
   void dispose() {
@@ -22,76 +26,95 @@ class _CommissionPageState extends State<CommissionPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     const _height = 20.0;
     const _width = 20.0;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          Strings.commission,
-          style: Styles.appTheme.accentTextTheme.headline5
-              ?.copyWith(color: colorScheme.onPrimary),
-        ),
-      ),
-      body: Container(
-        child: Column(children: [
-          IntrinsicHeight(
-              child: Container(
-            padding: EdgeInsets.all(Dimens.insetM),
-            child: Row(
-              children: [
-                totalCommission(context, _height, colorScheme),
-                VerticalDivider(
-                  width: _width,
-                  color: MyColors.grey,
-                ),
-                paidCommission(context, _height, colorScheme),
-                VerticalDivider(
-                  width: _width,
-                  color: MyColors.grey,
-                ),
-                pendingCommission(context, _height, colorScheme)
-              ],
-            ),
-          )),
-          Divider(color: MyColors.grey, height: _height),
-          Expanded(
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(Dimens.insetM),
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: CommissionListItem(),
-                  );
-                }),
+        appBar: AppBar(
+          backwardsCompatibility: false,
+          title: Text(
+            Strings.commission,
+            style: Styles.appTheme.accentTextTheme.headline5
+                ?.copyWith(color: colorScheme.onPrimary),
           ),
-        ]),
-      ),
-      bottomNavigationBar: BottomAppBar(
-          child: GestureDetector(
-        onTap: () => _commisionDialog(
-            context, _formKey1, colorScheme, amount, transactionID),
-        child: Container(
-            padding: EdgeInsets.all(20.0),
-            decoration: BoxDecoration(color: colorScheme.primary),
-            child: Text(
-              Strings.submitCommission,
-              textAlign: TextAlign.center,
-              style: Styles.appTheme.textTheme.headline5
-                  ?.copyWith(color: colorScheme.onPrimary),
-            )),
-      )),
-    );
+        ),
+        body: FutureBuilder<CommissionModel>(
+            future: _appBloc.getCommissionData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final commission = snapshot.data!;
+                return Container(
+                  child: Column(children: [
+                    IntrinsicHeight(
+                        child: Container(
+                      padding: EdgeInsets.all(Dimens.insetM),
+                      child: Row(
+                        children: [
+                          totalCommission(
+                              context, _height, colorScheme, commission),
+                          VerticalDivider(
+                            width: _width,
+                            color: MyColors.grey,
+                          ),
+                          paidCommission(
+                              context, _height, colorScheme, commission),
+                          VerticalDivider(
+                            width: _width,
+                            color: MyColors.grey,
+                          ),
+                          pendingCommission(
+                              context, _height, colorScheme, commission)
+                        ],
+                      ),
+                    )),
+                    Divider(color: MyColors.grey, height: _height),
+                    _commissionListView(context, commission)
+                  ]),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+        bottomNavigationBar: BottomAppBar(
+            child: GestureDetector(
+          onTap: () => _commisionDialog(
+              context, _formKey1, colorScheme, amount, transactionID),
+          child: Container(
+              padding: EdgeInsets.all(20.0),
+              decoration: BoxDecoration(color: colorScheme.primary),
+              child: Text(
+                Strings.submitCommission,
+                textAlign: TextAlign.center,
+                style: Styles.appTheme.textTheme.headline5
+                    ?.copyWith(color: colorScheme.onPrimary),
+              )),
+        )));
   }
 }
 
-Widget pendingCommission(
-    BuildContext context, double height, ColorScheme colorScheme) {
+Widget _commissionListView(BuildContext context, CommissionModel commission) {
+  return Expanded(
+      child: commission.data!.isNotEmpty
+          ? ListView.builder(
+              scrollDirection: Axis.vertical,
+              //shrinkWrap: true,
+              padding: const EdgeInsets.all(Dimens.insetM),
+              itemCount: commission.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    child: CommissionListItem(commission.data![index]));
+              },
+            )
+          : Center(child: Image.asset(MyImgs.noData)));
+}
+
+Widget pendingCommission(BuildContext context, double height,
+    ColorScheme colorScheme, CommissionModel commissionModel) {
   return Flexible(
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
     Text(
-      '${Strings.sCurrency} 7.00',
+      '${Strings.sCurrency} ${commissionModel.pendingCommission}',
       style: Styles.appTheme.accentTextTheme.headline2
           ?.copyWith(color: colorScheme.onBackground),
     ),
@@ -105,14 +128,14 @@ Widget pendingCommission(
   ]));
 }
 
-Widget paidCommission(
-    BuildContext context, double height, ColorScheme colorScheme) {
+Widget paidCommission(BuildContext context, double height,
+    ColorScheme colorScheme, CommissionModel commissionModal) {
   return Flexible(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          '${Strings.sCurrency} 0.00',
+          '${Strings.sCurrency} ${commissionModal.paidCommissiom}',
           style: Styles.appTheme.accentTextTheme.headline2
               ?.copyWith(color: colorScheme.onBackground),
         ),
@@ -128,14 +151,15 @@ Widget paidCommission(
   );
 }
 
-Widget totalCommission(
-    BuildContext context, double height, ColorScheme colorScheme) {
+Widget totalCommission(BuildContext context, double height,
+    ColorScheme colorScheme, CommissionModel commissionModel) {
   return Flexible(
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          '${Strings.sCurrency} 7.00',
+          '${Strings.sCurrency} ${commissionModel.totalCommission}',
+          textAlign: TextAlign.center,
           style: Styles.appTheme.accentTextTheme.headline2
               ?.copyWith(color: colorScheme.onBackground),
         ),
@@ -162,15 +186,7 @@ Future<void> _commisionDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0),
-              decoration: BoxDecoration(color: colorScheme.primary),
-              child: Text(
-                Strings.dialogTitle,
-                textAlign: TextAlign.center,
-                style: Styles.appTheme.textTheme.headline5
-                    ?.copyWith(color: colorScheme.onPrimary),
-              )),
+          contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           content: Stack(
             children: <Widget>[
               Form(
@@ -179,8 +195,19 @@ Future<void> _commisionDialog(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                        decoration: BoxDecoration(color: colorScheme.primary),
+                        child: Text(
+                          Strings.dialogTitle,
+                          textAlign: TextAlign.center,
+                          style: Styles.appTheme.textTheme.headline5
+                              ?.copyWith(color: colorScheme.onPrimary),
+                        )),
+                    SizedBox(height: 20.0),
+                    Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 10.0, bottom: 16.0),
+                        padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
                         decoration: BoxDecoration(color: colorScheme.onPrimary),
                         child: Text(
                           Strings.amountLabel,
@@ -188,7 +215,7 @@ Future<void> _commisionDialog(
                               ?.copyWith(color: colorScheme.onBackground),
                         )),
                     Padding(
-                      padding: EdgeInsets.all(Dimens.insetS),
+                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       child: TextField(
                         controller: amount,
                         decoration: InputDecoration(
@@ -197,7 +224,7 @@ Future<void> _commisionDialog(
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(Dimens.insetS),
+                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       child: TextField(
                         controller: transactionID,
                         decoration: InputDecoration(
@@ -205,8 +232,9 @@ Future<void> _commisionDialog(
                             hintText: Strings.transactionId),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
+                    SizedBox(height: 20.0),
+                    GestureDetector(
+                      onTap: () {
                         if (amount.text.isNotEmpty &&
                             transactionID.text.isNotEmpty) {
                           _snackbarMessage(context, Strings.msgPaymentSuccess);
@@ -216,8 +244,14 @@ Future<void> _commisionDialog(
                       },
                       child: Container(
                           width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.center,
-                          child: Text(Strings.paymentSubmitBtn)),
+                          padding: EdgeInsets.symmetric(vertical: 15.0),
+                          decoration: BoxDecoration(color: colorScheme.primary),
+                          child: Text(
+                            Strings.paymentSubmitBtn,
+                            textAlign: TextAlign.center,
+                            style: Styles.appTheme.textTheme.headline5
+                                ?.copyWith(color: colorScheme.onPrimary),
+                          )),
                     ),
                   ],
                 ),
