@@ -46,9 +46,6 @@ class Repository implements Closable {
   Future<CommissionModel> getCommissionData(int userId) =>
       _apiClient.getCommissionData(userId);
 
-  Future<DriverReviewsModel> getDriverReviews(int userId) =>
-      _apiClient.getDriverReviews(userId);
-
   Future<EarningModel> getDriverEarningHistory(
     int userId,
     DateTime startDate,
@@ -82,4 +79,8 @@ class Repository implements Closable {
     );
     return response;
   }
+
+  // get Driver Reviews
+  Future<DriverReviewsModel> getDriverReviews(int userId) =>
+      _apiClient.getDriverReviews(userId);
 }

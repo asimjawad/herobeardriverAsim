@@ -65,11 +65,6 @@ class AppBloc extends DisposableInterface {
     return _repository.getCommissionData(user.userId);
   }
 
-  Future<DriverReviewsModel> getDriverReviews() async {
-    final user = await this.user;
-    return _repository.getDriverReviews(user.userId);
-  }
-
   Future<EarningModel> getDriverEarningHistory(
     DateTime startDate,
     DateTime endDate,
@@ -109,5 +104,11 @@ class AppBloc extends DisposableInterface {
       message = Strings.msgPaymentFail;
     }
     return message;
+  }
+
+  // get driver Reviews
+  Future<DriverReviewsModel> getDriverReviews() async {
+    final user = await this.user;
+    return _repository.getDriverReviews(user.userId);
   }
 }

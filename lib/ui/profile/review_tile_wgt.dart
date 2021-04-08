@@ -24,12 +24,13 @@ class ReviewTileWgt extends StatelessWidget {
     return Row(
       children: [
         Container(
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.grey,
           ),
           width: 50,
           height: 50,
+          child: image,
         ),
         SizedBox(
           width: Dimens.insetM,
@@ -38,10 +39,10 @@ class ReviewTileWgt extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              this.title,
+              title,
               style: textTheme.headline6,
             ),
-            Text(this.subtitle),
+            Text(subtitle),
             _buildStars(context),
           ],
         ),
