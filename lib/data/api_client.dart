@@ -133,7 +133,11 @@ class ApiClient {
       {required String payoutAmount, required String transactionId}) async {
     final response = await _dio.post<Map<String, dynamic>>(
       _epSubmitPayment,
-      data: {_pPayoutAmount: payoutAmount, _pTransactionId: transactionId},
+      data: {
+        _pDriverId: userId,
+        _pPayoutAmount: payoutAmount,
+        _pTransactionId: transactionId
+      },
       options: Options(
         contentType: Headers.formUrlEncodedContentType,
       ),
