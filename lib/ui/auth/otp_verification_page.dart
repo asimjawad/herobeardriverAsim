@@ -159,6 +159,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 onFilled?.call();
               }
             },
+            keyboardType: TextInputType.number,
           ),
         ),
       ),

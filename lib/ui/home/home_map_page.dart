@@ -123,7 +123,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
     var online =
         widget.model.driverStatus == HomeScreenDashboardModel.statusOnline;
     return ElevatedButton(
-      onPressed: () => _onGoOnline(context),
+      onPressed: () => _onToggleOnline(context, model),
       style: online
           ? ButtonStyle(
               backgroundColor: MaterialStateProperty.all(MyColors.red500),
@@ -174,30 +174,34 @@ class _HomeMapPageState extends State<HomeMapPage> {
     );
   }
 
-  void _onGoOnline(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (builderContext) => BottomSheetCheck(
-        onReady: () {
-          Navigator.pop(builderContext);
-          showDialog<void>(
-            context: context,
-            builder: (builderContext2) {
-              () async {
-                try {
-                  await _appBloc.setUserOnline();
-                  setState(() {});
-                } catch (e) {}
-                Navigator.pop(builderContext2);
-              }.call();
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          );
-        },
-      ),
-    );
+  void _onToggleOnline(BuildContext context, HomeScreenDashboardModel model) {
+    if (model.driverStatus == HomeScreenDashboardModel.statusOffline) {
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (builderContext) => BottomSheetCheck(
+          onReady: () {
+            Navigator.pop(builderContext);
+            showDialog<void>(
+              context: context,
+              builder: (builderContext2) {
+                () async {
+                  try {
+                    await _appBloc.setUserOnline();
+                    setState(() {});
+                  } catch (e) {}
+                  Navigator.pop(builderContext2);
+                }.call();
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
+          },
+        ),
+      );
+    } else {
+      Get.to<void>(() => LoadingPage());
+    }
   }
 
   void _onGoOffline(BuildContext context) {
