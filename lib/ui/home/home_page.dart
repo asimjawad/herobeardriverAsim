@@ -97,9 +97,17 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipOval(
-                child: Container(
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
                   color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                width: _sizeProfileBadge,
+                height: _sizeProfileBadge,
+                child: Image.network(
+                  user.image,
+                  fit: BoxFit.cover,
                   width: _sizeProfileBadge,
                   height: _sizeProfileBadge,
                 ),

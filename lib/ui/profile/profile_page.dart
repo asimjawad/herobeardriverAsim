@@ -118,8 +118,7 @@ class ProfilePage extends StatelessWidget {
                     height: _sizeProfileBadge,
                     width: _sizeProfileBadge,
                     color: Colors.white,
-                    child: Image.network(
-                        '${driver.baseUrlProfile}${driver.data.image}'),
+                    child: Image.network(driver.data.image),
                   ),
                 ),
                 SizedBox(
