@@ -25,6 +25,7 @@ class ApiClient {
   static const _epSetDriverOffline = '/set_driver_offline';
   static const _epRequestDiamonds = '/request_diamonds';
   static const _epDriverForgotPassword = '/driver_forgot_password';
+  static const _epDriverUpdateProfile = '/driver_update_profile';
 
   static const _pPhone = 'phone';
   static const _pPassword = 'password';
@@ -43,6 +44,9 @@ class ApiClient {
 
   static const _pLatitude = 'latitude';
   static const _pLongitude = 'longitude';
+
+  static const _pName = 'name';
+  static const _pEmail = 'email';
 
   final _dio = Dio(BaseOptions(
     baseUrl: _baseUrl,
@@ -249,6 +253,27 @@ class ApiClient {
       ),
     );
     if (response.statusCode == HttpStatus.ok) {
+      if (response.data['status'] == true) {
+        return;
+      }
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  Future<void> editProfile({
+    required int driverId,
+    required String name,
+    required String email,
+  }) async {
+    final response = await _dio.post<dynamic>(
+      _epDriverUpdateProfile,
+      data: FormData.fromMap(<String, dynamic>{
+        _pDriverId: driverId,
+        _pName: name,
+        _pEmail: email,
+      }),
+    );
+    if (response.statusCode == HttpStatus.accepted) {
       if (response.data['status'] == true) {
         return;
       }
