@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// a class to handle a single otp verification process across multiple screens easily
 class FirebaseAuthClient {
   Completer<void>? _completerVerificationResult;
   String? _verificationId;

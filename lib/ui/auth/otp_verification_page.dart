@@ -57,7 +57,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             SizedBox(
               height: 20,
             ),
-            Text(Strings.msgEnterVerfiication),
+            Text(Strings.msgEnterVerification),
             SizedBox(
               height: 20,
             ),

@@ -180,5 +180,8 @@ class Strings {
   static const verificationCode = 'Verfication Code';
   static const resendOtp = 'Resend Otp';
   static const next = 'Next';
-  static const msgEnterVerfiication = 'Please enter verification code sent to';
+  static const newPassword = 'New Password';
+  static const confirmPassword = 'Confirm Password';
+  static const enterYourPassword = 'Enter Your Password';
+  static const msgEnterVerification = 'Please enter verification code sent to';
 }
