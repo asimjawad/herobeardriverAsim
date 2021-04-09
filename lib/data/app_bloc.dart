@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
+import 'package:hero_bear_driver/data/models/diamonds_model/diamonds_model.dart';
 import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews_model.dart';
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
@@ -82,20 +83,20 @@ class AppBloc extends DisposableInterface {
     return earningHistory;
   }
 
-  Future<dynamic> setCapital(
+  Future<String> setCapital(
     double capital,
   ) async {
     final user = await this.user;
     var response = await _repository.setCapital(user.userId, capital);
     if (response == true) {
-      message = Strings.msgCapitalUpdate;
+      message = Strings.msgSuccessCapitalUpdate;
     } else {
-      message = Strings.msgCapitalUpdateFail;
+      message = Strings.msgFailCapitalUpdate;
     }
     return message;
   }
 
-  Future<dynamic> submitPayment({
+  Future<String> submitPayment({
     required String payoutAmount,
     required String transactionId,
   }) async {
@@ -106,9 +107,9 @@ class AppBloc extends DisposableInterface {
       transactionId: transactionId,
     );
     if (response == true) {
-      message = Strings.msgPaymentSuccess;
+      message = Strings.msgSuccessPaymentRequest;
     } else {
-      message = Strings.msgPaymentFail;
+      message = Strings.msgFailPaymentRequest;
     }
     return message;
   }
@@ -177,5 +178,26 @@ class AppBloc extends DisposableInterface {
   void _updateHomeDataStream() async {
     final user = await this.user;
     _subjectHomeData.add(await _repository.getHomeData(user.userId));
+  }
+
+  // Get Diamonds
+  Future<DiamondsModel> getDiamonds() async {
+    final user = await this.user;
+    return _repository.getDiamonds(user.userId);
+  }
+
+  //Request Diamonds
+  Future<String> requestDiamond({
+    required String diamond,
+  }) async {
+    final user = await this.user;
+    final response =
+        await _repository.requestDiamond(user.userId, diamond: diamond);
+    if (response == true) {
+      message = Strings.msgSuccessDiamondRequest;
+    } else {
+      message = Strings.msgFailDiamondRequest;
+    }
+    return message;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
+import 'package:hero_bear_driver/data/models/diamonds_model/diamonds_model.dart';
 import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews_model.dart';
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
@@ -17,10 +18,12 @@ class ApiClient {
   static const _epCommissionData = '/get_commission';
   static const _epSetCapitalData = '/set_capital';
   static const _epDriverReviews = '/driver_reviews';
+  static const _epGetDiamonds = '/get_diamonds';
   static const _epSubmitPayment = '/submit_payment';
   static const _epOrderRequest = '/order_request';
   static const _epSetDriverOnline = '/set_driver_online';
   static const _epSetDriverOffline = '/set_driver_offline';
+  static const _epRequestDiamonds = '/request_diamonds';
 
   static const _pPhone = 'phone';
   static const _pPassword = 'password';
@@ -35,6 +38,7 @@ class ApiClient {
 
   static const _pPayoutAmount = 'payout_amount';
   static const _pTransactionId = 'transaction_id';
+  static const _pDiamond = 'diamond';
 
   static const _pLatitude = 'latitude';
   static const _pLongitude = 'longitude';
@@ -85,6 +89,18 @@ class ApiClient {
 
     if (response.statusCode == HttpStatus.ok) {
       return CommissionModel.fromJson(response.data!);
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  // Get Diamonds Data
+  Future<DiamondsModel> getDiamonds(int userId) async {
+    final response = await _dio.get<Map<String, dynamic>>(
+      '$_epGetDiamonds/$userId',
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      return DiamondsModel.fromJson(response.data!);
     }
     throw (Exception(response.statusMessage));
   }
@@ -147,6 +163,22 @@ class ApiClient {
         _pPayoutAmount: payoutAmount,
         _pTransactionId: transactionId
       },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      return true;
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  // Request Diamond
+  Future<bool> requestDiamond(int userId, {required String diamond}) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      _epRequestDiamonds,
+      data: {_pDriverId: userId, _pDiamond: diamond},
       options: Options(
         contentType: Headers.formUrlEncodedContentType,
       ),

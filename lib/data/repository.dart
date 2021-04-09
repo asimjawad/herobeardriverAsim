@@ -3,6 +3,7 @@ import 'package:hero_bear_driver/data/closable.dart';
 import 'package:hero_bear_driver/data/firebase_db_client.dart';
 import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
+import 'package:hero_bear_driver/data/models/diamonds_model/diamonds_model.dart';
 import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews_model.dart';
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
@@ -123,4 +124,17 @@ class Repository implements Closable {
   // get Driver Reviews
   Future<DriverReviewsModel> getDriverReviews(int userId) =>
       _apiClient.getDriverReviews(userId);
+
+  // Get Diamonds
+  Future<DiamondsModel> getDiamonds(int userId) =>
+      _apiClient.getDiamonds(userId);
+
+  // Request Diamond
+  Future<bool> requestDiamond(
+    int userId, {
+    required String diamond,
+  }) async {
+    final response = await _apiClient.requestDiamond(userId, diamond: diamond);
+    return response;
+  }
 }

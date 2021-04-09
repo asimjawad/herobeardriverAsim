@@ -7,6 +7,7 @@ import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/login_page.dart';
 import 'package:hero_bear_driver/ui/capital_page.dart';
 import 'package:hero_bear_driver/ui/commission/commission_page.dart';
+import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.close),
             title: Text(Strings.diamonds),
+            onTap: _oDiamondPressed,
           ),
           ListTile(
             leading: Icon(Icons.attach_money),
@@ -169,6 +171,8 @@ class _HomePageState extends State<HomePage> {
   void _onEarningPressed() => Get.to<void>(DriverEarningPage());
 
   void _onCommissionPressed() => Get.to<void>(CommissionPage());
+
+  void _oDiamondPressed() => Get.to<void>(DiamondPage());
 
   void _onLogOut() async {
     await _appBloc.logOut();

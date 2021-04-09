@@ -85,7 +85,7 @@ class _CapitalPageState extends State<CapitalPage> {
                           onChanged: (value) => setState(() async {
                             _selection = value;
 
-                            dynamic message =
+                            var message =
                                 await _appBloc.setCapital(_selection!.value);
                             _snackbarMessage(context, message);
                           }),
@@ -109,7 +109,7 @@ class _CapitalPageState extends State<CapitalPage> {
 }
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _snackbarMessage(
-    BuildContext context, dynamic message) {
+    BuildContext context, String message) {
   final snackBar = SnackBar(
     content: Text(message.toString()),
   );
