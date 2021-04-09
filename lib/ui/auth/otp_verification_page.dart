@@ -76,9 +76,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () => _onNext(context),
-              child: Text(Strings.next),
+            Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () => _onNext(context),
+                child: Text(Strings.next),
+              ),
             ),
           ],
         ),
@@ -178,7 +180,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ));
           } catch (e) {
             Navigator.pop(builderContext);
-            print('error');
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(Strings.somethingWentWrong),
+            ));
           }
         }.call();
         return Center(
