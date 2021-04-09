@@ -128,6 +128,7 @@ class _DiamondPageState extends State<DiamondPage> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                         child: TextField(
+                          autofocus: true,
                           controller: diamondTextField,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
