@@ -149,4 +149,15 @@ class Repository implements Closable {
         phoneNo: phoneNo,
         password: password,
       );
+
+  Future<void> editProfile({
+    required int driverId,
+    required String name,
+    required String email,
+  }) =>
+      _apiClient.editProfile(
+        driverId: driverId,
+        name: name,
+        email: email,
+      );
 }
