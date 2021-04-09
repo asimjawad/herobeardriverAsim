@@ -198,4 +198,7 @@ class Strings {
   static const msgPasswordLength = 'Password must be at least of 6 characters';
   static const msgEmptyPassword = 'Please Enter Password';
   static const msgPasswordNotMatch = 'Password Does Not Match. Try Again!';
+  static const msgEmptyTransId = 'Please Enter Transaction Id';
+  static const msgEmptyPayout = 'Please Enter Payout Amount';
+  static const msgEmptyDiamondField = 'Please Enter The Number of Diamonds';
 }

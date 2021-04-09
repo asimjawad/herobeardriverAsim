@@ -57,10 +57,10 @@ class LoginPageState extends State<LoginFormWgt> {
                     keyboardType: TextInputType.phone,
                     maxLength: 10,
                     controller: _ctrlPhoneNo,
-                    validator: (_ctrlPhoneNo) {
-                      if (_ctrlPhoneNo!.isEmpty) {
+                    validator: (value) {
+                      if (value!.isEmpty) {
                         return Strings.msgEmptyPhone;
-                      } else if (_ctrlPhoneNo.length < 10) {
+                      } else if (value.length < 10) {
                         return Strings.msgPhoneLength;
                       } else {
                         return null;
@@ -77,10 +77,10 @@ class LoginPageState extends State<LoginFormWgt> {
           ),
           TextFormField(
             controller: _ctrlPwd,
-            validator: (_ctrlPwd) {
-              if (_ctrlPwd!.length > 1 && _ctrlPwd.length < 6) {
+            validator: (value) {
+              if (value!.length > 1 && value.length < 6) {
                 return Strings.msgPasswordLength;
-              } else if (_ctrlPwd.isEmpty) {
+              } else if (value.isEmpty) {
                 return Strings.msgEmptyPassword;
               } else {
                 return null;
@@ -101,10 +101,7 @@ class LoginPageState extends State<LoginFormWgt> {
               child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final dialCode = _selectedDialCode ?? '+33';
-
-                      final phoneNo = dialCode + _ctrlPhoneNo.text;
-                      widget.onLogin?.call(phoneNo, _ctrlPwd.text);
+                      _onLogin();
                     }
                     ;
                   },
@@ -123,18 +120,11 @@ class LoginPageState extends State<LoginFormWgt> {
                   onTap: () {
                     if (_ctrlPhoneNo.text.isNotEmpty) {
                       _onForgotPassword();
-                      // final dialCode = _selectedDialCode ?? '+39';
-                      // final phoneNo = dialCode + _ctrlPhoneNo.text;
-                      // widget.onForgotPassword?.call(phoneNo);
                     }
                     ;
 
                     if (_ctrlPhoneNo.text.isEmpty) {
-                      final snackBar = SnackBar(
-                        content: Text(Strings.msgEmptyPhone),
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      _snackbar(context, Strings.msgEmptyPhone);
                     }
                     ;
                   },
@@ -144,6 +134,14 @@ class LoginPageState extends State<LoginFormWgt> {
         ],
       ),
     );
+  }
+
+  void _snackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void _onLogin() {

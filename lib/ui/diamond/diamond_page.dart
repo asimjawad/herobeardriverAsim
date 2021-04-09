@@ -75,8 +75,7 @@ class _DiamondPageState extends State<DiamondPage> {
             }),
         bottomNavigationBar: BottomAppBar(
             child: GestureDetector(
-          onTap: () =>
-              _diamondDialog(context, _formKey1, colorScheme, diamondTextField),
+          onTap: () => _diamondDialog(context, colorScheme, diamondTextField),
           child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(color: colorScheme.primary),
@@ -89,8 +88,8 @@ class _DiamondPageState extends State<DiamondPage> {
         )));
   }
 
-  Future<void> _diamondDialog(BuildContext context, Key _formKey1,
-      ColorScheme colorScheme, TextEditingController diamondTextField) {
+  Future<void> _diamondDialog(BuildContext context, ColorScheme colorScheme,
+      TextEditingController diamondTextField) {
     final _appBloc = Get.find<AppBloc>();
     return showDialog<void>(
         context: context,
@@ -127,7 +126,7 @@ class _DiamondPageState extends State<DiamondPage> {
                           )),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        child: TextField(
+                        child: TextFormField(
                           autofocus: true,
                           controller: diamondTextField,
                           decoration: InputDecoration(
@@ -139,21 +138,25 @@ class _DiamondPageState extends State<DiamondPage> {
                             ),
                           ),
                           keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return Strings.msgEmptyDiamondField;
+                            }
+                          },
                         ),
                       ),
                       SizedBox(height: 20.0),
                       GestureDetector(
                         onTap: () async {
-                          if (diamondTextField.text.isNotEmpty) {
+                          if (_formKey1.currentState!.validate()) {
                             var message = await _appBloc.requestDiamond(
                                 diamond: diamondTextField.text);
 
                             _snackbarMessage(context, message);
+                            diamondTextField.clear();
                             Navigator.pop(context);
-                          } else {
-                            _snackbarMessage(context, Strings.msgEmptyFields);
+                            setState(() {});
                           }
-                          setState(() {});
                         },
                         child: Container(
                             width: MediaQuery.of(context).size.width,
