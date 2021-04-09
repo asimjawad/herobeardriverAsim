@@ -67,4 +67,19 @@ class EditProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  void _onSave(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        // todo: handle on edit profile here
+        // () async {
+        //
+        // }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
 }

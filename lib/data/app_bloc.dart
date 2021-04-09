@@ -136,7 +136,7 @@ class AppBloc extends DisposableInterface {
     _updateHomeDataStream();
   }
 
-  Future<OrderDetailsModel> orderRequest()async{
+  Future<OrderDetailsModel> orderRequest() async {
     final user = await this.user;
     final response = await _repository.orderRequest(driverId: user.userId);
     return response;
@@ -144,13 +144,14 @@ class AppBloc extends DisposableInterface {
 
   void refreshUserData() async {
     final user = await this.user;
-    _orderDetailsSubject.add(await _repository.orderRequest(driverId: user.userId));
+    _orderDetailsSubject
+        .add(await _repository.orderRequest(driverId: user.userId));
   }
 
   Stream<OrderDetailsModel> getUserDataStream() {
     if (_orderDetailsSubject.valueWrapper == null) {
-          () async {
-            final user = await this.user;
+      () async {
+        final user = await this.user;
         // just copied someone's  pride (-v-)
         try {
           _orderDetailsSubject
@@ -207,6 +208,18 @@ class AppBloc extends DisposableInterface {
         phoneNo: phoneNo,
         password: password,
       );
+
+  Future<void> editProfile({
+    required String name,
+    required String email,
+  }) async {
+    final user = await this.user;
+    await _repository.editProfile(
+      driverId: user.userId,
+      name: name,
+      email: email,
+    );
+  }
 
   void _updateHomeDataStream() async {
     final user = await this.user;
