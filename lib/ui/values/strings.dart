@@ -201,4 +201,9 @@ class Strings {
   static const msgEmptyTransId = 'Please Enter Transaction Id';
   static const msgEmptyPayout = 'Please Enter Payout Amount';
   static const msgEmptyDiamondField = 'Please Enter The Number of Diamonds';
+  static const msgEmptyName = 'Please Enter Name';
+  static const msgEmptyEmail = 'Please Enter Email';
+  static const msgEmptyMobile = 'Please Enter Mobile Number';
+  static const msgInvalidEmail = 'Enter Valid Email Address';
+  static const msgInvalidMobile = 'Enter Valid Phone Number';
 }
