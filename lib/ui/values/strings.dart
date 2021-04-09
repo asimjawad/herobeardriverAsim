@@ -76,8 +76,14 @@ class Strings {
   static const String totalCommission = 'TOTAL COMMISSION';
   static const String paidCommission = 'PAID COMMISSION';
   static const String pendingCommission = 'PENDING COMMISSION';
+  static const String totalDiamonds = 'TOTAL DIAMONDS';
+  static const String withdrawDiamonds = 'WITHDRAW DIAMONDS';
+  static const String withdrawDiamondslabel = 'Withdraw Diamonds';
   static const String status = 'Status';
   static const String createdAt = 'Created at';
+  static const String trans = 'Trans-';
+  static const String transaction = 'Transaction';
+  static const String diamond = 'Diamond:';
 
   static const String driverEarning = 'Driver Earning';
   static const String totalEarning = 'Total Earning';
@@ -85,6 +91,10 @@ class Strings {
   static const String dateTo = 'Date To';
   static const String delieverDate = 'Delievered Date';
   static const String items = 'Items';
+  static const String pending = 'Pending';
+  static const String completed = 'Completed';
+  static const String hintTextDiamonds = 'No. of diamonds';
+  static const String requestPaymentBtn = 'REQUEST PAYMENT';
 
   //user login page
   static const String hintTextPhoneNumber = 'Enter phone number';
@@ -98,13 +108,16 @@ class Strings {
   static const String amountLabel = 'Commission Amount';
   static const String paymentSubmitBtn = 'SUBMIT PAYMENT';
   static const String dialogTitle = 'SUBMIT COMMISSION';
+  static const String submitDiamondsPayment = 'Request For Diamonds Payment';
 
   // lengthy messages
   static const msgLoginText =
       'Enter your registered phone number and email to continue login';
   static const String msgEmptyFields = 'Please Fill Out All The Fields';
-  static const String msgPaymentFail = 'Payment Not Submitted. Try Again!';
-  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
+  static const String msgFailPaymentRequest =
+      'Payment Not Submitted. Try Again!';
+  static const String msgSuccessPaymentRequest =
+      'Payment Submitted Successfully!';
   static const msgLocationWhy =
       'This app requires device location to function.';
   static const String msgCapitalUpdate = 'Capital Value Updated!';
@@ -156,4 +169,10 @@ class Strings {
 
   // loading page
   static const lookingForOrders = 'Looking for Orders';
+  static const String msgSuccessCapitalUpdate = 'Capital Value Updated!';
+  static const String msgFailCapitalUpdate = 'Capital Value Not Updated!';
+  static const String msgSuccessDiamondRequest =
+      'Your Request is submitted you. We will soon inform you when transaction is made.Thanks for patience.!';
+  static const String msgFailDiamondRequest =
+      'You do not have sufficient diamonds in your account. Your current diamonds is 10';
 }
