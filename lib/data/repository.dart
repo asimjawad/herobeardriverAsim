@@ -1,5 +1,6 @@
 import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
+import 'package:hero_bear_driver/data/firebase_auth_client.dart';
 import 'package:hero_bear_driver/data/firebase_db_client.dart';
 import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
@@ -18,6 +19,7 @@ class Repository implements Closable {
   final _firebaseMsgClient = FirebaseMessagingClient();
   final _sharedPrefClient = SharedPrefClient();
   final _firebaseDbClient = FirebaseDbClient();
+  final _firebaseAuthClient = FirebaseAuthClient();
 
   @override
   void close() {
@@ -108,10 +110,16 @@ class Repository implements Closable {
     await _firebaseDbClient.setUserOffline(userId);
   }
 
-  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async {
     final response = await _apiClient.orderRequest(driverId: driverId);
     return response;
   }
+
+  Future<String> sendOtp(String phoneNo, Duration autoretrieveTimeout) =>
+      _firebaseAuthClient.sendOtp(phoneNo, autoretrieveTimeout);
+
+  Future<void> onOtpAutoVerificationComplete() =>
+      _firebaseAuthClient.onOtpAutoVerificationComplete();
 
   // get Driver Reviews
   Future<DriverReviewsModel> getDriverReviews(int userId) =>
@@ -129,4 +137,16 @@ class Repository implements Closable {
     final response = await _apiClient.requestDiamond(userId, diamond: diamond);
     return response;
   }
+
+  Future<void> verifySmsCode(String smsCode) =>
+      _firebaseAuthClient.verifySmsCode(smsCode);
+
+  Future<void> changePassword({
+    required String phoneNo,
+    required String password,
+  }) =>
+      _apiClient.changePassword(
+        phoneNo: phoneNo,
+        password: password,
+      );
 }
