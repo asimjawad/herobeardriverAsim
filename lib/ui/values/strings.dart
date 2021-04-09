@@ -183,5 +183,6 @@ class Strings {
   static const newPassword = 'New Password';
   static const confirmPassword = 'Confirm Password';
   static const enterYourPassword = 'Enter Your Password';
+  static const somethingWentWrong = 'Something went wrong.';
   static const msgEnterVerification = 'Please enter verification code sent to';
 }

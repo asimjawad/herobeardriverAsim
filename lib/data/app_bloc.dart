@@ -199,6 +199,15 @@ class AppBloc extends DisposableInterface {
   Future<void> verifySmsCode(String smsCode) =>
       _repository.verifySmsCode(smsCode);
 
+  Future<void> changePassword({
+    required String phoneNo,
+    required String password,
+  }) =>
+      _repository.changePassword(
+        phoneNo: phoneNo,
+        password: password,
+      );
+
   void _updateHomeDataStream() async {
     final user = await this.user;
     _subjectHomeData.add(await _repository.getHomeData(user.userId));

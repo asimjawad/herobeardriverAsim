@@ -140,4 +140,13 @@ class Repository implements Closable {
 
   Future<void> verifySmsCode(String smsCode) =>
       _firebaseAuthClient.verifySmsCode(smsCode);
+
+  Future<void> changePassword({
+    required String phoneNo,
+    required String password,
+  }) =>
+      _apiClient.changePassword(
+        phoneNo: phoneNo,
+        password: password,
+      );
 }

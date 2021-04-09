@@ -24,6 +24,7 @@ class ApiClient {
   static const _epSetDriverOnline = '/set_driver_online';
   static const _epSetDriverOffline = '/set_driver_offline';
   static const _epRequestDiamonds = '/request_diamonds';
+  static const _epDriverForgotPassword = '/driver_forgot_password';
 
   static const _pPhone = 'phone';
   static const _pPassword = 'password';
@@ -220,10 +221,33 @@ class ApiClient {
   }
 
   //request order
-  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
-    final response = await _dio.get<Map<String, dynamic>>('$_epOrderRequest/$driverId');
-    if(response.statusCode == HttpStatus.ok){
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async {
+    final response =
+        await _dio.get<Map<String, dynamic>>('$_epOrderRequest/$driverId');
+    if (response.statusCode == HttpStatus.ok) {
       return OrderDetailsModel.fromJson(response.data!);
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  Future<void> changePassword({
+    required String phoneNo,
+    required String password,
+  }) async {
+    final response = await _dio.post<dynamic>(
+      _epDriverForgotPassword,
+      data: {
+        _pPhone: phoneNo,
+        _pPassword: password,
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data['status'] == true) {
+        return;
+      }
     }
     throw (Exception(response.statusMessage));
   }

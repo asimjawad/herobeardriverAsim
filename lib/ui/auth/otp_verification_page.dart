@@ -77,7 +77,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () => _onNext(),
+              onPressed: () => _onNext(context),
               child: Text(Strings.next),
             ),
           ],
@@ -89,7 +89,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   void _onceAfterBuild() async {
     try {
       await _appBloc.onOtpAutoVerificationComplete();
-      Get.offAll<void>(() => ChangePasswordPage());
+      Get.offAll<void>(() => ChangePasswordPage(
+            phoneNo: widget.phoneNo,
+          ));
     } catch (e) {
       setState(() => _enableResend = true);
     }
@@ -161,15 +163,29 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     );
   }
 
-  void _onNext() async {
-    try {
-      var smsCode = '';
-      _textControllers.forEach((controller) => smsCode += controller.text);
-      await _appBloc.verifySmsCode(smsCode);
-      Get.offAll<void>(() => ChangePasswordPage());
-    } catch (e) {
-      print('error');
-    }
+  void _onNext(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (builderContext) {
+        () async {
+          try {
+            var smsCode = '';
+            _textControllers
+                .forEach((controller) => smsCode += controller.text);
+            await _appBloc.verifySmsCode(smsCode);
+            Get.offAll<void>(() => ChangePasswordPage(
+                  phoneNo: widget.phoneNo,
+                ));
+          } catch (e) {
+            Navigator.pop(builderContext);
+            print('error');
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
   void _onResendOtp() {
