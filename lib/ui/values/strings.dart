@@ -175,4 +175,19 @@ class Strings {
       'Your Request is submitted you. We will soon inform you when transaction is made.Thanks for patience.!';
   static const String msgFailDiamondRequest =
       'You do not have sufficient diamonds in your account. Your current diamonds is 10';
+
+  // otp verification pages
+  static const verificationCode = 'Verfication Code';
+  static const resendOtp = 'Resend Otp';
+  static const next = 'Next';
+  static const newPassword = 'New Password';
+  static const confirmPassword = 'Confirm Password';
+  static const enterYourPassword = 'Enter Your Password';
+  static const somethingWentWrong = 'Something went wrong.';
+  static const msgEnterVerification = 'Please enter verification code sent to';
+  static const msgPhoneLength = 'Phone No Must be of 10 Characters';
+  static const msgEmptyPhone = 'Please Enter Phone Number';
+  static const msgPasswordLength = 'Password must be at least of 6 characters';
+  static const msgEmptyPassword = 'Please Enter Password';
+  static const msgPasswordNotMatch = 'Password Does Not Match. Try Again!';
 }

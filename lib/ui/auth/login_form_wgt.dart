@@ -52,13 +52,14 @@ class LoginPageState extends State<LoginFormWgt> {
                 ),
                 Flexible(
                   child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
                     controller: _ctrlPhoneNo,
                     validator: (_ctrlPhoneNo) {
                       if (_ctrlPhoneNo!.isEmpty) {
-                        return 'Please Enter Phone Number';
-                      } else if (_ctrlPhoneNo.length > 10 ||
-                          _ctrlPhoneNo.length < 10) {
-                        return 'Phone Must be of 10 Characters Only';
+                        return Strings.msgEmptyPhone;
+                      } else if (_ctrlPhoneNo.length < 10) {
+                        return Strings.msgPhoneLength;
                       } else {
                         return null;
                       }
@@ -76,9 +77,9 @@ class LoginPageState extends State<LoginFormWgt> {
             controller: _ctrlPwd,
             validator: (_ctrlPwd) {
               if (_ctrlPwd!.length > 1 && _ctrlPwd.length < 6) {
-                return 'Password must be at least of 6 characters';
+                return Strings.msgPasswordLength;
               } else if (_ctrlPwd.isEmpty) {
-                return 'Please Enter Password';
+                return Strings.msgEmptyPassword;
               } else {
                 return null;
               }
@@ -117,7 +118,24 @@ class LoginPageState extends State<LoginFormWgt> {
           Align(
               alignment: Alignment.bottomRight,
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    if (_ctrlPhoneNo.text.isNotEmpty) {
+                      _onForgotPassword();
+                      // final dialCode = _selectedDialCode ?? '+39';
+                      // final phoneNo = dialCode + _ctrlPhoneNo.text;
+                      // widget.onForgotPassword?.call(phoneNo);
+                    }
+                    ;
+
+                    if (_ctrlPhoneNo.text.isEmpty) {
+                      final snackBar = SnackBar(
+                        content: Text(Strings.msgEmptyPhone),
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    ;
+                  },
                   child: Text(Strings.forgotPassword,
                       style: Styles.appTheme.accentTextTheme.headline5
                           ?.copyWith(color: colorScheme.onBackground))))
@@ -127,9 +145,14 @@ class LoginPageState extends State<LoginFormWgt> {
   }
 
   void _onLogin() {
-    final dialCode = _selectedDialCode ?? '+33';
-
+    final dialCode = _selectedDialCode ?? '+39';
     final phoneNo = dialCode + _ctrlPhoneNo.text;
     widget.onLogin?.call(phoneNo, _ctrlPwd.text);
+  }
+
+  void _onForgotPassword() {
+    final dialCode = _selectedDialCode ?? '+39';
+    final phoneNo = dialCode + _ctrlPhoneNo.text;
+    widget.onForgotPassword?.call(phoneNo);
   }
 }
