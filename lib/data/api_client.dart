@@ -13,7 +13,6 @@ import 'models/order_details_model/order_details_model.dart';
 
 class ApiClient {
   static const _baseUrl = 'https://portal.herobear.com.ph/api';
-
   static const _epDriverLogin = '/driver_login';
   static const _epHomeScreenData = '/home_screen_data';
   static const _epDriverEarningHistory = '/driver_earning_history';
