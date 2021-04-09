@@ -53,6 +53,16 @@ class LoginPageState extends State<LoginFormWgt> {
                 Flexible(
                   child: TextFormField(
                     controller: _ctrlPhoneNo,
+                    validator: (_ctrlPhoneNo) {
+                      if (_ctrlPhoneNo!.isEmpty) {
+                        return 'Please Enter Phone Number';
+                      } else if (_ctrlPhoneNo.length > 10 ||
+                          _ctrlPhoneNo.length < 10) {
+                        return 'Phone Must be of 10 Characters Only';
+                      } else {
+                        return null;
+                      }
+                    },
                     decoration: const InputDecoration(),
                   ),
                 ),
@@ -64,6 +74,15 @@ class LoginPageState extends State<LoginFormWgt> {
           ),
           TextFormField(
             controller: _ctrlPwd,
+            validator: (_ctrlPwd) {
+              if (_ctrlPwd!.length > 1 && _ctrlPwd.length < 6) {
+                return 'Password must be at least of 6 characters';
+              } else if (_ctrlPwd.isEmpty) {
+                return 'Please Enter Password';
+              } else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
                 hintText: Strings.hintTextPassword,
                 suffixIcon: Icon(
@@ -77,7 +96,15 @@ class LoginPageState extends State<LoginFormWgt> {
               width: MediaQuery.of(context).size.width,
               height: 50.0,
               child: ElevatedButton(
-                  onPressed: _onLogin,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      final dialCode = _selectedDialCode ?? '+33';
+
+                      final phoneNo = dialCode + _ctrlPhoneNo.text;
+                      widget.onLogin?.call(phoneNo, _ctrlPwd.text);
+                    }
+                    ;
+                  },
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(MyColors.yellow400)),
