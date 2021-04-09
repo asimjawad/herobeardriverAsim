@@ -4,9 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
-import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
+import 'package:hero_bear_driver/ui/home/bottom_sheet_check_wgt.dart';
 import 'package:hero_bear_driver/ui/home/user_dashboard_wgt.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
+import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class HomeMapPage extends StatefulWidget {
@@ -186,6 +189,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
               () async {
                 try {
                   await _appBloc.setUserOnline();
+                  _checkOrderRequest();
                   setState(() {});
                 } catch (e) {}
                 Navigator.pop(builderContext2);
@@ -216,5 +220,43 @@ class _HomeMapPageState extends State<HomeMapPage> {
         );
       },
     );
+  }
+
+  void _checkOrderRequest() async {
+    // await _appBloc.setOrderAcceptedStatus(true);
+    /*await _appBloc.setOrderAcceptedStatus(false);
+    await _appBloc.setOrderDeliveryStatus(true);*/
+    final reqData = await _appBloc.orderRequest();
+    if (reqData.data != null) {
+      //ftech data for obj
+      await _appBloc.fetchOrderRequestData();
+      final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
+      if (acceptedStatus == null) {
+        await Get.to<void>(OrderConfirmPage());
+      } else if (acceptedStatus) {
+        // if order was accepted
+        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
+        // check if order is picked or not
+        if (deliveryStatus == null) {
+          await Get.to<void>(() => PickOrderPage());
+        } else if (deliveryStatus) {
+          await Get.to<void>(DeliverOrderPage());
+          print('a');
+        } else {
+          await Get.to<void>(() => PickOrderPage());
+          print('a');
+        }
+      } else {
+        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
+        if (deliveryStatus == null) {
+        } else if (deliveryStatus) {
+          await Get.to<void>(DeliverOrderPage());
+          print('a');
+        } else {
+          print('a');
+        }
+        print('a');
+      }
+    }
   }
 }

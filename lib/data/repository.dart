@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
 import 'package:hero_bear_driver/data/firebase_db_client.dart';
@@ -10,6 +12,7 @@ import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/shared_pref_client.dart';
 
+import 'models/get_reason_model/get_reason_model.dart';
 import 'models/order_details_model/order_details_model.dart';
 
 class Repository implements Closable {
@@ -58,11 +61,9 @@ class Repository implements Closable {
   Future<CommissionModel> getCommissionData(int userId) =>
       _apiClient.getCommissionData(userId);
 
-  Future<EarningModel> getDriverEarningHistory(
-    int userId,
-    DateTime startDate,
-    DateTime endDate,
-  ) async {
+  Future<EarningModel> getDriverEarningHistory(int userId,
+      DateTime startDate,
+      DateTime endDate,) async {
     final earningHistory = await _apiClient.getDriverEarningHistory(
       userId,
       startDate,
@@ -71,16 +72,13 @@ class Repository implements Closable {
     return earningHistory;
   }
 
-  Future<bool> setCapital(
-    int userId,
-    double capital,
-  ) async {
+  Future<bool> setCapital(int userId,
+      double capital,) async {
     var response = await _apiClient.setCapital(userId, capital);
     return response;
   }
 
-  Future<bool> submitPayment(
-    int userId, {
+  Future<bool> submitPayment(int userId, {
     required String payoutAmount,
     required String transactionId,
   }) async {
@@ -107,7 +105,7 @@ class Repository implements Closable {
     await _firebaseDbClient.setUserOffline(userId);
   }
 
-  Future<OrderDetailsModel> orderRequest({required int driverId}) async{
+  Future<OrderDetailsModel> orderRequest({required int driverId}) async {
     final response = await _apiClient.orderRequest(driverId: driverId);
     return response;
   }
@@ -115,4 +113,50 @@ class Repository implements Closable {
   // get Driver Reviews
   Future<DriverReviewsModel> getDriverReviews(int userId) =>
       _apiClient.getDriverReviews(userId);
+
+  // get reasons
+  Future<GetReasonModel> getReason() async {
+    final response = await _apiClient.getReason();
+    return response;
+  }
+
+  //set order status
+  Future<void> setOrderAcceptedStatus(bool res) async {
+    await _sharedPrefClient.setOrderAcceptedStatus(res);
+  }
+
+  // get order status
+  Future<bool?> getOrderAcceptedStatus() async {
+    return await _sharedPrefClient.getOrderAcceptedStatus();
+  }
+
+  //set order delivery status
+  Future<void> setOrderDeliveryStatus(bool res) async {
+    await _sharedPrefClient.setOrderDeliveryStatus(res);
+  }
+
+  // get order delivery status
+  Future<bool?> getOrderDeliveryStatus() async {
+    return await _sharedPrefClient.getOrderDeliveryStatus();
+  }
+
+  //order accept from restaurant
+  Future<bool> orderAcceptByDriver(
+      {required int driverId,
+      required String orderNo,
+      required File image,
+      required String status}) async {
+    return await _apiClient.orderAcceptByDriver(
+        driverId: driverId, orderNo: orderNo, image: image, status: status);
+  }
+
+  //order complete by driver
+  Future<bool> orderCompleteByDriver(
+      {required int driverId,
+      required String orderNo,
+      required File image,
+      required int userId}) async {
+    return await _apiClient.orderCompleteByDriver(
+        driverId: driverId, orderNo: orderNo, image: image, userId: userId);
+  }
 }

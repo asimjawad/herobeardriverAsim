@@ -1,20 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class PickPhotoAndConfirmDialog extends StatefulWidget {
-
   File? selectedPhoto;
   final double total;
-  @override
-  _PickPhotoAndConfirmDialogState createState() => _PickPhotoAndConfirmDialogState();
+  final void Function() func;
+  final void Function(File a) photoCallBack;
 
-  PickPhotoAndConfirmDialog({required this.total});
+  @override
+  _PickPhotoAndConfirmDialogState createState() =>
+      _PickPhotoAndConfirmDialogState();
+
+  PickPhotoAndConfirmDialog(
+      {required this.total, required this.func, required this.photoCallBack});
 }
 
 class _PickPhotoAndConfirmDialogState extends State<PickPhotoAndConfirmDialog> {
   final picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,14 +92,16 @@ class _PickPhotoAndConfirmDialogState extends State<PickPhotoAndConfirmDialog> {
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     backgroundColor: Colors.black,
                                     content: Text(
-                                      'Select Your date of birth',
-                                      style: Styles.appTheme.textTheme.bodyText1!
+                                      'Select a Photo',
+                                      style: Styles
+                                          .appTheme.textTheme.bodyText1!
                                           .copyWith(color: Colors.orange),
                                     ),
                                     duration: Duration(milliseconds: 2000),
                                   ));
                                 }else{
                                   //todo: proceed to the next page
+                                  widget.func();
                                 }
                               },
                               child: Container(
@@ -119,11 +127,13 @@ class _PickPhotoAndConfirmDialogState extends State<PickPhotoAndConfirmDialog> {
       ),
     );
   }
+
   Future<void> openCamera()async{
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
         widget.selectedPhoto = File(pickedFile.path);
+        widget.photoCallBack(widget.selectedPhoto!);
       } else {
         print('No image selected.');
       }

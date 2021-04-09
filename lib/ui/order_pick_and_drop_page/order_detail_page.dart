@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 
@@ -12,13 +14,17 @@ class OrderDetailPage extends StatelessWidget {
   final String _comment = 'what the fuck i am doing';
   final int _quantity = 3;
   final String _dishName = 'Pizza O Blyat';
+  final _appBloc = Get.find<AppBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backwardsCompatibility: false,
         centerTitle: false,
-        title: Text(Strings.orderDetail,),
+        title: Text(
+          Strings.orderDetail,
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -32,7 +38,11 @@ class OrderDetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimens.insetS),
-                child: Text(_customerName,style: Styles.appTheme.textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w700),),
+                child: Text(
+                  _appBloc.orderDetailsModel.data!.orders[0].user.name,
+                  style: Styles.appTheme.textTheme.bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimens.insetS),
@@ -59,17 +69,20 @@ class OrderDetailPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('$_noOfItems ${Strings.item}'),
+                    Text(
+                        '${_appBloc.orderDetailsModel.data!.orders[0].orderProduct[0].qty} ${Strings.item}'),
                     Padding(
                       padding: const EdgeInsets.only(right: Dimens.insetM),
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:[
-                          Text(Strings.subTotal),
-                          SizedBox(width: _sizedBoxW,),
-                          Text('${Strings.sCurrency}$_total'),
-                        ]
-                      ),
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(Strings.subTotal),
+                            SizedBox(
+                              width: _sizedBoxW,
+                            ),
+                            Text(
+                                '${Strings.sCurrency}${_appBloc.orderDetailsModel.data!.orders[0].subTotal}'),
+                          ]),
                     ),
                   ],
                 ),
@@ -78,11 +91,18 @@ class OrderDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: Dimens.insetM),
                 child: ShowlineFull(widthMax: true, color: Colors.black54),
               ),
-              Expanded(child: ListView.builder(itemBuilder: (BuildContext context, index){
-                return _Container(comment: _comment,quantity: _quantity,dishName: _dishName,);
-              },
-                itemCount: _itemCount,
-              ),
+              Expanded(child: ListView.builder(
+                itemBuilder: (BuildContext context, index) {
+                    return _Container(
+                      comment: _comment,
+                      quantity: int.parse(_appBloc.orderDetailsModel.data!
+                          .orders[0].orderProduct[0].qty),
+                      dishName: _appBloc.orderDetailsModel.data!.orders[0]
+                          .orderProduct[0].product!.name,
+                    );
+                  },
+                  itemCount: _appBloc.orderDetailsModel.count,
+                ),
               ),
             ],
           ),
@@ -101,7 +121,11 @@ class OrderDetailPage extends StatelessWidget {
               // height: 20,
               // width: 20,
               color: MyColors.yellow400,
-              child: Text('${_quantity}x',style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.white),),
+              child: Text(
+                '${quantity}x',
+                style: Styles.appTheme.textTheme.bodyText1
+                    ?.copyWith(color: Colors.white),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: Dimens.insetXs),
@@ -111,7 +135,11 @@ class OrderDetailPage extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: Dimens.insetXs),
-          child: Text(comment,style: Styles.appTheme.textTheme.bodyText2?.copyWith(color: Colors.black54),),
+          child: Text(
+            ' ',
+            style: Styles.appTheme.textTheme.bodyText2
+                ?.copyWith(color: Colors.black54),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(Dimens.insetS),

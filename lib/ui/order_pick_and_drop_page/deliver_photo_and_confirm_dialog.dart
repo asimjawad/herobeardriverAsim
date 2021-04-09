@@ -1,16 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class DeliverPhotoAndConfirmDialog extends StatefulWidget {
-
   File? selectedPhoto;
   final double total;
-  @override
-  _DeliverPhotoAndConfirmDialogState createState() => _DeliverPhotoAndConfirmDialogState();
+  final void Function(File a) imageCallBack;
+  final void Function() callApi;
 
-  DeliverPhotoAndConfirmDialog({required this.total});
+  @override
+  _DeliverPhotoAndConfirmDialogState createState() =>
+      _DeliverPhotoAndConfirmDialogState();
+
+  DeliverPhotoAndConfirmDialog(
+      {required this.total,
+      required this.imageCallBack,
+      required this.callApi});
 }
 
 class _DeliverPhotoAndConfirmDialogState extends State<DeliverPhotoAndConfirmDialog> {
@@ -22,6 +29,7 @@ class _DeliverPhotoAndConfirmDialogState extends State<DeliverPhotoAndConfirmDia
   final double _containerC = 10;
   final double _containerW = 100;
   final double _containerWs = 50;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +108,7 @@ class _DeliverPhotoAndConfirmDialogState extends State<DeliverPhotoAndConfirmDia
                                     duration: Duration(milliseconds: 2000),
                                   ));
                                 }else{
-                                  //todo: proceed to the next page
+                                  widget.callApi();
                                 }
                               },
                               child: Container(
@@ -126,11 +134,13 @@ class _DeliverPhotoAndConfirmDialogState extends State<DeliverPhotoAndConfirmDia
       ),
     );
   }
+
   Future<void> openCamera()async{
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
         widget.selectedPhoto = File(pickedFile.path);
+        widget.imageCallBack(widget.selectedPhoto!);
       } else {
         print('No image selected.');
       }

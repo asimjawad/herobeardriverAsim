@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:hero_bear_driver/ui/values/values.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
-import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 import 'package:get/get.dart';
-import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pending_orders_page.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/ui/home/home_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_photo_and_confirm_dialog.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pending_orders_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
+import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeliverOrderPage extends StatelessWidget {
   final double _iconSize = 25;
@@ -18,6 +22,9 @@ class DeliverOrderPage extends StatelessWidget {
   final String _address = 'this is the address';
   static const double _rowV = 20;
   final String _phone = '03036308035';
+  final _appBloc = Get.find<AppBloc>();
+  File? imageSelected;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +34,7 @@ class DeliverOrderPage extends StatelessWidget {
           Center(
             child: InkWell(
               onTap: () {
-                Get.to<void>(()=> PendingOrdersPage());
+                Get.to<void>(() => PendingOrdersPage());
               },
               child: Icon(
                 Icons.list,
@@ -67,28 +74,36 @@ class DeliverOrderPage extends StatelessWidget {
                       // mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children:[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(Strings.deliverFor,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.black54),),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: Dimens.insetS),
-                                  child: Text(_name,style: Styles.appTheme.textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w800),),
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                _makePhoneCall('tel:$_phone');
-                              },
-                              child: Container(
-                                child:
-                                Center(child: Icon(Icons.phone,size: _iconSizeL,color: Colors.black54,),),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children:[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(Strings.deliverFor,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.black54),),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: Dimens.insetS),
+                                    child: Text(
+                                      _appBloc.orderDetailsModel.data!.orders[0]
+                                          .user.name,
+                                      style: Styles.appTheme.textTheme.bodyText2
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w800),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ]
+                              GestureDetector(
+                                onTap: (){
+                                  _makePhoneCall(
+                                      'tel:${_appBloc.orderDetailsModel.data!.orders[0].user.phone}');
+                                },
+                                child: Container(
+                                  child:
+                                  Center(child: Icon(Icons.phone,size: _iconSizeL,color: Colors.black54,),),
+                                ),
+                              ),
+                            ]
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(
@@ -105,8 +120,13 @@ class DeliverOrderPage extends StatelessWidget {
                                 children: [
                                   Text(Strings.address,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color:Colors.black54,fontWeight: FontWeight.w800),),
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: Dimens.insetS),
-                                    child: Text('$_address',style: Styles.appTheme.textTheme.bodyText2?.copyWith(color: Colors.black54),),
+                                    padding: const EdgeInsets.only(
+                                        bottom: Dimens.insetS),
+                                    child: Text(
+                                      '${_appBloc.orderDetailsModel.data!.orders[0].deliveryAddress}',
+                                      style: Styles.appTheme.textTheme.bodyText2
+                                          ?.copyWith(color: Colors.black54),
+                                    ),
                                   ),
                                   GestureDetector(
                                     onTap: (){
@@ -143,8 +163,18 @@ class DeliverOrderPage extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Leave it at the door',style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.black54,fontWeight: FontWeight.w800),),
-                                  Text('Leave at my door knock at the door',style: Styles.appTheme.textTheme.bodyText2?.copyWith(color: Colors.black54),),
+                                  Text(
+                                    Strings.leaveAtTheDoor,
+                                    style: Styles.appTheme.textTheme.bodyText1
+                                        ?.copyWith(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w800),
+                                  ),
+                                  Text(
+                                    Strings.leaveAtMyDoorknockTheDoor,
+                                    style: Styles.appTheme.textTheme.bodyText2
+                                        ?.copyWith(color: Colors.black54),
+                                  ),
                                 ],
                               ),
                             ],
@@ -208,11 +238,36 @@ class DeliverOrderPage extends StatelessWidget {
       ),
     );
   }
-  void OrderDeliveredDialog(BuildContext context){
-    showDialog<void>(context: context, builder: (context){
-      return DeliverPhotoAndConfirmDialog(total: 12.22,);
-    });
+
+  void OrderDeliveredDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        builder: (context) {
+          return DeliverPhotoAndConfirmDialog(
+            total:
+                double.parse(_appBloc.orderDetailsModel.data!.orders[0].total),
+            callApi: ordeCompleteByDriver,
+            imageCallBack: imageCallBack,
+          );
+        });
   }
+
+  void ordeCompleteByDriver() async {
+    final res = await _appBloc.orderCompleteByDriver(
+        orderNo: _appBloc.orderDetailsModel.orderNos![0],
+        image: imageSelected!,
+        userId: int.parse(_appBloc.orderDetailsModel.data!.orders[0].userId));
+    if (res == true) {
+      await _appBloc.setOrderAcceptedStatus(false);
+      await _appBloc.setOrderDeliveryStatus(false);
+      await Get.to<void>(() => HomePage());
+    }
+  }
+
+  void imageCallBack(File a) {
+    imageSelected = a;
+  }
+
   Future<void> _makePhoneCall(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -220,6 +275,7 @@ class DeliverOrderPage extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+
   void _launchMapsUrl(double lat, double lon) async {
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
     if (await canLaunch(url)) {
