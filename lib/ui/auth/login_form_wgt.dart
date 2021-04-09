@@ -4,9 +4,11 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 
 class LoginFormWgt extends StatefulWidget {
   void Function(String phoneNo, String email)? onLogin;
+  void Function(String phoneNo)? onForgotPassword;
 
   LoginFormWgt({
     this.onLogin,
+    this.onForgotPassword,
   });
 
   @override

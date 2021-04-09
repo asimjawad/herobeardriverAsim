@@ -4,6 +4,7 @@ import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/ui/auth/change_password_page.dart';
 import 'package:hero_bear_driver/ui/auth/login_form_wgt.dart';
+import 'package:hero_bear_driver/ui/auth/otp_verification_page.dart';
 import 'package:hero_bear_driver/ui/home/home_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
@@ -43,6 +44,8 @@ class LoginPage extends StatelessWidget {
             ),
             LoginFormWgt(
               onLogin: (phoneNo, pwd) => _onLogin(context, phoneNo, pwd),
+              onForgotPassword: (phoneNo) =>
+                  _onForgotPassword(context, phoneNo),
             ),
           ],
         ),

@@ -41,6 +41,11 @@ class Strings {
   static const reviews = 'Reviews';
   static const trips = 'Trips';
   static const years = 'Years';
+  static const editProfile = 'Edit Profile';
+  static const fullName = 'Full Name';
+  static const emailAddress = 'Email Address';
+  static const mobileNumber = 'Mobile Number';
+  static const save = 'Save';
 
   // capital page
   static const selectCapital = 'Select Capital';
@@ -175,6 +180,17 @@ class Strings {
       'Your Request is submitted you. We will soon inform you when transaction is made.Thanks for patience.!';
   static const String msgFailDiamondRequest =
       'You do not have sufficient diamonds in your account. Your current diamonds is 10';
+
+  // otp verification pages
+  static const verificationCode = 'Verfication Code';
+  static const resendOtp = 'Resend Otp';
+  static const next = 'Next';
+  static const newPassword = 'New Password';
+  static const confirmPassword = 'Confirm Password';
+  static const enterYourPassword = 'Enter Your Password';
+  static const somethingWentWrong = 'Something went wrong.';
+  static const msgEnterVerification = 'Please enter verification code sent to';
+  static const msgFillFields = 'Please fill all fields';
 
   // otp verification pages
   static const verificationCode = 'Verfication Code';

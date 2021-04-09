@@ -50,6 +50,9 @@ class _DriverEarningPageState extends State<DriverEarningPage> {
 
   Widget _buildContent(BuildContext context, EarningModel? earning) {
     final colorScheme = Theme.of(context).colorScheme;
+    if (earning != null) {
+      amount = earning.totalEarning;
+    }
     return Container(
       padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
       child: Column(
