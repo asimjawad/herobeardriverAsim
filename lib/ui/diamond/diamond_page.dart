@@ -130,10 +130,14 @@ class _DiamondPageState extends State<DiamondPage> {
                         child: TextField(
                           controller: diamondTextField,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: Strings.hintTextDiamonds,
-                              hintStyle: Styles.appTheme.textTheme.headline6
-                                  ?.copyWith(fontWeight: FontWeight.normal)),
+                            border: OutlineInputBorder(),
+                            hintText: Strings.hintTextDiamonds,
+                            hintStyle:
+                                Styles.appTheme.textTheme.headline6?.copyWith(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                       SizedBox(height: 20.0),
