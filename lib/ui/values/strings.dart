@@ -41,6 +41,11 @@ class Strings {
   static const reviews = 'Reviews';
   static const trips = 'Trips';
   static const years = 'Years';
+  static const editProfile = 'Edit Profile';
+  static const fullName = 'Full Name';
+  static const emailAddress = 'Email Address';
+  static const mobileNumber = 'Mobile Number';
+  static const save = 'Save';
 
   // capital page
   static const selectCapital = 'Select Capital';
@@ -185,4 +190,5 @@ class Strings {
   static const enterYourPassword = 'Enter Your Password';
   static const somethingWentWrong = 'Something went wrong.';
   static const msgEnterVerification = 'Please enter verification code sent to';
+  static const msgFillFields = 'Please fill all fields';
 }

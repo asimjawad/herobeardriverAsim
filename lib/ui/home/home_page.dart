@@ -10,6 +10,7 @@ import 'package:hero_bear_driver/ui/commission/commission_page.dart';
 import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
+import 'package:hero_bear_driver/ui/loading_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/no_internet_wgt.dart';
@@ -54,8 +55,9 @@ class _HomePageState extends State<HomePage> {
             onTap: _onProfilePressed,
           ),
           ListTile(
-            leading: Icon(Icons.close),
+            leading: Icon(Icons.search),
             title: Text(Strings.lookingOrders),
+            onTap: _onLookingOrders,
           ),
           ListTile(
             leading: Icon(Icons.attach_money),
@@ -68,7 +70,7 @@ class _HomePageState extends State<HomePage> {
             onTap: _onCapitalPressed,
           ),
           ListTile(
-            leading: Icon(Icons.close),
+            leading: Icon(Icons.auto_awesome),
             title: Text(Strings.diamonds),
             onTap: _oDiamondPressed,
           ),
@@ -97,9 +99,17 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipOval(
-                child: Container(
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
                   color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                width: _sizeProfileBadge,
+                height: _sizeProfileBadge,
+                child: Image.network(
+                  user.image,
+                  fit: BoxFit.cover,
                   width: _sizeProfileBadge,
                   height: _sizeProfileBadge,
                 ),
@@ -173,6 +183,8 @@ class _HomePageState extends State<HomePage> {
   void _onCommissionPressed() => Get.to<void>(CommissionPage());
 
   void _oDiamondPressed() => Get.to<void>(DiamondPage());
+
+  void _onLookingOrders() => Get.to<void>(() => LoadingPage());
 
   void _onLogOut() async {
     await _appBloc.logOut();

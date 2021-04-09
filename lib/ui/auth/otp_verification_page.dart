@@ -159,6 +159,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 onFilled?.call();
               }
             },
+            keyboardType: TextInputType.number,
           ),
         ),
       ),
@@ -166,30 +167,35 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   }
 
   void _onNext(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (builderContext) {
-        () async {
-          try {
-            var smsCode = '';
-            _textControllers
-                .forEach((controller) => smsCode += controller.text);
-            await _appBloc.verifySmsCode(smsCode);
-            Get.offAll<void>(() => ChangePasswordPage(
-                  phoneNo: widget.phoneNo,
-                ));
-          } catch (e) {
-            Navigator.pop(builderContext);
-            Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(Strings.somethingWentWrong),
-            ));
-          }
-        }.call();
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+    var smsCode = '';
+    _textControllers.forEach((controller) => smsCode += controller.text);
+    if (smsCode.length == _otpCharCount) {
+      showDialog<void>(
+        context: context,
+        builder: (builderContext) {
+          () async {
+            try {
+              await _appBloc.verifySmsCode(smsCode);
+              Get.offAll<void>(() => ChangePasswordPage(
+                    phoneNo: widget.phoneNo,
+                  ));
+            } catch (e) {
+              Navigator.pop(builderContext);
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text(Strings.somethingWentWrong),
+              ));
+            }
+          }.call();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+    } else {
+      Scaffold.of(context).showSnackBar((SnackBar(
+        content: Text(Strings.msgFillFields),
+      )));
+    }
   }
 
   void _onResendOtp() {

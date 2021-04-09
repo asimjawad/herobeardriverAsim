@@ -67,7 +67,9 @@ class ApiClient {
       ),
     );
     if (response.statusCode == HttpStatus.ok) {
-      return UserLoginModel.fromJson(response.data!);
+      final user = UserLoginModel.fromJson(response.data!);
+      user.image = _BaseUrls.driverImages + user.image;
+      return user;
     }
     throw (Exception(response.statusMessage));
   }
@@ -149,7 +151,9 @@ class ApiClient {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      return DriverReviewsModel.fromJson(response.data!);
+      final driver = DriverReviewsModel.fromJson(response.data!);
+      driver.data.image = _BaseUrls.driverImages + driver.data.image;
+      return driver;
     }
     throw (Exception(response.statusMessage));
   }
@@ -251,4 +255,9 @@ class ApiClient {
     }
     throw (Exception(response.statusMessage));
   }
+}
+
+class _BaseUrls {
+  static const driverImages =
+      'https://portal.herobear.com.ph/images/driver_images/';
 }
