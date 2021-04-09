@@ -1,5 +1,6 @@
 import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
+import 'package:hero_bear_driver/data/firebase_auth_client.dart';
 import 'package:hero_bear_driver/data/firebase_db_client.dart';
 import 'package:hero_bear_driver/data/firebase_messaging_client.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
@@ -10,7 +11,6 @@ import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/shared_pref_client.dart';
-import 'package:hero_bear_driver/data/firebase_auth_client.dart';
 
 import 'models/order_details_model/order_details_model.dart';
 
@@ -137,4 +137,7 @@ class Repository implements Closable {
     final response = await _apiClient.requestDiamond(userId, diamond: diamond);
     return response;
   }
+
+  Future<void> verifySmsCode(String smsCode) =>
+      _firebaseAuthClient.verifySmsCode(smsCode);
 }

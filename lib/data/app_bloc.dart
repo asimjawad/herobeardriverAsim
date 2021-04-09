@@ -7,11 +7,11 @@ import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
 import 'package:hero_bear_driver/data/models/online_model.dart';
+import 'package:hero_bear_driver/data/models/order_details_model/order_details_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
 import 'package:hero_bear_driver/ui/values/strings.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:hero_bear_driver/data/models/order_details_model/order_details_model.dart';
 
 class AppBloc extends DisposableInterface {
   final _repository = Repository();
@@ -175,11 +175,6 @@ class AppBloc extends DisposableInterface {
   Future<void> onOtpAutoVerificationComplete() =>
       _repository.onOtpAutoVerificationComplete();
 
-  void _updateHomeDataStream() async {
-    final user = await this.user;
-    _subjectHomeData.add(await _repository.getHomeData(user.userId));
-  }
-
   // Get Diamonds
   Future<DiamondsModel> getDiamonds() async {
     final user = await this.user;
@@ -199,5 +194,13 @@ class AppBloc extends DisposableInterface {
       message = Strings.msgFailDiamondRequest;
     }
     return message;
+  }
+
+  Future<void> verifySmsCode(String smsCode) =>
+      _repository.verifySmsCode(smsCode);
+
+  void _updateHomeDataStream() async {
+    final user = await this.user;
+    _subjectHomeData.add(await _repository.getHomeData(user.userId));
   }
 }

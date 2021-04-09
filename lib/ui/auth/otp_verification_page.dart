@@ -5,12 +5,10 @@ import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/auth/change_password_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
-class OtpVerificationPage extends StatelessWidget {
-  final _appBloc = Get.find<AppBloc>();
+class OtpVerificationPage extends StatefulWidget {
   final String phoneNo;
   final String verificationId;
   final Duration timeOut;
-  final focusNodes = List.generate(6, (index) => FocusNode());
 
   OtpVerificationPage({
     required this.phoneNo,
@@ -19,8 +17,28 @@ class OtpVerificationPage extends StatelessWidget {
   });
 
   @override
+  _OtpVerificationPageState createState() => _OtpVerificationPageState();
+}
+
+class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  static const _otpCharCount = 6;
+  static const _styleDisabledText = TextStyle(
+    color: Colors.grey,
+  );
+  final _appBloc = Get.find<AppBloc>();
+  final _focusNodes = List.generate(_otpCharCount, (_) => FocusNode());
+  final _textControllers =
+      List.generate(_otpCharCount, (_) => TextEditingController());
+  bool _enableResend = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _onceAfterBuild());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _afterBuild());
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -47,9 +65,13 @@ class OtpVerificationPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text(
-              Strings.resendOtp,
-              textAlign: TextAlign.end,
+            InkWell(
+              onTap: _onResendOtp,
+              child: Text(
+                Strings.resendOtp,
+                textAlign: TextAlign.end,
+                style: _enableResend ? null : _styleDisabledText,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -64,10 +86,13 @@ class OtpVerificationPage extends StatelessWidget {
     );
   }
 
-  void _afterBuild() async {
+  void _onceAfterBuild() async {
     try {
       await _appBloc.onOtpAutoVerificationComplete();
-    } catch (e) {}
+      Get.offAll<void>(() => ChangePasswordPage());
+    } catch (e) {
+      setState(() => _enableResend = true);
+    }
   }
 
   Widget _buildOtpRow(BuildContext context) {
@@ -76,27 +101,36 @@ class OtpVerificationPage extends StatelessWidget {
       alignment: WrapAlignment.center,
       runSpacing: Dimens.insetM,
       children: [
-        ...List.generate(focusNodes.length, (index) => index).map((index) =>
-            _buildOtpCell(context, node: focusNodes[index], onFilled: () {
-              // exclude last node
-              if (index < focusNodes.length - 1) {
-                focusNodes[index + 1].requestFocus();
-              }
-            }, onClear: () {
-              // exclude first node
-              if (index > 0) {
-                focusNodes[index - 1].requestFocus();
-              }
-            })),
+        ...List.generate(_otpCharCount, (index) => index)
+            .map((index) => _buildOtpCell(
+                  context,
+                  node: _focusNodes[index],
+                  onFilled: () {
+                    // exclude last node
+                    if (index < _focusNodes.length - 1) {
+                      _focusNodes[index + 1].requestFocus();
+                    }
+                  },
+                  onClear: () {
+                    // exclude first node
+                    if (index > 0) {
+                      _focusNodes[index - 1].requestFocus();
+                    }
+                  },
+                  autoFocus: index == 0,
+                  controller: _textControllers[index],
+                )),
       ],
     );
   }
 
-  Widget _buildOtpCell(
+  static Widget _buildOtpCell(
     BuildContext context, {
     FocusNode? node,
     void Function()? onFilled,
     void Function()? onClear,
+    bool autoFocus = false,
+    TextEditingController? controller,
   }) {
     return SizedBox(
       height: 50,
@@ -105,6 +139,8 @@ class OtpVerificationPage extends StatelessWidget {
         elevation: Dimens.elevationM,
         child: Center(
           child: TextField(
+            controller: controller,
+            autofocus: autoFocus,
             focusNode: node,
             maxLength: 1,
             textAlign: TextAlign.center,
@@ -113,8 +149,7 @@ class OtpVerificationPage extends StatelessWidget {
               counterText: "",
             ),
             onChanged: (input) {
-              final text = input ?? '';
-              if (text == '') {
+              if (input == '') {
                 onClear?.call();
               } else {
                 onFilled?.call();
@@ -126,7 +161,18 @@ class OtpVerificationPage extends StatelessWidget {
     );
   }
 
-  void _onNext() {
-    Get.to<void>(ChangePasswordPage());
+  void _onNext() async {
+    try {
+      var smsCode = '';
+      _textControllers.forEach((controller) => smsCode += controller.text);
+      await _appBloc.verifySmsCode(smsCode);
+      Get.offAll<void>(() => ChangePasswordPage());
+    } catch (e) {
+      print('error');
+    }
+  }
+
+  void _onResendOtp() {
+    setState(() => _enableResend = false);
   }
 }
