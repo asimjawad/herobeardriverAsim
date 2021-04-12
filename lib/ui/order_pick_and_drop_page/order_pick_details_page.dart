@@ -77,7 +77,11 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimens.insetS),
-                child: Text(_time,style: Styles.appTheme.textTheme.bodyText1?.copyWith(fontWeight: FontWeight.w700),),
+                child: Text(
+                  '${_appBloc.orderDetailsModel.data!.orders[0].deliveredTime.hour.toString()}:${_appBloc.orderDetailsModel.data!.orders[0].deliveredTime.minute.toString()}',
+                  style: Styles.appTheme.textTheme.bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimens.insetS),
@@ -266,13 +270,20 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
           return PickPhotoAndConfirmDialog(
             total: double.parse(
                 _appBloc.orderDetailsModel.data!.orders[0].subTotal),
-            func: orderAcceptByDriver,
+            func: () => orderAcceptByDriver(context),
             photoCallBack: imageCallBack,
           );
         });
   }
 
-  void orderAcceptByDriver() async {
+  void orderAcceptByDriver(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     final res = await _appBloc.orderAcceptByDriver(
         orderNo: _appBloc.orderDetailsModel.orderNos![0],
         image: imageSelected!,
@@ -280,7 +291,29 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
     if (res == true) {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(true);
-      await Get.to<void>(() => DeliverOrderPage());
+      await Get.offAll<void>(() => DeliverOrderPage());
+    } else if (res == false) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text(
+          Strings.somethingWentWrong,
+          style: Styles.appTheme.textTheme.bodyText1!
+              .copyWith(color: MyColors.yellow400),
+        ),
+        duration: Duration(milliseconds: 2000),
+      ));
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text(
+          Strings.somethingWentWrong,
+          style: Styles.appTheme.textTheme.bodyText1!
+              .copyWith(color: MyColors.yellow400),
+        ),
+        duration: Duration(milliseconds: 2000),
+      ));
     }
   }
 

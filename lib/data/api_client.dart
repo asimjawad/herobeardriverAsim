@@ -270,22 +270,25 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
-  Future<void> editProfile({
-    required int driverId,
-    required String name,
-    required String email,
-  }) async {
+  Future<bool> editProfile(
+      {required int driverId,
+      required String name,
+      required String email,
+      File? image}) async {
     final response = await _dio.post<dynamic>(
       _epDriverUpdateProfile,
       data: FormData.fromMap(<String, dynamic>{
         _pDriverId: driverId,
         _pName: name,
         _pEmail: email,
+        _pImage: image,
       }),
     );
     if (response.statusCode == HttpStatus.accepted) {
       if (response.data['status'] == true) {
-        return;
+        return true;
+      } else if (response.data['status'] == false) {
+        return false;
       }
     }
     throw (Exception(response.statusMessage));
@@ -335,6 +338,7 @@ class ApiClient {
       _pOrderNo: orderNo,
       _pDriverId: driverId,
       _pUserId: userId,
+      // _pStatus: 3,
       _pImage: await MultipartFile.fromFile(
         image.path,
       ),

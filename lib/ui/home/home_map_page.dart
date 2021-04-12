@@ -211,6 +211,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
                 () async {
                   try {
                     await _appBloc.setUserOnline();
+                    _checkOrderRequest();
                     setState(() {});
                   } catch (e) {}
                   Navigator.pop(builderContext2);
@@ -283,30 +284,40 @@ class _HomeMapPageState extends State<HomeMapPage> {
       await _appBloc.fetchOrderRequestData();
       final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
       if (acceptedStatus == null) {
-        await Get.to<void>(OrderConfirmPage());
+        // app runs first time
+        await Get.offAll<void>(OrderConfirmPage());
       } else if (acceptedStatus) {
         // if order was accepted
         final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
         // check if order is picked or not
         if (deliveryStatus == null) {
-          await Get.to<void>(() => PickOrderPage());
+          // app runs first time and the order is not picked from the hotel
+          await Get.offAll<void>(() => PickOrderPage());
         } else if (deliveryStatus) {
-          await Get.to<void>(DeliverOrderPage());
-          print('a');
+          // order is picked and now must be delivered
+          await Get.offAll<void>(DeliverOrderPage());
+          // print('a');
         } else {
-          await Get.to<void>(() => PickOrderPage());
-          print('a');
+          // order is not picked.
+          await Get.offAll<void>(() => PickOrderPage());
+          // print('a');
         }
       } else {
+        // order is not accpeted.
         final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
         if (deliveryStatus == null) {
+          // app runs first time and the order is not picked from the hotel
+          await Get.offAll<void>(() => PickOrderPage());
         } else if (deliveryStatus) {
-          await Get.to<void>(DeliverOrderPage());
-          print('a');
+          // order is picked and now must be delivered
+          await Get.offAll<void>(DeliverOrderPage());
+          // print('a');
         } else {
-          print('a');
+          // print('a');
+          // order is not picked.
+          await Get.offAll<void>(() => PickOrderPage());
         }
-        print('a');
+        // print('a');
       }
     }
   }
