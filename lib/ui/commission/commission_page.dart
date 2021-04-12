@@ -231,7 +231,6 @@ Widget _commissionListView(BuildContext context, CommissionModel commission) {
       child: commission.data!.isNotEmpty
           ? ListView.builder(
               scrollDirection: Axis.vertical,
-              //shrinkWrap: true,
               padding: const EdgeInsets.all(Dimens.insetM),
               itemCount: commission.data!.length,
               itemBuilder: (BuildContext context, int index) {

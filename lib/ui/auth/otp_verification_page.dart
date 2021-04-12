@@ -176,7 +176,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           () async {
             try {
               await _appBloc.verifySmsCode(smsCode);
-              Get.offAll<void>(() => ChangePasswordPage(
+              await Get.offAll<void>(() => ChangePasswordPage(
                     phoneNo: widget.phoneNo,
                   ));
             } catch (e) {
@@ -198,7 +198,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     }
   }
 
-  void _onResendOtp() {
+  void _onResendOtp() async {
+    await _appBloc.sendOtp(widget.phoneNo, widget.timeOut);
     setState(() => _enableResend = false);
   }
 }
