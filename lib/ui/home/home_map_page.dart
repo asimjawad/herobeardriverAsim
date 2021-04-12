@@ -8,6 +8,7 @@ import 'package:hero_bear_driver/ui/home/bottomSheetCheck.dart';
 import 'package:hero_bear_driver/ui/home/user_dashboard_wgt.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/util/map_util.dart';
 
 class HomeMapPage extends StatefulWidget {
   final HomeScreenDashboardModel model;
@@ -25,6 +26,7 @@ class HomeMapPage extends StatefulWidget {
 class _HomeMapPageState extends State<HomeMapPage> {
   static const _badgeRadius = 25.0;
   static const _mapZoomLvl = 18.0;
+  static const _sizeMapPin = 20.0;
   final _appBloc = Get.find<AppBloc>();
 
   @override
@@ -33,17 +35,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(widget.locModel.latLng.latitude,
-                widget.locModel.latLng.longitude),
-            zoom: _mapZoomLvl,
-          ),
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-          zoomGesturesEnabled: true,
-          myLocationEnabled: true,
-        ),
+        _buildMap(context),
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.insetM),
@@ -171,6 +163,35 @@ class _HomeMapPageState extends State<HomeMapPage> {
         padding: const EdgeInsets.all(Dimens.insetM),
         child: Text(Strings.youAreOffline),
       ),
+    );
+  }
+
+  Widget _buildMap(BuildContext context) {
+    return FutureBuilder<BitmapDescriptor>(
+      future: MapUtil.getBitmapDescriptor(context, MyImgs.blueDot, _sizeMapPin),
+      builder: (context, snapshot) {
+        final icon = snapshot.data;
+        return GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(widget.locModel.latLng.latitude,
+                widget.locModel.latLng.longitude),
+            zoom: _mapZoomLvl,
+          ),
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
+          zoomGesturesEnabled: true,
+          myLocationEnabled: true,
+          markers: icon != null
+              ? {
+                  Marker(
+                    markerId: MarkerId('placeholder_marker_id'),
+                    icon: icon,
+                    position: widget.locModel.latLng,
+                  ),
+                }
+              : {},
+        );
+      },
     );
   }
 
