@@ -90,7 +90,6 @@ class _DiamondPageState extends State<DiamondPage> {
 
   Future<void> _diamondDialog(BuildContext context, ColorScheme colorScheme,
       TextEditingController diamondTextField) {
-    final _appBloc = Get.find<AppBloc>();
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -149,10 +148,7 @@ class _DiamondPageState extends State<DiamondPage> {
                       GestureDetector(
                         onTap: () async {
                           if (_formKey1.currentState!.validate()) {
-                            var message = await _appBloc.requestDiamond(
-                                diamond: diamondTextField.text);
-
-                            _snackbarMessage(context, message);
+                            await _onSubmit(context, diamondTextField.text);
                             diamondTextField.clear();
                             Navigator.pop(context);
                             setState(() {});
@@ -178,6 +174,32 @@ class _DiamondPageState extends State<DiamondPage> {
           );
         });
     // setState(() {});
+  }
+
+  //loading dialog on submitting form
+
+  Future<void> _onSubmit(BuildContext context, String diamond) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (builderContext) {
+        () async {
+          try {
+            var message = await _appBloc.requestDiamond(diamond: diamond);
+            Navigator.pop(context);
+            _snackbarMessage(context, message);
+          } catch (e) {
+            Navigator.pop(builderContext);
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(Strings.somethingWentWrong),
+            ));
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }
 
@@ -247,8 +269,6 @@ Widget totalDiamonds(BuildContext context, double height,
     ),
   );
 }
-
-// Dialog for payment submission
 
 //snackbar message on modal
 

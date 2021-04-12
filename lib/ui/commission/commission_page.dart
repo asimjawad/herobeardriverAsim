@@ -51,6 +51,7 @@ class _CommissionPageState extends State<CommissionPage> {
                       padding: EdgeInsets.fromLTRB(
                           Dimens.insetM, 24.0, Dimens.insetM, Dimens.insetM),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           totalCommission(
                               context, _height, colorScheme, commission),
@@ -81,7 +82,7 @@ class _CommissionPageState extends State<CommissionPage> {
         bottomNavigationBar: BottomAppBar(
             child: GestureDetector(
               onTap: () =>
-              _commisionDialog(context, colorScheme, amount, transactionID),
+              _commissionDialog(context, colorScheme, amount, transactionID),
           child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(color: colorScheme.primary),
@@ -95,108 +96,133 @@ class _CommissionPageState extends State<CommissionPage> {
   }
 
 // Dialog for payment submission
-  Future<void> _commisionDialog(BuildContext context, ColorScheme colorScheme,
+  Future<void> _commissionDialog(BuildContext context, ColorScheme colorScheme,
       TextEditingController payoutAmount, TextEditingController transactionId) {
-    final _appBloc = Get.find<AppBloc>();
-
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            content: Stack(
-              children: <Widget>[
-                Form(
-                  key: _formKey1,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          decoration: BoxDecoration(color: colorScheme.primary),
-                          child: Text(
-                            Strings.dialogTitle,
-                            textAlign: TextAlign.center,
-                            style: Styles.appTheme.textTheme.headline5
-                                ?.copyWith(color: colorScheme.onPrimary),
-                          )),
-                      SizedBox(height: 20.0),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
-                          decoration:
-                              BoxDecoration(color: colorScheme.onPrimary),
-                          child: Text(
-                            Strings.amountLabel,
-                            style: Styles.appTheme.textTheme.headline5
-                                ?.copyWith(color: colorScheme.onBackground),
-                          )),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        child: TextFormField(
-                          controller: payoutAmount,
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return Strings.msgEmptyPayout;
-                            }
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: Strings.amount),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return Strings.msgEmptyTransId;
-                            }
-                          },
-                          controller: transactionId,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: Strings.transactionId),
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
-                      GestureDetector(
-                        onTap: () async {
-                          if (_formKey1.currentState!.validate()) {
-                            var message = await _appBloc.submitPayment(
-                                payoutAmount: payoutAmount.text,
-                                transactionId: transactionId.text);
-
-                            payoutAmount.clear();
-                            transactionId.clear();
-
-                            _snackbarMessage(context, message);
-                            Navigator.pop(context);
-                            setState(() {});
-                          }
-                        },
-                        child: Container(
+            content: SingleChildScrollView(
+              child: Stack(
+                children: <Widget>[
+                  Form(
+                    key: _formKey1,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.symmetric(vertical: 15.0),
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
                             decoration:
                                 BoxDecoration(color: colorScheme.primary),
                             child: Text(
-                              Strings.paymentSubmitBtn,
+                              Strings.dialogTitle,
                               textAlign: TextAlign.center,
                               style: Styles.appTheme.textTheme.headline5
                                   ?.copyWith(color: colorScheme.onPrimary),
                             )),
-                      ),
-                    ],
+                        SizedBox(height: 20.0),
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                            decoration:
+                                BoxDecoration(color: colorScheme.onPrimary),
+                            child: Text(
+                              Strings.amountLabel,
+                              style: Styles.appTheme.textTheme.headline5
+                                  ?.copyWith(color: colorScheme.onBackground),
+                            )),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          child: TextFormField(
+                            controller: payoutAmount,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return Strings.msgEmptyPayout;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: Strings.amount),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return Strings.msgEmptyTransId;
+                              }
+                            },
+                            controller: transactionId,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: Strings.transactionId),
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        GestureDetector(
+                          onTap: () async {
+                            if (_formKey1.currentState!.validate()) {
+                              await _onSubmit(context, payoutAmount.text,
+                                  transactionId.text);
+                              payoutAmount.clear();
+                              transactionId.clear();
+                              Navigator.pop(context);
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.symmetric(vertical: 15.0),
+                              decoration:
+                                  BoxDecoration(color: colorScheme.primary),
+                              child: Text(
+                                Strings.paymentSubmitBtn,
+                                textAlign: TextAlign.center,
+                                style: Styles.appTheme.textTheme.headline5
+                                    ?.copyWith(color: colorScheme.onPrimary),
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });
+  }
+
+  //loading dialog on submitting form
+
+  Future<void> _onSubmit(
+      BuildContext context, String payoutAmount, String transactionId) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (builderContext) {
+        () async {
+          try {
+            var message = await _appBloc.submitPayment(
+                payoutAmount: payoutAmount, transactionId: transactionId);
+            Navigator.pop(context);
+            _snackbarMessage(context, message);
+          } catch (e) {
+            Navigator.pop(builderContext);
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(Strings.somethingWentWrong),
+            ));
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }
 
