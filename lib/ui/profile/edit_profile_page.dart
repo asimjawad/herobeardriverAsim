@@ -156,20 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  bool isEmail(String email) {
-    // Null or empty string is invalid
-    if (email == null || email.isEmpty) {
-      return false;
-    }
 
-    const pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-    final regExp = RegExp(pattern);
-
-    if (!regExp.hasMatch(email)) {
-      return false;
-    }
-    return true;
-  }
 
   void _onSave(BuildContext context) {
     showDialog<void>(

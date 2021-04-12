@@ -210,4 +210,6 @@ class Strings {
   static const msgEmptyMobile = 'Please Enter Mobile Number';
   static const msgInvalidEmail = 'Enter Valid Email Address';
   static const msgInvalidMobile = 'Enter Valid Phone Number';
+  static const msgNewPassword = 'Please Enter New Password';
+  static const msgReenterPassword = 'Please Re-enter New Password';
 }

@@ -82,20 +82,19 @@ class _CapitalPageState extends State<CapitalPage> {
                                     ),
                                   ))
                               .toList(),
-                          onChanged: (value) => setState(() async {
-                            _selection = value;
-
-                            var message =
-                                await _appBloc.setCapital(_selection!.value);
-                            _snackbarMessage(context, message);
-                          }),
+                          onChanged: (value) {
+                            setState(() {
+                              _selection = value;
+                            });
+                            _setCapital(context, _selection!.value);
+                          },
 
                           hint: Text(
                             Strings.selectCapital,
                             style: textTheme.bodyText2,
                           ),
 
-                          //isExpanded: true,
+                          //  isExpanded: true,
                         ),
                       ),
                     ],
@@ -106,15 +105,39 @@ class _CapitalPageState extends State<CapitalPage> {
           ),
         ));
   }
-}
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _snackbarMessage(
-    BuildContext context, String message) {
-  final snackBar = SnackBar(
-    content: Text(message.toString()),
-  );
+  void _setCapital(BuildContext context, double value) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (builderContext) {
+        () async {
+          try {
+            var message = await _appBloc.setCapital(value);
+            Navigator.of(context).pop();
+            _snackbarMessage(context, message);
+          } catch (e) {
+            Navigator.pop(builderContext);
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(Strings.somethingWentWrong),
+            ));
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
 
-  return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _snackbarMessage(
+      BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message.toString()),
+    );
+
+    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
 
 class _CapitalData {

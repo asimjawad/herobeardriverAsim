@@ -328,7 +328,7 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
-// order completed by driver
+  // order completed by driver
   Future<bool> orderCompleteByDriver(
       {required int driverId,
       required String orderNo,
