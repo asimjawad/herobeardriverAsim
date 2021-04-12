@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
+import 'package:hero_bear_driver/data/map_client.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/order_pick_select_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/orders_list_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
@@ -9,38 +12,116 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PickOrderPage extends StatelessWidget {
-  DateTime dateTime = DateTime.now();
-  final double _iconSize = 20;
-  final double _iconSizeL = 30;
-  final double _containerH = 40;
-  final double _sizedBoxW = 15;
-  final double _price = 16.33;
-  final String _customerName = 'Customer Name';
-  final String _restaurantName = 'Restaurant Name';
-  final String _hotelAddress = 'The address of the hotel';
+class PickOrderPage extends StatefulWidget {
   static const double _rowV = 20;
+
+  @override
+  _PickOrderPageState createState() => _PickOrderPageState();
+}
+
+class _PickOrderPageState extends State<PickOrderPage> {
+  DateTime dateTime = DateTime.now();
+
+  final double _iconSize = 20;
+
+  final double _iconSizeL = 30;
+
+  final double _containerH = 40;
+
+  final double _sizedBoxW = 15;
+
+  final double _price = 16.33;
+
+  final String _customerName = 'Customer Name';
+
+  final String _restaurantName = 'Restaurant Name';
+
+  final String _hotelAddress = 'The address of the hotel';
+
   final String _time = '11:30 AM';
+
   final int _totalItems = 1;
+
   final int _itemCount = 1;
+
   final int _noOfSngleItem = 3;
+
   final String _nameofSingleItem = 'Pizza One';
+
   final String _restaurantNumber = '03154511100';
+
   final double _restaurantLat = 12.22222;
+
   final double _restaurantLng = 32.22222;
+
   final String _userNumber = '03154511100';
+
   final double _userLat = 12.22222;
+
   final double _userLng = 32.22222;
+
   bool _amPm = false;
+
   int hourS = 0;
+
   int minutesS = 0;
+
   final _appBloc = Get.find<AppBloc>();
+
+  final _mapClient = MapClient();
+
+  final Set<Polyline>_polyline = {};
+
+  Map<PolylineId, Polyline> polylines = {};
+
+  List<LatLng> polylineCoordinates = [];
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDestination();
+    currentUserLocation();
+    getPolyline();
+  }
+
+  Future<List<LatLng>> getPolyline() async
+  {
+    LatLng origin = await currentUserLocation();
+    LatLng destination = await getDestination();
+    var data = await _mapClient.getPolyline(origin, destination);
+    print('get polyline data $data');
+    return data;
+  }
+
+
+  Future<LatLng> currentUserLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    LatLng _origin = LatLng(position.latitude, position.longitude);
+    print('current user loc $_origin');
+    return _origin;
+  }
+
+
+  LatLng getDestination() {
+    LatLng _destination = LatLng(
+        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
+        double.parse(
+            _appBloc.orderDetailsModel.data!.orders[0].dLng)
+    );
+
+    print('destination $_destination');
+    return _destination;
+  }
+
 
   @override
   Widget build(BuildContext context) {
     if (dateTime.hour > 12) {
       if ((dateTime.minute +
-              int.parse(_appBloc.orderDetailsModel.data!.avgDeliveryTime)) >
+          int.parse(_appBloc.orderDetailsModel.data!.avgDeliveryTime)) >
           60) {
         hourS = dateTime.hour + 1;
         _amPm = true;
@@ -73,7 +154,7 @@ class PickOrderPage extends StatelessWidget {
           )
         ],
         title:
-            Text('${Strings.pickUpAt} $hourS:$minutesS ${_amPm ? 'PM' : 'AM'}'),
+        Text('${Strings.pickUpAt} $hourS:$minutesS ${_amPm ? 'PM' : 'AM'}'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -85,6 +166,7 @@ class PickOrderPage extends StatelessWidget {
                   double.parse(
                       _appBloc.orderDetailsModel.data!.orders[0].dLng)),
             ),
+
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
           ),
@@ -119,13 +201,17 @@ class PickOrderPage extends StatelessWidget {
                           ),
                         ),
                         _directionsAndCallRow(
-                            callFunc: () => _makeCall(
-                                number: _appBloc.orderDetailsModel.data!.phone),
-                            mapFunc: () => _openMaps(
-                                lat: double.parse(
-                                    _appBloc.orderDetailsModel.data!.latitude),
-                                lon: double.parse(_appBloc
-                                    .orderDetailsModel.data!.longitude))),
+                            callFunc: () =>
+                                _makeCall(
+                                    number: _appBloc.orderDetailsModel.data!
+                                        .phone),
+                            mapFunc: () =>
+                                _openMaps(
+                                    lat: double.parse(
+                                        _appBloc.orderDetailsModel.data!
+                                            .latitude),
+                                    lon: double.parse(_appBloc
+                                        .orderDetailsModel.data!.longitude))),
                         Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: Dimens.insetS),
@@ -146,16 +232,21 @@ class PickOrderPage extends StatelessWidget {
                               ?.copyWith(color: Colors.black54),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: _rowV),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: PickOrderPage._rowV),
                           child: _directionsAndCallRow(
-                              mapFunc: () => _openMaps(
-                                  lat: double.parse(_appBloc
-                                      .orderDetailsModel.data!.orders[0].dLat),
-                                  lon: double.parse(_appBloc
-                                      .orderDetailsModel.data!.orders[0].dLng)),
-                              callFunc: () => _makeCall(
-                                  number: _appBloc.orderDetailsModel.data!
-                                      .orders[0].user.phone)),
+                              mapFunc: () =>
+                                  _openMaps(
+                                      lat: double.parse(_appBloc
+                                          .orderDetailsModel.data!.orders[0]
+                                          .dLat),
+                                      lon: double.parse(_appBloc
+                                          .orderDetailsModel.data!.orders[0]
+                                          .dLng)),
+                              callFunc: () =>
+                                  _makeCall(
+                                      number: _appBloc.orderDetailsModel.data!
+                                          .orders[0].user.phone)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(
@@ -170,17 +261,19 @@ class PickOrderPage extends StatelessWidget {
                             widthMax: false, color: MyColors.yellow400),
                         Padding(
                           padding: const EdgeInsets.only(
-                            top: _rowV,
+                            top: PickOrderPage._rowV,
                             bottom: 5,
                           ),
                           child: Text(
-                            '${_appBloc.orderDetailsModel.count} ${Strings.totalItem}',
+                            '${_appBloc.orderDetailsModel.count} ${Strings
+                                .totalItem}',
                             style: Styles.appTheme.textTheme.bodyText2
                                 ?.copyWith(color: Colors.black54),
                           ),
                         ),
                         Text(
-                          '${Strings.sCurrency} ${_appBloc.orderDetailsModel.data!.orders[0].subTotal}',
+                          '${Strings.sCurrency} ${_appBloc.orderDetailsModel
+                              .data!.orders[0].subTotal}',
                           style: Styles.appTheme.textTheme.bodyText2
                               ?.copyWith(color: Colors.black54),
                         ),
@@ -192,8 +285,11 @@ class PickOrderPage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.all(Dimens.insetXs),
                                 child: Text(
-                                  '${_appBloc.orderDetailsModel.data!.orders[0].orderProduct[index].qty}'
-                                  'x ${_appBloc.orderDetailsModel.data!.orders[0].orderProduct[index].product?.name}',
+                                  '${_appBloc.orderDetailsModel.data!.orders[0]
+                                      .orderProduct[index].qty}'
+                                      'x ${_appBloc.orderDetailsModel.data!
+                                      .orders[0].orderProduct[index].product
+                                      ?.name}',
                                   style: Styles.appTheme.textTheme.bodyText2
                                       ?.copyWith(color: Colors.black54),
                                 ),
@@ -231,8 +327,12 @@ class PickOrderPage extends StatelessWidget {
                   children: [
                     SliderWidget(func: _gotoOrderPickDriver,),
                     Padding(
-                      padding: const EdgeInsets.only(top: _rowV),
-                      child: Center(child: Text(Strings.slideAfterArrival,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color: Colors.white,fontWeight: FontWeight.w700),)),
+                      padding: const EdgeInsets.only(top: PickOrderPage._rowV),
+                      child: Center(
+                          child: Text(Strings.slideAfterArrival, style: Styles
+                              .appTheme.textTheme.bodyText1?.copyWith(
+                              color: Colors.white, fontWeight: FontWeight
+                              .w700),)),
                     ),
 
                   ],
@@ -245,74 +345,78 @@ class PickOrderPage extends StatelessWidget {
     );
   }
 
-  Widget _directionsAndCallRow({required void Function() mapFunc, required void Function() callFunc}) {
+  Widget _directionsAndCallRow(
+      {required void Function() mapFunc, required void Function() callFunc}) {
     return Row(
-      children: [
+        children: [``
         GestureDetector(
-          onTap: () {
-            mapFunc();
-          },
-          child: Container(
-            height: _containerH,
-            // width: 90,
-            color: MyColors.yellow400,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.directions,
-                    size: _iconSize,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    Strings.direction,
-                    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: _sizedBoxW,
-        ),
-        GestureDetector(
-          onTap: () {
-            callFunc();
-          },
-          child: Container(
-            height: _containerH,
-            // width: 90,
-            color: MyColors.yellow400,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.call,
-                    size: _iconSize,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    Strings.call,
-                    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+        onTap: ()
+    {
+      mapFunc();
+    },
+    child: Container(
+    height: _containerH,
+    // width: 90,
+    color: MyColors.yellow400,
+    child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+    Icon(
+    Icons.directions,
+    size: _iconSize,
+    color: Colors.white,
+    ),
+    Text(
+    Strings.direction,
+    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
+    color: Colors.white, fontWeight: FontWeight.w600),
+    )
+    ],
+    ),
+    ),
+    ),
+    ),
+    SizedBox(
+    width: _sizedBoxW,
+    ),
+    GestureDetector(
+    onTap: () {
+    callFunc();
+    },
+    child: Container(
+    height: _containerH,
+    // width: 90,
+    color: MyColors.yellow400,
+    child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+    Icon(
+    Icons.call,
+    size: _iconSize,
+    color: Colors.white,
+    ),
+    Text(
+    Strings.call,
+    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
+    color: Colors.white, fontWeight: FontWeight.w600),
+    )
+    ],
+    ),
+    ),
+    ),
+    )
+    ,
+    ]
+    ,
     );
   }
 
-  void _gotoOrderPickDriver(){
-    Get.to<void>(()=>OrderPickSelectPage());
+  void _gotoOrderPickDriver() {
+    Get.to<void>(() => OrderPickSelectPage());
   }
 
   Future<void> _makeCall({required String number}) async {
@@ -332,4 +436,5 @@ class PickOrderPage extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+
 }
