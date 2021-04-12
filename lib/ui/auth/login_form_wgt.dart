@@ -23,6 +23,14 @@ class LoginPageState extends State<LoginFormWgt> {
   final _ctrlPwd = TextEditingController();
   String? _selectedDialCode;
 
+  bool _obscureText = true;
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -76,22 +84,26 @@ class LoginPageState extends State<LoginFormWgt> {
             height: 20.0,
           ),
           TextFormField(
-            controller: _ctrlPwd,
-            validator: (value) {
-              if (value!.length > 1 && value.length < 6) {
-                return Strings.msgPasswordLength;
-              } else if (value.isEmpty) {
-                return Strings.msgEmptyPassword;
-              } else {
-                return null;
-              }
-            },
-            decoration: const InputDecoration(
-                hintText: Strings.hintTextPassword,
-                suffixIcon: Icon(
-                  Icons.remove_red_eye,
-                )),
-          ),
+              obscureText: _obscureText,
+              controller: _ctrlPwd,
+              validator: (value) {
+                if (value!.length > 1 && value.length < 6) {
+                  return Strings.msgPasswordLength;
+                } else if (value.isEmpty) {
+                  return Strings.msgEmptyPassword;
+                } else {
+                  return null;
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: Strings.hintTextPassword,
+                  suffixIcon: InkWell(
+                    onTap: _toggle,
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: MyColors.yellow400,
+                    ),
+                  ))),
           SizedBox(
             height: 20.0,
           ),
