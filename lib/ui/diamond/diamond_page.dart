@@ -1,25 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
-import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
-import 'package:hero_bear_driver/ui/commission/commission_list_item.dart';
+import 'package:hero_bear_driver/data/models/diamonds_model/diamonds_model.dart';
+import 'package:hero_bear_driver/ui/diamond/diamond_list_item.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
-class CommissionPage extends StatefulWidget {
+class DiamondPage extends StatefulWidget {
   @override
-  _CommissionPageState createState() => _CommissionPageState();
+  _DiamondPageState createState() => _DiamondPageState();
 }
 
-class _CommissionPageState extends State<CommissionPage> {
+class _DiamondPageState extends State<DiamondPage> {
   final _formKey1 = GlobalKey<FormState>();
-  final amount = TextEditingController();
-  final transactionID = TextEditingController();
+  final diamondTextField = TextEditingController();
   final _appBloc = Get.find<AppBloc>();
 
   @override
   void dispose() {
-    amount.dispose();
-    transactionID.dispose();
+    diamondTextField.dispose();
     super.dispose();
   }
 
@@ -33,17 +32,17 @@ class _CommissionPageState extends State<CommissionPage> {
         appBar: AppBar(
           backwardsCompatibility: false,
           title: Text(
-            Strings.commission,
+            Strings.diamonds,
             style: Styles.appTheme.accentTextTheme.headline5
                 ?.copyWith(color: colorScheme.onPrimary),
           ),
         ),
-        body: FutureBuilder<CommissionModel>(
+        body: FutureBuilder<DiamondsModel>(
             key: UniqueKey(),
-            future: _appBloc.getCommissionData(),
+            future: _appBloc.getDiamonds(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final commission = snapshot.data!;
+                final diamond = snapshot.data!;
                 return Container(
                   child: Column(children: [
                     IntrinsicHeight(
@@ -51,26 +50,22 @@ class _CommissionPageState extends State<CommissionPage> {
                       padding: EdgeInsets.fromLTRB(
                           Dimens.insetM, 24.0, Dimens.insetM, Dimens.insetM),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          totalCommission(
-                              context, _height, colorScheme, commission),
+                          totalDiamonds(context, _height, colorScheme, diamond),
                           VerticalDivider(
                             width: _width,
                             color: MyColors.grey,
                           ),
-                          paidCommission(
-                              context, _height, colorScheme, commission),
-                          VerticalDivider(
-                            width: _width,
-                            color: MyColors.grey,
-                          ),
-                          pendingCommission(
-                              context, _height, colorScheme, commission)
+                          withdrawDiamonds(
+                              context, _height, colorScheme, diamond),
                         ],
                       ),
                     )),
+                    SizedBox(height: _height),
                     Divider(color: MyColors.grey, height: _height),
-                    _commissionListView(context, commission)
+                    SizedBox(height: _height),
+                    _diamondListView(context, diamond)
                   ]),
                 );
               }
@@ -80,13 +75,12 @@ class _CommissionPageState extends State<CommissionPage> {
             }),
         bottomNavigationBar: BottomAppBar(
             child: GestureDetector(
-              onTap: () =>
-              _commisionDialog(context, colorScheme, amount, transactionID),
+          onTap: () => _diamondDialog(context, colorScheme, diamondTextField),
           child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(color: colorScheme.primary),
               child: Text(
-                Strings.submitCommission,
+                Strings.submitDiamondsPayment,
                 textAlign: TextAlign.center,
                 style: Styles.appTheme.textTheme.headline5
                     ?.copyWith(color: colorScheme.onPrimary),
@@ -94,11 +88,9 @@ class _CommissionPageState extends State<CommissionPage> {
         )));
   }
 
-// Dialog for payment submission
-  Future<void> _commisionDialog(BuildContext context, ColorScheme colorScheme,
-      TextEditingController payoutAmount, TextEditingController transactionId) {
+  Future<void> _diamondDialog(BuildContext context, ColorScheme colorScheme,
+      TextEditingController diamondTextField) {
     final _appBloc = Get.find<AppBloc>();
-
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -116,7 +108,7 @@ class _CommissionPageState extends State<CommissionPage> {
                           padding: EdgeInsets.symmetric(vertical: 20.0),
                           decoration: BoxDecoration(color: colorScheme.primary),
                           child: Text(
-                            Strings.dialogTitle,
+                            Strings.withdrawDiamonds,
                             textAlign: TextAlign.center,
                             style: Styles.appTheme.textTheme.headline5
                                 ?.copyWith(color: colorScheme.onPrimary),
@@ -128,52 +120,40 @@ class _CommissionPageState extends State<CommissionPage> {
                           decoration:
                               BoxDecoration(color: colorScheme.onPrimary),
                           child: Text(
-                            Strings.amountLabel,
+                            Strings.withdrawDiamondslabel,
                             style: Styles.appTheme.textTheme.headline5
                                 ?.copyWith(color: colorScheme.onBackground),
                           )),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                         child: TextFormField(
-                          controller: payoutAmount,
+                          autofocus: true,
+                          controller: diamondTextField,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: Strings.hintTextDiamonds,
+                            hintStyle:
+                                Styles.appTheme.textTheme.headline6?.copyWith(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return Strings.msgEmptyPayout;
+                              return Strings.msgEmptyDiamondField;
                             }
                           },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: Strings.amount),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return Strings.msgEmptyTransId;
-                            }
-                          },
-                          controller: transactionId,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: Strings.transactionId),
                         ),
                       ),
                       SizedBox(height: 20.0),
                       GestureDetector(
                         onTap: () async {
                           if (_formKey1.currentState!.validate()) {
-                            var message = await _appBloc.submitPayment(
-                                payoutAmount: payoutAmount.text,
-                                transactionId: transactionId.text);
-
-                            payoutAmount.clear();
-                            transactionId.clear();
+                            var message = await _appBloc.requestDiamond(
+                                diamond: diamondTextField.text);
 
                             _snackbarMessage(context, message);
+                            diamondTextField.clear();
                             Navigator.pop(context);
                             setState(() {});
                           }
@@ -184,9 +164,9 @@ class _CommissionPageState extends State<CommissionPage> {
                             decoration:
                                 BoxDecoration(color: colorScheme.primary),
                             child: Text(
-                              Strings.paymentSubmitBtn,
+                              Strings.requestPaymentBtn,
                               textAlign: TextAlign.center,
-                              style: Styles.appTheme.textTheme.headline5
+                              style: Styles.appTheme.textTheme.headline6
                                   ?.copyWith(color: colorScheme.onPrimary),
                             )),
                       ),
@@ -197,60 +177,70 @@ class _CommissionPageState extends State<CommissionPage> {
             ),
           );
         });
+    // setState(() {});
   }
 }
 
-Widget _commissionListView(BuildContext context, CommissionModel commission) {
+Widget _diamondListView(BuildContext context, DiamondsModel diamond) {
   return Expanded(
-      child: commission.data!.isNotEmpty
+      child: diamond.data!.isNotEmpty
           ? ListView.builder(
               scrollDirection: Axis.vertical,
-              //shrinkWrap: true,
               padding: const EdgeInsets.all(Dimens.insetM),
-              itemCount: commission.data!.length,
+              itemCount: diamond.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    child: CommissionListItem(commission.data![index]));
+                return Container(child: DiamondListItem(diamond.data![index]));
               },
             )
           : Center(child: Image.asset(MyImgs.noData)));
 }
 
-Widget pendingCommission(BuildContext context, double height,
-    ColorScheme colorScheme, CommissionModel commissionModel) {
+Widget withdrawDiamonds(BuildContext context, double height,
+    ColorScheme colorScheme, DiamondsModel diamond) {
   return Flexible(
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-    Text(
-      '${Strings.sCurrency} ${commissionModel.pendingCommission}',
-      style: Styles.appTheme.accentTextTheme.headline2
-          ?.copyWith(color: colorScheme.onBackground),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(MyImgs.diamondLogo,
+            width: Dimens.sizeIconM, height: Dimens.sizeIconM),
+        Text(
+          ' 0',
+          style: Styles.appTheme.accentTextTheme.headline2
+              ?.copyWith(color: colorScheme.onBackground),
+        ),
+      ],
     ),
     SizedBox(height: height),
     Text(
-      Strings.pendingCommission,
+      Strings.withdrawDiamonds,
       textAlign: TextAlign.center,
-      style: Styles.appTheme.accentTextTheme.headline6
+      style: Styles.appTheme.accentTextTheme.headline3
           ?.copyWith(color: colorScheme.onBackground),
     )
   ]));
 }
 
-Widget paidCommission(BuildContext context, double height,
-    ColorScheme colorScheme, CommissionModel commissionModal) {
+Widget totalDiamonds(BuildContext context, double height,
+    ColorScheme colorScheme, DiamondsModel diamond) {
   return Flexible(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          '${Strings.sCurrency} ${commissionModal.paidCommissiom}',
-          style: Styles.appTheme.accentTextTheme.headline2
-              ?.copyWith(color: colorScheme.onBackground),
-        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Image.asset(MyImgs.diamondLogo,
+              width: Dimens.sizeIconM, height: Dimens.sizeIconM),
+          Text(
+            ' ${diamond.total}',
+            style: Styles.appTheme.accentTextTheme.headline2
+                ?.copyWith(color: colorScheme.onBackground),
+          ),
+        ]),
         SizedBox(height: height),
         Text(
-          Strings.paidCommission,
+          Strings.totalDiamonds,
           textAlign: TextAlign.center,
-          style: Styles.appTheme.accentTextTheme.headline6
+          style: Styles.appTheme.accentTextTheme.headline3
               ?.copyWith(color: colorScheme.onBackground),
         ),
       ],
@@ -258,29 +248,7 @@ Widget paidCommission(BuildContext context, double height,
   );
 }
 
-Widget totalCommission(BuildContext context, double height,
-    ColorScheme colorScheme, CommissionModel commissionModel) {
-  return Flexible(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          '${Strings.sCurrency} ${commissionModel.totalCommission}',
-          textAlign: TextAlign.center,
-          style: Styles.appTheme.accentTextTheme.headline2
-              ?.copyWith(color: colorScheme.onBackground),
-        ),
-        SizedBox(height: height),
-        Text(
-          Strings.totalCommission,
-          textAlign: TextAlign.center,
-          style: Styles.appTheme.accentTextTheme.headline6
-              ?.copyWith(color: colorScheme.onBackground),
-        ),
-      ],
-    ),
-  );
-}
+// Dialog for payment submission
 
 //snackbar message on modal
 

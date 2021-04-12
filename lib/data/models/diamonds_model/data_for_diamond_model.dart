@@ -7,26 +7,26 @@ class DataForDiamondModel{
   @JsonKey(name: 'id')
   int id;
   @JsonKey(name: 'driver_id')
-  int driverId;
+  String driverId;
   @JsonKey(name: 'diamond')
-  int diamond;
+  String diamond;
   @JsonKey(name: 'transaction_id')
   String transactionId;
   @JsonKey(name: 'amount')
-  int amount;
+  String amount;
   @JsonKey(name: 'status')
-  int status;
+  String status;
   @JsonKey(name: 'created_at')
   DateTime createdAt;
   @JsonKey(name: 'updated_at')
   DateTime updatedAt;
 
-  DataForDiamondModel({
-    required this.id,
-    required this.driverId,
-    required this.diamond,
-    required this.transactionId,
-    required this.amount,
+  DataForDiamondModel(
+      {required this.id,
+      required this.driverId,
+      required this.diamond,
+      required this.transactionId,
+      required this.amount,
     required this.status,
     required this.createdAt,
     required this.updatedAt

@@ -4,9 +4,11 @@ import 'package:hero_bear_driver/ui/values/values.dart';
 
 class LoginFormWgt extends StatefulWidget {
   void Function(String phoneNo, String email)? onLogin;
+  void Function(String phoneNo)? onForgotPassword;
 
   LoginFormWgt({
     this.onLogin,
+    this.onForgotPassword,
   });
 
   @override
@@ -52,7 +54,18 @@ class LoginPageState extends State<LoginFormWgt> {
                 ),
                 Flexible(
                   child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
                     controller: _ctrlPhoneNo,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return Strings.msgEmptyPhone;
+                      } else if (value.length < 10) {
+                        return Strings.msgPhoneLength;
+                      } else {
+                        return null;
+                      }
+                    },
                     decoration: const InputDecoration(),
                   ),
                 ),
@@ -64,6 +77,15 @@ class LoginPageState extends State<LoginFormWgt> {
           ),
           TextFormField(
             controller: _ctrlPwd,
+            validator: (value) {
+              if (value!.length > 1 && value.length < 6) {
+                return Strings.msgPasswordLength;
+              } else if (value.isEmpty) {
+                return Strings.msgEmptyPassword;
+              } else {
+                return null;
+              }
+            },
             decoration: const InputDecoration(
                 hintText: Strings.hintTextPassword,
                 suffixIcon: Icon(
@@ -77,7 +99,12 @@ class LoginPageState extends State<LoginFormWgt> {
               width: MediaQuery.of(context).size.width,
               height: 50.0,
               child: ElevatedButton(
-                  onPressed: _onLogin,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _onLogin();
+                    }
+                    ;
+                  },
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(MyColors.yellow400)),
@@ -90,7 +117,17 @@ class LoginPageState extends State<LoginFormWgt> {
           Align(
               alignment: Alignment.bottomRight,
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    if (_ctrlPhoneNo.text.isNotEmpty) {
+                      _onForgotPassword();
+                    }
+                    ;
+
+                    if (_ctrlPhoneNo.text.isEmpty) {
+                      _snackbar(context, Strings.msgEmptyPhone);
+                    }
+                    ;
+                  },
                   child: Text(Strings.forgotPassword,
                       style: Styles.appTheme.accentTextTheme.headline5
                           ?.copyWith(color: colorScheme.onBackground))))
@@ -99,10 +136,23 @@ class LoginPageState extends State<LoginFormWgt> {
     );
   }
 
-  void _onLogin() {
-    final dialCode = _selectedDialCode ?? '+33';
+  void _snackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
 
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _onLogin() {
+    final dialCode = _selectedDialCode ?? '+39';
     final phoneNo = dialCode + _ctrlPhoneNo.text;
     widget.onLogin?.call(phoneNo, _ctrlPwd.text);
+  }
+
+  void _onForgotPassword() {
+    final dialCode = _selectedDialCode ?? '+39';
+    final phoneNo = dialCode + _ctrlPhoneNo.text;
+    widget.onForgotPassword?.call(phoneNo);
   }
 }

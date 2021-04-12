@@ -41,6 +41,11 @@ class Strings {
   static const reviews = 'Reviews';
   static const trips = 'Trips';
   static const years = 'Years';
+  static const editProfile = 'Edit Profile';
+  static const fullName = 'Full Name';
+  static const emailAddress = 'Email Address';
+  static const mobileNumber = 'Mobile Number';
+  static const save = 'Save';
 
   // capital page
   static const selectCapital = 'Select Capital';
@@ -76,8 +81,14 @@ class Strings {
   static const String totalCommission = 'TOTAL COMMISSION';
   static const String paidCommission = 'PAID COMMISSION';
   static const String pendingCommission = 'PENDING COMMISSION';
+  static const String totalDiamonds = 'TOTAL DIAMONDS';
+  static const String withdrawDiamonds = 'WITHDRAW DIAMONDS';
+  static const String withdrawDiamondslabel = 'Withdraw Diamonds';
   static const String status = 'Status';
   static const String createdAt = 'Created at';
+  static const String trans = 'Trans-';
+  static const String transaction = 'Transaction';
+  static const String diamond = 'Diamond:';
 
   static const String driverEarning = 'Driver Earning';
   static const String totalEarning = 'Total Earning';
@@ -85,6 +96,10 @@ class Strings {
   static const String dateTo = 'Date To';
   static const String delieverDate = 'Delievered Date';
   static const String items = 'Items';
+  static const String pending = 'Pending';
+  static const String completed = 'Completed';
+  static const String hintTextDiamonds = 'No. of diamonds';
+  static const String requestPaymentBtn = 'REQUEST PAYMENT';
 
   //user login page
   static const String hintTextPhoneNumber = 'Enter phone number';
@@ -98,13 +113,16 @@ class Strings {
   static const String amountLabel = 'Commission Amount';
   static const String paymentSubmitBtn = 'SUBMIT PAYMENT';
   static const String dialogTitle = 'SUBMIT COMMISSION';
+  static const String submitDiamondsPayment = 'Request For Diamonds Payment';
 
   // lengthy messages
   static const msgLoginText =
       'Enter your registered phone number and email to continue login';
   static const String msgEmptyFields = 'Please Fill Out All The Fields';
-  static const String msgPaymentFail = 'Payment Not Submitted. Try Again!';
-  static const String msgPaymentSuccess = 'Payment Submitted Successfully!';
+  static const String msgFailPaymentRequest =
+      'Payment Not Submitted. Try Again!';
+  static const String msgSuccessPaymentRequest =
+      'Payment Submitted Successfully!';
   static const msgLocationWhy =
       'This app requires device location to function.';
   static const String msgCapitalUpdate = 'Capital Value Updated!';
@@ -160,4 +178,36 @@ class Strings {
   // loading page
   static const lookingForOrders = 'Looking for Orders';
   static const ordersList = 'Orders List';
+  static const String msgSuccessCapitalUpdate = 'Capital Value Updated!';
+  static const String msgFailCapitalUpdate = 'Capital Value Not Updated!';
+  static const String msgSuccessDiamondRequest =
+      'Your Request is submitted you. We will soon inform you when transaction is made.Thanks for patience.!';
+  static const String msgFailDiamondRequest =
+      'You do not have sufficient diamonds in your account. Your current diamonds is 10';
+
+  // otp verification pages
+  static const verificationCode = 'Verfication Code';
+  static const resendOtp = 'Resend Otp';
+  static const next = 'Next';
+  static const newPassword = 'New Password';
+  static const confirmPassword = 'Confirm Password';
+  static const enterYourPassword = 'Enter Your Password';
+  static const somethingWentWrong = 'Something went wrong.';
+  static const msgEnterVerification = 'Please enter verification code sent to';
+  static const msgFillFields = 'Please fill all fields';
+
+  // otp verification pages
+  static const msgPhoneLength = 'Phone No Must be of 10 Characters';
+  static const msgEmptyPhone = 'Please Enter Phone Number';
+  static const msgPasswordLength = 'Password must be at least of 6 characters';
+  static const msgEmptyPassword = 'Please Enter Password';
+  static const msgPasswordNotMatch = 'Password Does Not Match. Try Again!';
+  static const msgEmptyTransId = 'Please Enter Transaction Id';
+  static const msgEmptyPayout = 'Please Enter Payout Amount';
+  static const msgEmptyDiamondField = 'Please Enter The Number of Diamonds';
+  static const msgEmptyName = 'Please Enter Name';
+  static const msgEmptyEmail = 'Please Enter Email';
+  static const msgEmptyMobile = 'Please Enter Mobile Number';
+  static const msgInvalidEmail = 'Enter Valid Email Address';
+  static const msgInvalidMobile = 'Enter Valid Phone Number';
 }
