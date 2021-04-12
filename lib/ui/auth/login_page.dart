@@ -84,6 +84,7 @@ class LoginPage extends StatelessWidget {
   void _onForgotPassword(BuildContext context, String phoneNo) {
     showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (builderContext) {
         () async {
           try {
