@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
@@ -13,9 +15,12 @@ import 'package:hero_bear_driver/data/repository.dart';
 import 'package:hero_bear_driver/ui/values/strings.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'models/get_reason_model/get_reason_model.dart';
+
 class AppBloc extends DisposableInterface {
   final _repository = Repository();
   UserLoginModel? _user;
+  late OrderDetailsModel orderDetailsModel;
   late String message;
   final _subjectHomeData = BehaviorSubject<HomeScreenDashboardModel>();
   BehaviorSubject<OrderDetailsModel> _orderDetailsSubject = BehaviorSubject();
@@ -73,10 +78,8 @@ class AppBloc extends DisposableInterface {
     return _repository.getCommissionData(user.userId);
   }
 
-  Future<EarningModel> getDriverEarningHistory(
-    DateTime startDate,
-    DateTime endDate,
-  ) async {
+  Future<EarningModel> getDriverEarningHistory(DateTime startDate,
+      DateTime endDate,) async {
     final user = await this.user;
     final earningHistory = await _repository.getDriverEarningHistory(
         user.userId, startDate, endDate);
@@ -140,6 +143,12 @@ class AppBloc extends DisposableInterface {
     final user = await this.user;
     final response = await _repository.orderRequest(driverId: user.userId);
     return response;
+  }
+
+  Future<void> fetchOrderRequestData() async {
+    final user = await this.user;
+    final response = await _repository.orderRequest(driverId: user.userId);
+    orderDetailsModel = response;
   }
 
   void refreshUserData() async {
@@ -224,5 +233,51 @@ class AppBloc extends DisposableInterface {
   void _updateHomeDataStream() async {
     final user = await this.user;
     _subjectHomeData.add(await _repository.getHomeData(user.userId));
+  }
+
+  // get reasons
+  Future<GetReasonModel> getReason() async {
+    final response = await _repository.getReason();
+    return response;
+  }
+
+  //set order status
+  Future<void> setOrderAcceptedStatus(bool res) async {
+    await _repository.setOrderAcceptedStatus(res);
+  }
+
+  // get order status
+  Future<bool?> getOrderAcceptedStatus() async {
+    return await _repository.getOrderAcceptedStatus();
+  }
+
+  //set order status
+  Future<void> setOrderDeliveryStatus(bool res) async {
+    await _repository.setOrderDeliveryStatus(res);
+  }
+
+  // get order status
+  Future<bool?> getOrderDeliveryStatus() async {
+    return await _repository.getOrderDeliveryStatus();
+  }
+
+  //order accept from restaurant
+  Future<bool> orderAcceptByDriver(
+      {required String orderNo,
+      required File image,
+      required String status}) async {
+    final user = await this.user;
+    return await _repository.orderAcceptByDriver(
+        driverId: user.userId, orderNo: orderNo, image: image, status: status);
+  }
+
+  //order complete by driver
+  Future<bool> orderCompleteByDriver(
+      {required String orderNo,
+      required File image,
+      required int userId}) async {
+    final user = await this.user;
+    return await _repository.orderCompleteByDriver(
+        driverId: user.userId, orderNo: orderNo, image: image, userId: userId);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
-import 'package:hero_bear_driver/ui/values/values.dart';
-import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
-import 'package:hero_bear_driver/ui/widgets/order_card_widget.dart';
+import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/order_pick_details_page.dart';
+import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/ui/widgets/order_card_widget.dart';
+import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
 
 class OrderPickSelectPage extends StatelessWidget {
   final int _itemCount = 2;
@@ -13,6 +13,8 @@ class OrderPickSelectPage extends StatelessWidget {
   final String _orderNo = 'HB- 135434';
   final String _userName = 'zayn';
   final String _completeAddress = 'The complete address';
+  final _appBloc = Get.find<AppBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,19 +45,27 @@ class OrderPickSelectPage extends StatelessWidget {
                     return Column(
                       children: [
                         GestureDetector(
-                          onTap: (){
-                          /*  showDialog<void>(context: context, builder: (context){
+                          onTap: () {
+                            /*  showDialog<void>(context: context, builder: (context){
                               return Container();
                             });*/
-                            Get.to<void>(()=>OrderPickDetailsPage());
+                            Get.to<void>(() => OrderPickDetailsPage());
                           },
-                          child: OrderCard(userName: _userName,orderNo: _orderNo,completeAddress: _completeAddress,price: _price),
+                          child: OrderCard(
+                              userName: _appBloc.orderDetailsModel.data!
+                                  .orders[index].user.name,
+                              orderNo: _appBloc.orderDetailsModel.data!
+                                  .orders[index].orderNo,
+                              completeAddress: _appBloc.orderDetailsModel.data!
+                                  .orders[0].deliveryAddress,
+                              price: double.parse(_appBloc
+                                  .orderDetailsModel.data!.orders[0].total)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                       ],
                     );
                   },
-                  itemCount: _itemCount,
+                  itemCount: _appBloc.orderDetailsModel.count,
                 ),
               ),
             ),

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
 import 'package:hero_bear_driver/data/models/diamonds_model/diamonds_model.dart';
 import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews_model.dart';
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
+import 'package:hero_bear_driver/data/models/get_reason_model/get_reason_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 
@@ -11,7 +14,6 @@ import 'models/order_details_model/order_details_model.dart';
 
 class ApiClient {
   static const _baseUrl = 'https://portal.herobear.com.ph/api';
-
   static const _epDriverLogin = '/driver_login';
   static const _epHomeScreenData = '/home_screen_data';
   static const _epDriverEarningHistory = '/driver_earning_history';
@@ -27,6 +29,10 @@ class ApiClient {
   static const _epDriverForgotPassword = '/driver_forgot_password';
   static const _epDriverUpdateProfile = '/driver_update_profile';
 
+  static const _epGetReason = '/get_reason';
+  static const _epRejectOrderRequest = '/reject_order_request';
+  static const _epOrderAcceptByDriver = '/order_accept_by_driver';
+  static const _epCompleteOrders = '/complete_orders';
   static const _pPhone = 'phone';
   static const _pPassword = 'password';
 
@@ -34,6 +40,7 @@ class ApiClient {
   static const _pCapital = 'capital';
 
   static const _pDriverId = 'driver_id';
+  static const _pUserId = 'user_id';
 
   static const _pStartDate = 'startDate';
   static const _pEndDate = 'endDate';
@@ -44,6 +51,9 @@ class ApiClient {
 
   static const _pLatitude = 'latitude';
   static const _pLongitude = 'longitude';
+  static const _pOrderNo = 'order_no';
+  static const _pStatus = 'status';
+  static const _pImage = 'image';
 
   static const _pName = 'name';
   static const _pEmail = 'email';
@@ -285,4 +295,63 @@ class ApiClient {
 class _BaseUrls {
   static const driverImages =
       'https://portal.herobear.com.ph/images/driver_images/';
+
+  //get reason
+  Future<GetReasonModel> getReason() async {
+    final response = await _dio.get<Map<String, dynamic>>(_epGetReason);
+    if (response.statusCode == HttpStatus.ok) {
+      return GetReasonModel.fromJson(response.data!);
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  // accept order from restaurant
+  Future<bool> orderAcceptByDriver(
+      {required int driverId,
+      required String orderNo,
+      required File image,
+      required String status}) async {
+    var formData = FormData.fromMap(<String, dynamic>{
+      _pOrderNo: orderNo,
+      _pDriverId: driverId,
+      _pStatus: status,
+      _pImage: await MultipartFile.fromFile(
+        image.path,
+      ),
+    });
+    final response = await _dio
+        .post<Map<String, dynamic>>(_epOrderAcceptByDriver, data: formData);
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data!['status'] == true) {
+        return true;
+      }
+      return false;
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+// order completed by driver
+  Future<bool> orderCompleteByDriver(
+      {required int driverId,
+      required String orderNo,
+      required File image,
+      required int userId}) async {
+    var formData = FormData.fromMap(<String, dynamic>{
+      _pOrderNo: orderNo,
+      _pDriverId: driverId,
+      _pUserId: userId,
+      _pImage: await MultipartFile.fromFile(
+        image.path,
+      ),
+    });
+    final response = await _dio.post<Map<String, dynamic>>(_epCompleteOrders,
+        data: formData);
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data!['status'] == true) {
+        return true;
+      }
+      return false;
+    }
+    throw (Exception(response.statusMessage));
+  }
 }

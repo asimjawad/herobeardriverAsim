@@ -29,6 +29,7 @@ dependencies:
   json_annotation: ^4.0.1
   shared_preferences: ^2.0.5
   tuple: ^2.0.0
+  path_provider: ^2.0.1
   # for displaying notifications
   flutter_local_notifications: ^5.0.0
   # firebase
@@ -45,6 +46,9 @@ dependencies:
   rxdart: ^0.26.0
   # for loading animations
   flutter_spinkit: ^5.0.0
+  image_picker: ^0.7.4
+  # url for phone launch
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:
@@ -55,9 +59,6 @@ dev_dependencies:
   # for code styling
   pedantic: ^1.11.0
   # camera plugin
-  image_picker: ^0.7.4
-  # url for phone launch
-  url_launcher: ^6.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -157,10 +157,13 @@ class Strings {
   static const deliverFor = 'Delivery for';
   static const address = 'Address';
   static const iHaveArrivedAtCustomer = 'I have arrived at customer';
+  static const leaveAtTheDoor = 'Leave it at the door';
+  static const leaveAtMyDoorknockTheDoor = 'Leave at my door knock at the door';
 
   //deliver photo and confirm dialog
   static const holdon = 'HOLD ON!';
-  static const pleaseTakeSnap = 'Please take a snap of the place order, By Tapping Camera icon';
+  static const pleaseTakeSnap =
+      'Please take a snap of the place order, By Tapping Camera icon';
   static const receivedPaymentFromUser = 'Received payment from user';
   static const cancel = 'CANCEL';
   static const pleaseSelectAPhoto = 'Please Select a Photo';
@@ -174,6 +177,7 @@ class Strings {
 
   // loading page
   static const lookingForOrders = 'Looking for Orders';
+  static const ordersList = 'Orders List';
   static const String msgSuccessCapitalUpdate = 'Capital Value Updated!';
   static const String msgFailCapitalUpdate = 'Capital Value Not Updated!';
   static const String msgSuccessDiamondRequest =
