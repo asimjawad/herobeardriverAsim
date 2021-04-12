@@ -16,12 +16,7 @@ class DeliverOrderPage extends StatelessWidget {
   final double _iconSize = 25;
   final double _iconSizeS = 20;
   final double _iconSizeL = 30;
-  final double _containerH = 40;
-  final double _sizedBoxW = 15;
-  final String _name = 'zayn';
-  final String _address = 'this is the address';
   static const double _rowV = 20;
-  final String _phone = '03036308035';
   final _appBloc = Get.find<AppBloc>();
   File? imageSelected;
 
@@ -130,7 +125,17 @@ class DeliverOrderPage extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: (){
-                                      _launchMapsUrl(12.222,12.222);
+                                      _launchMapsUrl(
+                                          double.parse(_appBloc
+                                              .orderDetailsModel
+                                              .data!
+                                              .orders[0]
+                                              .dLat),
+                                          double.parse(_appBloc
+                                              .orderDetailsModel
+                                              .data!
+                                              .orders[0]
+                                              .dLng));
                                     },
                                     child: Container(
                                       color: Colors.black26,
@@ -246,13 +251,20 @@ class DeliverOrderPage extends StatelessWidget {
           return DeliverPhotoAndConfirmDialog(
             total:
                 double.parse(_appBloc.orderDetailsModel.data!.orders[0].total),
-            callApi: ordeCompleteByDriver,
+            callApi: () => ordeCompleteByDriver(context),
             imageCallBack: imageCallBack,
           );
         });
   }
 
-  void ordeCompleteByDriver() async {
+  void ordeCompleteByDriver(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (_) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     final res = await _appBloc.orderCompleteByDriver(
         orderNo: _appBloc.orderDetailsModel.orderNos![0],
         image: imageSelected!,
@@ -261,6 +273,25 @@ class DeliverOrderPage extends StatelessWidget {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(false);
       await Get.to<void>(() => HomePage());
+    } else if (res == false) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          Strings.tryAgain,
+          style: Styles.appTheme.textTheme.bodyText1!
+              .copyWith(color: MyColors.yellow400),
+        ),
+        duration: Duration(milliseconds: 2000),
+      ));
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          Strings.somethingWentWrong,
+          style: Styles.appTheme.textTheme.bodyText1!
+              .copyWith(color: MyColors.yellow400),
+        ),
+        duration: Duration(milliseconds: 2000),
+      ));
     }
   }
 

@@ -80,7 +80,10 @@ class PickOrderPage extends StatelessWidget {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(0, 0),
+              target: LatLng(
+                  double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
+                  double.parse(
+                      _appBloc.orderDetailsModel.data!.orders[0].dLng)),
             ),
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
@@ -312,7 +315,7 @@ class PickOrderPage extends StatelessWidget {
     Get.to<void>(()=>OrderPickSelectPage());
   }
 
-  void _makeCall({required String number})async{
+  Future<void> _makeCall({required String number}) async {
     print(number);
     if (await canLaunch(number)) {
       await launch(number);
@@ -321,7 +324,7 @@ class PickOrderPage extends StatelessWidget {
     }
   }
 
-  void _openMaps({required double lat,required double lon}) async {
+  Future<void> _openMaps({required double lat, required double lon}) async {
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
     if (await canLaunch(url)) {
       await launch(url);

@@ -99,11 +99,12 @@ class _DeliverPhotoAndConfirmDialogState extends State<DeliverPhotoAndConfirmDia
                               onTap: (){
                                 if(widget.selectedPhoto == null){
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: Colors.white,
                                     content: Text(
                                       Strings.pleaseSelectAPhoto,
-                                      style: Styles.appTheme.textTheme.bodyText1!
-                                          .copyWith(color: Colors.orange),
+                                      style: Styles
+                                          .appTheme.textTheme.bodyText1!
+                                          .copyWith(color: MyColors.yellow400),
                                     ),
                                     duration: Duration(milliseconds: 2000),
                                   ));

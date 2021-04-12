@@ -148,16 +148,14 @@ class Repository implements Closable {
         password: password,
       );
 
-  Future<void> editProfile({
+  Future<bool> editProfile({
     required int driverId,
     required String name,
     required String email,
+    File? image,
   }) =>
       _apiClient.editProfile(
-        driverId: driverId,
-        name: name,
-        email: email,
-      );
+          driverId: driverId, name: name, email: email, image: image);
 
   // get reasons
   Future<GetReasonModel> getReason() async {

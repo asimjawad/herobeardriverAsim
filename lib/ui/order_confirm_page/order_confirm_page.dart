@@ -149,16 +149,34 @@ class OrderConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: Dimens.insetM),
                       child: GestureDetector(
                         onTap: () async {
-                          File f = await getImageFileFromAssets(
+                          await showDialog<void>(
+                              context: context,
+                              builder: (_) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+                          var f = await getImageFileFromAssets(
                               'assets/images/no_profile.png');
-                          bool response = await _appBloc.orderAcceptByDriver(
+                          var response = await _appBloc.orderAcceptByDriver(
                               orderNo: _appBloc.orderDetailsModel.orderNos![0],
                               image: f,
                               status: '3');
                           if (response) {
                             await _appBloc.setOrderAcceptedStatus(true);
-                            await Get.to<void>(() => PickOrderPage());
-                          } else {}
+                            await Get.offAll<void>(() => PickOrderPage());
+                          } else {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.white,
+                              content: Text(
+                                Strings.somethingWentWrong,
+                                style: Styles.appTheme.textTheme.bodyText1!
+                                    .copyWith(color: MyColors.yellow400),
+                              ),
+                              duration: Duration(milliseconds: 2000),
+                            ));
+                          }
                         },
                         child: Container(
                           height: height,

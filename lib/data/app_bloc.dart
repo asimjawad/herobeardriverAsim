@@ -218,16 +218,14 @@ class AppBloc extends DisposableInterface {
         password: password,
       );
 
-  Future<void> editProfile({
+  Future<bool> editProfile({
     required String name,
     required String email,
+    File? image,
   }) async {
     final user = await this.user;
-    await _repository.editProfile(
-      driverId: user.userId,
-      name: name,
-      email: email,
-    );
+    return await _repository.editProfile(
+        driverId: user.userId, name: name, email: email, image: image);
   }
 
   void _updateHomeDataStream() async {

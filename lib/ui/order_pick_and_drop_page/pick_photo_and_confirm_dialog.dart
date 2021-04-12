@@ -90,12 +90,12 @@ class _PickPhotoAndConfirmDialogState extends State<PickPhotoAndConfirmDialog> {
                               onTap: (){
                                 if(widget.selectedPhoto == null){
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: Colors.white,
                                     content: Text(
-                                      'Select a Photo',
+                                      Strings.pleaseSelectAPhoto,
                                       style: Styles
                                           .appTheme.textTheme.bodyText1!
-                                          .copyWith(color: Colors.orange),
+                                          .copyWith(color: MyColors.yellow400),
                                     ),
                                     duration: Duration(milliseconds: 2000),
                                   ));
