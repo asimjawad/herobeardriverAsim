@@ -107,50 +107,81 @@ class DeliverOrderPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: Dimens.insetS,),
-                                child: Icon(Icons.home,size: _iconSize,color: Colors.black,),
+                                padding: const EdgeInsets.only(
+                                  right: Dimens.insetS,
+                                ),
+                                child: Icon(
+                                  Icons.home,
+                                  size: _iconSize,
+                                  color: Colors.black,
+                                ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(Strings.address,style: Styles.appTheme.textTheme.bodyText1?.copyWith(color:Colors.black54,fontWeight: FontWeight.w800),),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: Dimens.insetS),
-                                    child: Text(
-                                      '${_appBloc.orderDetailsModel.data!.orders[0].deliveryAddress}',
-                                      style: Styles.appTheme.textTheme.bodyText2
-                                          ?.copyWith(color: Colors.black54),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      Strings.address,
+                                      style: Styles.appTheme.textTheme.bodyText1
+                                          ?.copyWith(
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.w800),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: (){
-                                      _launchMapsUrl(
-                                          double.parse(_appBloc
-                                              .orderDetailsModel
-                                              .data!
-                                              .orders[0]
-                                              .dLat),
-                                          double.parse(_appBloc
-                                              .orderDetailsModel
-                                              .data!
-                                              .orders[0]
-                                              .dLng));
-                                    },
-                                    child: Container(
-                                      color: Colors.black26,
-                                      padding: EdgeInsets.symmetric(vertical:Dimens.insetS,horizontal: Dimens.insetXs),
-                                      child:
-                                      Row(
-                                        children: [
-                                          Icon(Icons.directions_rounded,size: _iconSizeS,),
-                                          SizedBox(width: Dimens.insetXs,),
-                                          Text(Strings.direction,),
-                                        ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: Dimens.insetS),
+                                      child: Text(
+                                        '${_appBloc.orderDetailsModel.data!.orders[0].deliveryAddress}',
+                                        style: Styles
+                                            .appTheme.textTheme.bodyText2
+                                            ?.copyWith(color: Colors.black54),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _launchMapsUrl(
+                                                double.parse(_appBloc
+                                                    .orderDetailsModel
+                                                    .data!
+                                                    .orders[0]
+                                                    .dLat),
+                                                double.parse(_appBloc
+                                                    .orderDetailsModel
+                                                    .data!
+                                                    .orders[0]
+                                                    .dLng));
+                                          },
+                                          child: Container(
+                                            color: Colors.black26,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: Dimens.insetS,
+                                                horizontal: Dimens.insetXs),
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.directions_rounded,
+                                                  size: _iconSizeS,
+                                                ),
+                                                SizedBox(
+                                                  width: Dimens.insetXs,
+                                                ),
+                                                Text(
+                                                  Strings.direction,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -272,8 +303,9 @@ class DeliverOrderPage extends StatelessWidget {
     if (res == true) {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(false);
-      await Get.to<void>(() => HomePage());
+      await Get.offAll<void>(() => HomePage());
     } else if (res == false) {
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           Strings.tryAgain,
