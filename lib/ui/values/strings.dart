@@ -191,4 +191,19 @@ class Strings {
   static const somethingWentWrong = 'Something went wrong.';
   static const msgEnterVerification = 'Please enter verification code sent to';
   static const msgFillFields = 'Please fill all fields';
+
+  // otp verification pages
+  static const msgPhoneLength = 'Phone No Must be of 10 Characters';
+  static const msgEmptyPhone = 'Please Enter Phone Number';
+  static const msgPasswordLength = 'Password must be at least of 6 characters';
+  static const msgEmptyPassword = 'Please Enter Password';
+  static const msgPasswordNotMatch = 'Password Does Not Match. Try Again!';
+  static const msgEmptyTransId = 'Please Enter Transaction Id';
+  static const msgEmptyPayout = 'Please Enter Payout Amount';
+  static const msgEmptyDiamondField = 'Please Enter The Number of Diamonds';
+  static const msgEmptyName = 'Please Enter Name';
+  static const msgEmptyEmail = 'Please Enter Email';
+  static const msgEmptyMobile = 'Please Enter Mobile Number';
+  static const msgInvalidEmail = 'Enter Valid Email Address';
+  static const msgInvalidMobile = 'Enter Valid Phone Number';
 }
