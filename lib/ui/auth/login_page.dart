@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
-import 'package:hero_bear_driver/ui/auth/change_password_page.dart';
 import 'package:hero_bear_driver/ui/auth/login_form_wgt.dart';
 import 'package:hero_bear_driver/ui/auth/otp_verification_page.dart';
 import 'package:hero_bear_driver/ui/home/home_page.dart';
@@ -83,28 +82,28 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onForgotPassword(BuildContext context, String phoneNo) {
-    Get.offAll<void>(ChangePasswordPage(phoneNo: '+923001234567'));
-    // showDialog<void>(
-    //   context: context,
-    //   builder: (builderContext) {
-    //     () async {
-    //       try {
-    //         final timeOut = Duration(seconds: 60);
-    //         final verefId = await _appBloc.sendOtp(phoneNo, timeOut);
-    //         Navigator.pop(builderContext);
-    //         Get.to<void>(() => OtpVerificationPage(
-    //               phoneNo: phoneNo,
-    //               timeOut: timeOut,
-    //               verificationId: verefId,
-    //             ));
-    //       } catch (e) {
-    //         Navigator.pop(builderContext);
-    //       }
-    //     }.call();
-    //     return Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   },
-    // );
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (builderContext) {
+        () async {
+          try {
+            final timeOut = Duration(seconds: 60);
+            final verefId = await _appBloc.sendOtp(phoneNo, timeOut);
+            Navigator.pop(builderContext);
+            Get.to<void>(() => OtpVerificationPage(
+                  phoneNo: phoneNo,
+                  timeOut: timeOut,
+                  verificationId: verefId,
+                ));
+          } catch (e) {
+            Navigator.pop(builderContext);
+          }
+        }.call();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }

@@ -290,11 +290,6 @@ class ApiClient {
     }
     throw (Exception(response.statusMessage));
   }
-}
-
-class _BaseUrls {
-  static const driverImages =
-      'https://portal.herobear.com.ph/images/driver_images/';
 
   //get reason
   Future<GetReasonModel> getReason() async {
@@ -330,7 +325,7 @@ class _BaseUrls {
     throw (Exception(response.statusMessage));
   }
 
-// order completed by driver
+  // order completed by driver
   Future<bool> orderCompleteByDriver(
       {required int driverId,
       required String orderNo,
@@ -354,4 +349,9 @@ class _BaseUrls {
     }
     throw (Exception(response.statusMessage));
   }
+}
+
+class _BaseUrls {
+  static const driverImages =
+      'https://portal.herobear.com.ph/images/driver_images/';
 }

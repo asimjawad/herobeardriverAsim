@@ -226,6 +226,8 @@ class _HomeMapPageState extends State<HomeMapPage> {
     } else {
       Get.to<void>(() => LoadingPage());
     }
+  }
+
   void _onGoOnline(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
