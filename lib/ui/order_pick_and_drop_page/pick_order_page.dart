@@ -10,6 +10,7 @@ import 'package:hero_bear_driver/ui/order_pick_and_drop_page/orders_list_page.da
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/slider_widget.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/show_full_line_widget.dart';
+import 'package:hero_bear_driver/util/map_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PickOrderPage extends StatefulWidget {
@@ -70,58 +71,89 @@ class _PickOrderPageState extends State<PickOrderPage> {
 
   final _mapClient = MapClient();
 
-  final Set<Polyline>_polyline = {};
-
-  Map<PolylineId, Polyline> polylines = {};
+  final Set<Polyline> _polyline = {};
 
   List<LatLng> polylineCoordinates = [];
-
+  final Set<Marker> _markers = {};
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDestination();
-    currentUserLocation();
-    getPolyline();
   }
 
-  Future<List<LatLng>> getPolyline() async
-  {
+  Future<List<LatLng>> getPolyline() async {
     LatLng origin = await currentUserLocation();
     LatLng destination = await getDestination();
     var data = await _mapClient.getPolyline(origin, destination);
-    print('get polyline data $data');
     return data;
   }
 
-
+  //getting current user location
   Future<LatLng> currentUserLocation() async {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     LatLng _origin = LatLng(position.latitude, position.longitude);
-    print('current user loc $_origin');
     return _origin;
   }
 
-
+//getting destination location
   LatLng getDestination() {
     LatLng _destination = LatLng(
         double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-        double.parse(
-            _appBloc.orderDetailsModel.data!.orders[0].dLng)
-    );
+        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng));
 
-    print('destination $_destination');
     return _destination;
   }
 
+  void _onMapCreated(GoogleMapController controllerParam) async {
+    List<LatLng> latlng = await getPolyline();
+    LatLng getOrigin = await currentUserLocation();
+    setState(() {
+      //adding markers for user location and destination
+      _markers.add(Marker(
+        markerId: MarkerId('currentUserMarker'),
+        position: getOrigin,
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+      _markers.add(Marker(
+        markerId: MarkerId('desUserMarker'),
+        position: getDestination(),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+
+      // adding polyines in list
+      _polyline.add(Polyline(
+        polylineId: PolylineId('poly'),
+        visible: true,
+        points: latlng,
+        width: 5,
+        color: Theme.of(context).colorScheme.primary,
+      ));
+    });
+
+    LatLngBounds bound;
+    bound = MapUtil.getLatLngBounds(getOrigin, getDestination());
+
+    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 50);
+    check(u2, controllerParam);
+  }
+
+  void check(CameraUpdate u, GoogleMapController c) async {
+    c.animateCamera(u);
+    c.moveCamera(u);
+    LatLngBounds l1 = await c.getVisibleRegion();
+    LatLngBounds l2 = await c.getVisibleRegion();
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) {
+      check(u, c);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     if (dateTime.hour > 12) {
       if ((dateTime.minute +
-          int.parse(_appBloc.orderDetailsModel.data!.avgDeliveryTime)) >
+              int.parse(_appBloc.orderDetailsModel.data!.avgDeliveryTime)) >
           60) {
         hourS = dateTime.hour + 1;
         _amPm = true;
@@ -154,7 +186,7 @@ class _PickOrderPageState extends State<PickOrderPage> {
           )
         ],
         title:
-        Text('${Strings.pickUpAt} $hourS:$minutesS ${_amPm ? 'PM' : 'AM'}'),
+            Text('${Strings.pickUpAt} $hourS:$minutesS ${_amPm ? 'PM' : 'AM'}'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -166,7 +198,9 @@ class _PickOrderPageState extends State<PickOrderPage> {
                   double.parse(
                       _appBloc.orderDetailsModel.data!.orders[0].dLng)),
             ),
-
+            polylines: _polyline,
+            markers: _markers,
+            onMapCreated: _onMapCreated,
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
           ),
@@ -201,17 +235,13 @@ class _PickOrderPageState extends State<PickOrderPage> {
                           ),
                         ),
                         _directionsAndCallRow(
-                            callFunc: () =>
-                                _makeCall(
-                                    number: _appBloc.orderDetailsModel.data!
-                                        .phone),
-                            mapFunc: () =>
-                                _openMaps(
-                                    lat: double.parse(
-                                        _appBloc.orderDetailsModel.data!
-                                            .latitude),
-                                    lon: double.parse(_appBloc
-                                        .orderDetailsModel.data!.longitude))),
+                            callFunc: () => _makeCall(
+                                number: _appBloc.orderDetailsModel.data!.phone),
+                            mapFunc: () => _openMaps(
+                                lat: double.parse(
+                                    _appBloc.orderDetailsModel.data!.latitude),
+                                lon: double.parse(_appBloc
+                                    .orderDetailsModel.data!.longitude))),
                         Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: Dimens.insetS),
@@ -235,18 +265,14 @@ class _PickOrderPageState extends State<PickOrderPage> {
                           padding: const EdgeInsets.symmetric(
                               vertical: PickOrderPage._rowV),
                           child: _directionsAndCallRow(
-                              mapFunc: () =>
-                                  _openMaps(
-                                      lat: double.parse(_appBloc
-                                          .orderDetailsModel.data!.orders[0]
-                                          .dLat),
-                                      lon: double.parse(_appBloc
-                                          .orderDetailsModel.data!.orders[0]
-                                          .dLng)),
-                              callFunc: () =>
-                                  _makeCall(
-                                      number: _appBloc.orderDetailsModel.data!
-                                          .orders[0].user.phone)),
+                              mapFunc: () => _openMaps(
+                                  lat: double.parse(_appBloc
+                                      .orderDetailsModel.data!.orders[0].dLat),
+                                  lon: double.parse(_appBloc
+                                      .orderDetailsModel.data!.orders[0].dLng)),
+                              callFunc: () => _makeCall(
+                                  number: _appBloc.orderDetailsModel.data!
+                                      .orders[0].user.phone)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(
@@ -265,15 +291,13 @@ class _PickOrderPageState extends State<PickOrderPage> {
                             bottom: 5,
                           ),
                           child: Text(
-                            '${_appBloc.orderDetailsModel.count} ${Strings
-                                .totalItem}',
+                            '${_appBloc.orderDetailsModel.count} ${Strings.totalItem}',
                             style: Styles.appTheme.textTheme.bodyText2
                                 ?.copyWith(color: Colors.black54),
                           ),
                         ),
                         Text(
-                          '${Strings.sCurrency} ${_appBloc.orderDetailsModel
-                              .data!.orders[0].subTotal}',
+                          '${Strings.sCurrency} ${_appBloc.orderDetailsModel.data!.orders[0].subTotal}',
                           style: Styles.appTheme.textTheme.bodyText2
                               ?.copyWith(color: Colors.black54),
                         ),
@@ -285,11 +309,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
                               return Padding(
                                 padding: const EdgeInsets.all(Dimens.insetXs),
                                 child: Text(
-                                  '${_appBloc.orderDetailsModel.data!.orders[0]
-                                      .orderProduct[index].qty}'
-                                      'x ${_appBloc.orderDetailsModel.data!
-                                      .orders[0].orderProduct[index].product
-                                      ?.name}',
+                                  '${_appBloc.orderDetailsModel.data!.orders[0].orderProduct[index].qty}'
+                                  'x ${_appBloc.orderDetailsModel.data!.orders[0].orderProduct[index].product?.name}',
                                   style: Styles.appTheme.textTheme.bodyText2
                                       ?.copyWith(color: Colors.black54),
                                 ),
@@ -320,21 +341,22 @@ class _PickOrderPageState extends State<PickOrderPage> {
           Padding(
             padding: const EdgeInsets.all(Dimens.insetM),
             child: Column(
-
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Stack(
                   children: [
-                    SliderWidget(func: _gotoOrderPickDriver,),
+                    SliderWidget(
+                      func: _gotoOrderPickDriver,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: PickOrderPage._rowV),
                       child: Center(
-                          child: Text(Strings.slideAfterArrival, style: Styles
-                              .appTheme.textTheme.bodyText1?.copyWith(
-                              color: Colors.white, fontWeight: FontWeight
-                              .w700),)),
+                          child: Text(
+                        Strings.slideAfterArrival,
+                        style: Styles.appTheme.textTheme.bodyText1?.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w700),
+                      )),
                     ),
-
                   ],
                 ),
               ],
@@ -348,70 +370,67 @@ class _PickOrderPageState extends State<PickOrderPage> {
   Widget _directionsAndCallRow(
       {required void Function() mapFunc, required void Function() callFunc}) {
     return Row(
-        children: [``
+      children: [
         GestureDetector(
-        onTap: ()
-    {
-      mapFunc();
-    },
-    child: Container(
-    height: _containerH,
-    // width: 90,
-    color: MyColors.yellow400,
-    child: Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    Icon(
-    Icons.directions,
-    size: _iconSize,
-    color: Colors.white,
-    ),
-    Text(
-    Strings.direction,
-    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
-    color: Colors.white, fontWeight: FontWeight.w600),
-    )
-    ],
-    ),
-    ),
-    ),
-    ),
-    SizedBox(
-    width: _sizedBoxW,
-    ),
-    GestureDetector(
-    onTap: () {
-    callFunc();
-    },
-    child: Container(
-    height: _containerH,
-    // width: 90,
-    color: MyColors.yellow400,
-    child: Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-    Icon(
-    Icons.call,
-    size: _iconSize,
-    color: Colors.white,
-    ),
-    Text(
-    Strings.call,
-    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
-    color: Colors.white, fontWeight: FontWeight.w600),
-    )
-    ],
-    ),
-    ),
-    ),
-    )
-    ,
-    ]
-    ,
+          onTap: () {
+            mapFunc();
+          },
+          child: Container(
+            height: _containerH,
+            // width: 90,
+            color: MyColors.yellow400,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.directions,
+                    size: _iconSize,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    Strings.direction,
+                    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: _sizedBoxW,
+        ),
+        GestureDetector(
+          onTap: () {
+            callFunc();
+          },
+          child: Container(
+            height: _containerH,
+            // width: 90,
+            color: MyColors.yellow400,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.call,
+                    size: _iconSize,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    Strings.call,
+                    style: Styles.appTheme.textTheme.bodyText1?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -436,5 +455,4 @@ class _PickOrderPageState extends State<PickOrderPage> {
       throw 'Could not launch $url';
     }
   }
-
 }
