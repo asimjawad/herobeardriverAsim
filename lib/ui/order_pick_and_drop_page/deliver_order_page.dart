@@ -277,6 +277,7 @@ class DeliverOrderPage extends StatelessWidget {
 
   void OrderDeliveredDialog(BuildContext context) {
     showDialog<void>(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return DeliverPhotoAndConfirmDialog(
@@ -290,6 +291,7 @@ class DeliverOrderPage extends StatelessWidget {
 
   void ordeCompleteByDriver(BuildContext context) async {
     await showDialog<void>(
+        barrierDismissible: false,
         context: context,
         builder: (_) {
           return Center(

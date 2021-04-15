@@ -10,5 +10,7 @@ class Dimens {
 
   static const sizeIconM = 24.0;
 
+  static const sizeMapPin = 48.0;
+
   Dimens._();
 }

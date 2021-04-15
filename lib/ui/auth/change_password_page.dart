@@ -100,6 +100,7 @@ class ChangePasswordPage extends StatelessWidget {
 
   void _onDone(BuildContext context) {
     showDialog<void>(
+      barrierDismissible: false,
       context: context,
       builder: (builderContext) {
         () async {

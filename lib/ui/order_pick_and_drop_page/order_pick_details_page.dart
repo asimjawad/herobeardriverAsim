@@ -190,8 +190,10 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
   }
 
   void _CheckForCommonItems({required BuildContext context}){
-    showDialog<void>(context: context,
-        builder: (context){
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
           return Dialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(Dimens.insetS),
@@ -265,6 +267,7 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
 
   void _CheckOut(BuildContext context) {
     showDialog<void>(
+        barrierDismissible: false,
         context: context,
         builder: (context) {
           return PickPhotoAndConfirmDialog(
@@ -279,6 +282,7 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
   void orderAcceptByDriver(BuildContext context) async {
     await showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (_) {
           return Center(
             child: CircularProgressIndicator(),
@@ -287,7 +291,7 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
     final res = await _appBloc.orderAcceptByDriver(
         orderNo: _appBloc.orderDetailsModel.orderNos![0],
         image: imageSelected!,
-        status: '1');
+        status: '3');
     if (res == true) {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(true);

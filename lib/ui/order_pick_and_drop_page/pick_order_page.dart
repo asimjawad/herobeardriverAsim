@@ -31,36 +31,6 @@ class _PickOrderPageState extends State<PickOrderPage> {
 
   final double _sizedBoxW = 15;
 
-  final double _price = 16.33;
-
-  final String _customerName = 'Customer Name';
-
-  final String _restaurantName = 'Restaurant Name';
-
-  final String _hotelAddress = 'The address of the hotel';
-
-  final String _time = '11:30 AM';
-
-  final int _totalItems = 1;
-
-  final int _itemCount = 1;
-
-  final int _noOfSngleItem = 3;
-
-  final String _nameofSingleItem = 'Pizza One';
-
-  final String _restaurantNumber = '03154511100';
-
-  final double _restaurantLat = 12.22222;
-
-  final double _restaurantLng = 32.22222;
-
-  final String _userNumber = '03154511100';
-
-  final double _userLat = 12.22222;
-
-  final double _userLng = 32.22222;
-
   bool _amPm = false;
 
   int hourS = 0;
@@ -109,17 +79,20 @@ class _PickOrderPageState extends State<PickOrderPage> {
   void _onMapCreated(GoogleMapController controllerParam) async {
     List<LatLng> latlng = await getPolyline();
     LatLng getOrigin = await currentUserLocation();
+    final _icon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(Dimens.sizeMapPin, Dimens.sizeMapPin)),
+        MyImgs.mapPin);
     setState(() {
       //adding markers for user location and destination
       _markers.add(Marker(
         markerId: MarkerId('currentUserMarker'),
         position: getOrigin,
-        icon: BitmapDescriptor.defaultMarker,
+        icon: _icon,
       ));
       _markers.add(Marker(
         markerId: MarkerId('desUserMarker'),
         position: getDestination(),
-        icon: BitmapDescriptor.defaultMarker,
+        icon: _icon,
       ));
 
       // adding polyines in list

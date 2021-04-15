@@ -279,7 +279,7 @@ class _HomeMapPageState extends State<HomeMapPage> {
     /*await _appBloc.setOrderAcceptedStatus(false);
     await _appBloc.setOrderDeliveryStatus(true);*/
     final reqData = await _appBloc.orderRequest();
-    if (reqData.data != null) {
+    /*if (reqData.data != null) {
       //ftech data for obj
       await _appBloc.fetchOrderRequestData();
       final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
@@ -318,6 +318,18 @@ class _HomeMapPageState extends State<HomeMapPage> {
           await Get.offAll<void>(() => PickOrderPage());
         }
         // print('a');
+      }
+    }*/
+    if (reqData.data != null) {
+      // print(reqData.data!.orders[0].status == 'assign');
+      await _appBloc.fetchOrderRequestData();
+      print(reqData.data!.orders[0].status);
+      if (reqData.data!.orders[0].status == 'assign') {
+        await Get.offAll<void>(() => OrderConfirmPage());
+      } else if (reqData.data!.orders[0].status == 'accepted') {
+        await Get.offAll<void>(() => PickOrderPage());
+      } else if (reqData.data!.orders[0].status == 'pickup') {
+        await Get.offAll<void>(() => DeliverOrderPage());
       }
     }
   }
