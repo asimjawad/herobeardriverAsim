@@ -212,4 +212,6 @@ class Strings {
   static const msgInvalidMobile = 'Enter Valid Phone Number';
   static const msgNewPassword = 'Please Enter New Password';
   static const msgReenterPassword = 'Please Re-enter New Password';
+  static const msgNotApproved =
+      'Your account has been deactivated. Please contact admin.';
 }

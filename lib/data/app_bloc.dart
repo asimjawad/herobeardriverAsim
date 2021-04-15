@@ -8,7 +8,6 @@ import 'package:hero_bear_driver/data/models/driver_reviews_model/driver_reviews
 import 'package:hero_bear_driver/data/models/earning_model/earning_model.dart';
 import 'package:hero_bear_driver/data/models/home_Screen_dashboard_model.dart';
 import 'package:hero_bear_driver/data/models/location_model.dart';
-import 'package:hero_bear_driver/data/models/online_model.dart';
 import 'package:hero_bear_driver/data/models/order_details_model/order_details_model.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
 import 'package:hero_bear_driver/data/repository.dart';
@@ -122,13 +121,7 @@ class AppBloc extends DisposableInterface {
     final location = await this.location;
     await _repository.setUserOnline(
       user.userId,
-      OnlineModel(
-        g: 'random_text',
-        l: [
-          location.latLng.latitude,
-          location.latLng.longitude,
-        ],
-      ),
+      location.latLng,
     );
     _updateHomeDataStream();
   }

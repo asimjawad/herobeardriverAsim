@@ -67,6 +67,10 @@ class LoginPage extends StatelessWidget {
             // todo: show msg when not approved
             if (user.approved == UserLoginModel.sApproved) {
               success = true;
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(Strings.msgNotApproved),
+              ));
             }
           } catch (e) {}
           if (success) {
