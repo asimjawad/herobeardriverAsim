@@ -172,12 +172,6 @@ class AppBloc extends DisposableInterface {
     return _repository.getDriverReviews(user.userId);
   }
 
-  Future<String> sendOtp(String phoneNo, Duration autoretrieveTimeout) =>
-      _repository.sendOtp(phoneNo, autoretrieveTimeout);
-
-  Future<void> onOtpAutoVerificationComplete() =>
-      _repository.onOtpAutoVerificationComplete();
-
   // Get Diamonds
   Future<DiamondsModel> getDiamonds() async {
     final user = await this.user;
@@ -198,9 +192,6 @@ class AppBloc extends DisposableInterface {
     }
     return message;
   }
-
-  Future<void> verifySmsCode(String smsCode) =>
-      _repository.verifySmsCode(smsCode);
 
   Future<void> changePassword({
     required String phoneNo,
