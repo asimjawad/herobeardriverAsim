@@ -11,8 +11,6 @@ import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
-import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
-import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
@@ -139,8 +137,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _goToPickOrderPage(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _getOrderRequest());
+  void _getOrderRequest(BuildContext context, HomeScreenDashboardModel model,
+      LocationModel locModel) async {
+    final reqData = await _appBloc.orderRequest();
+    if (reqData.data != null) {
+      await _appBloc.fetchOrderRequestData();
+      await Get.offAll<void>(() => PickOrderPage());
+    } else {
+      await Get.offAll<void>(
+          () => HomeMapPage(model: model, locModel: locModel));
+    }
   }
 
   Widget _buildBody(BuildContext context) {
@@ -152,13 +158,10 @@ class _HomePageState extends State<HomePage> {
             stream: _appBloc.getHomeDataSteam(),
             builder: (context, homeSnapshot) {
               if (homeSnapshot.hasData) {
-                if (homeSnapshot.data!.driverStatus ==
-                    HomeScreenDashboardModel.statusOnline) {
-                  return HomeMapPage(
-                    model: homeSnapshot.data!,
-                    locModel: locSnapshot.data!,
-                  );
-                  //_goToPickOrderPage(context);
+                if (homeSnapshot.data!.driverStatus !=
+                    HomeScreenDashboardModel.statusOffline) {
+                  _getOrderRequest(
+                      context, homeSnapshot.data!, locSnapshot.data!);
                 } else {
                   return HomeMapPage(
                     model: homeSnapshot.data!,
@@ -205,52 +208,5 @@ class _HomePageState extends State<HomePage> {
   void _onLogOut() async {
     await _appBloc.logOut();
     Get.offAll<void>(() => LoginPage());
-  }
-
-  void _getOrderRequest() async {
-    final reqData = await _appBloc.orderRequest();
-    if (reqData.data != null) {
-      //ftech data for obj
-      await _appBloc.fetchOrderRequestData();
-      final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
-      if (acceptedStatus == null) {
-        // print("");
-        // app runs first time
-        await Get.offAll<void>(() => OrderConfirmPage());
-        // await Get.offAll<void>(OrderConfirmPage());
-      } else if (acceptedStatus) {
-        // if order was accepted
-        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
-        // check if order is picked or not
-        if (deliveryStatus == null) {
-          // app runs first time and the order is not picked from the hotel
-          await Get.offAll<void>(() => PickOrderPage());
-        } else if (deliveryStatus) {
-          // order is picked and now must be delivered
-          await Get.offAll<void>(DeliverOrderPage());
-          // print('a');
-        } else {
-          // order is not picked.
-          await Get.offAll<void>(() => PickOrderPage());
-          // print('a');
-        }
-      } else {
-        // order is not accpeted.
-        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
-        if (deliveryStatus == null) {
-          // app runs first time and the order is not picked from the hotel
-          await Get.offAll<void>(() => PickOrderPage());
-        } else if (deliveryStatus) {
-          // order is picked and now must be delivered
-          await Get.offAll<void>(DeliverOrderPage());
-          // print('a');
-        } else {
-          // print('a');
-          // order is not picked.
-          await Get.offAll<void>(() => PickOrderPage());
-        }
-        // print('a');
-      }
-    }
   }
 }
