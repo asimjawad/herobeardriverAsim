@@ -151,10 +151,11 @@ class _HomePageState extends State<HomePage> {
       } else if (reqData.data!.orders[0].status == 'pickup') {
         await Get.offAll<void>(() => DeliverOrderPage());
       }
-    } else {
-      await Get.offAll<void>(
-          () => HomeMapPage(model: model, locModel: locModel));
     }
+    // else {
+    //   await Get.offAll<void>(
+    //       () => HomeMapPage(model: model, locModel: locModel));
+    // }
   }
 
   Widget _buildBody(BuildContext context) {
@@ -170,12 +171,11 @@ class _HomePageState extends State<HomePage> {
                     HomeScreenDashboardModel.statusOffline) {
                   _getOrderRequest(
                       context, homeSnapshot.data!, locSnapshot.data!);
-                } else {
-                  return HomeMapPage(
-                    model: homeSnapshot.data!,
-                    locModel: locSnapshot.data!,
-                  );
                 }
+                return HomeMapPage(
+                  model: homeSnapshot.data!,
+                  locModel: locSnapshot.data!,
+                );
               } else if (homeSnapshot.hasError) {
                 return NoInternetWgt(
                     // todo: add [onTryAgain]
