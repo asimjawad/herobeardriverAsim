@@ -11,6 +11,8 @@ import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/no_internet_wgt.dart';
@@ -136,6 +138,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _goToPickOrderPage(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _getOrderRequest());
+  }
+
   Widget _buildBody(BuildContext context) {
     return FutureBuilder<LocationModel>(
       future: _appBloc.location,
@@ -145,10 +151,15 @@ class _HomePageState extends State<HomePage> {
             stream: _appBloc.getHomeDataSteam(),
             builder: (context, homeSnapshot) {
               if (homeSnapshot.hasData) {
-                return HomeMapPage(
-                  model: homeSnapshot.data!,
-                  locModel: locSnapshot.data!,
-                );
+                if (homeSnapshot.data!.driverStatus ==
+                    HomeScreenDashboardModel.statusOnline) {
+                  _goToPickOrderPage(context);
+                } else {
+                  return HomeMapPage(
+                    model: homeSnapshot.data!,
+                    locModel: locSnapshot.data!,
+                  );
+                }
               } else if (homeSnapshot.hasError) {
                 return NoInternetWgt(
                     // todo: add [onTryAgain]
@@ -189,5 +200,50 @@ class _HomePageState extends State<HomePage> {
   void _onLogOut() async {
     await _appBloc.logOut();
     Get.offAll<void>(() => LoginPage());
+  }
+
+  void _getOrderRequest() async {
+    final reqData = await _appBloc.orderRequest();
+    if (reqData.data != null) {
+      //ftech data for obj
+      await _appBloc.fetchOrderRequestData();
+      final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
+      if (acceptedStatus == null) {
+        // app runs first time
+        // await Get.offAll<void>(OrderConfirmPage());
+      } else if (acceptedStatus) {
+        // if order was accepted
+        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
+        // check if order is picked or not
+        if (deliveryStatus == null) {
+          // app runs first time and the order is not picked from the hotel
+          await Get.offAll<void>(() => PickOrderPage());
+        } else if (deliveryStatus) {
+          // order is picked and now must be delivered
+          await Get.offAll<void>(DeliverOrderPage());
+          // print('a');
+        } else {
+          // order is not picked.
+          await Get.offAll<void>(() => PickOrderPage());
+          // print('a');
+        }
+      } else {
+        // order is not accpeted.
+        final deliveryStatus = await _appBloc.getOrderDeliveryStatus();
+        if (deliveryStatus == null) {
+          // app runs first time and the order is not picked from the hotel
+          await Get.offAll<void>(() => PickOrderPage());
+        } else if (deliveryStatus) {
+          // order is picked and now must be delivered
+          await Get.offAll<void>(DeliverOrderPage());
+          // print('a');
+        } else {
+          // print('a');
+          // order is not picked.
+          await Get.offAll<void>(() => PickOrderPage());
+        }
+        // print('a');
+      }
+    }
   }
 }
