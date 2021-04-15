@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/api_client.dart';
 import 'package:hero_bear_driver/data/closable.dart';
 import 'package:hero_bear_driver/data/firebase_auth_client.dart';
@@ -23,6 +25,7 @@ class Repository implements Closable {
   final _sharedPrefClient = SharedPrefClient();
   final _firebaseDbClient = FirebaseDbClient();
   final _firebaseAuthClient = FirebaseAuthClient();
+  final _geoFire = Geoflutterfire();
 
   @override
   void close() {
@@ -66,9 +69,11 @@ class Repository implements Closable {
   Future<CommissionModel> getCommissionData(int userId) =>
       _apiClient.getCommissionData(userId);
 
-  Future<EarningModel> getDriverEarningHistory(int userId,
-      DateTime startDate,
-      DateTime endDate,) async {
+  Future<EarningModel> getDriverEarningHistory(
+    int userId,
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     final earningHistory = await _apiClient.getDriverEarningHistory(
       userId,
       startDate,
@@ -77,13 +82,16 @@ class Repository implements Closable {
     return earningHistory;
   }
 
-  Future<bool> setCapital(int userId,
-      double capital,) async {
+  Future<bool> setCapital(
+    int userId,
+    double capital,
+  ) async {
     var response = await _apiClient.setCapital(userId, capital);
     return response;
   }
 
-  Future<bool> submitPayment(int userId, {
+  Future<bool> submitPayment(
+    int userId, {
     required String payoutAmount,
     required String transactionId,
   }) async {
@@ -95,14 +103,27 @@ class Repository implements Closable {
     return response;
   }
 
-  Future<void> setUserOnline(int userId, OnlineModel model) async {
+  Future<void> setUserOnline(int userId, LatLng latLng) async {
     await _apiClient.setDriverOnline(
       driverId: userId,
       deviceToken: await _deviceToken,
-      latitude: model.l[0],
-      longitude: model.l[1],
+      latitude: latLng.latitude,
+      longitude: latLng.longitude,
     );
-    await _firebaseDbClient.setUserOnline(userId, model);
+    await _firebaseDbClient.setUserOnline(
+        userId,
+        OnlineModel(
+          g: _geoFire
+              .point(
+                latitude: latLng.latitude,
+                longitude: latLng.longitude,
+              )
+              .hash,
+          l: [
+            latLng.latitude,
+            latLng.longitude,
+          ],
+        ));
   }
 
   Future<void> setUserOffline(int userId) async {
