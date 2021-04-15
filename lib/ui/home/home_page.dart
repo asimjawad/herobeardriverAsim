@@ -11,6 +11,7 @@ import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
+import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
@@ -153,7 +154,11 @@ class _HomePageState extends State<HomePage> {
               if (homeSnapshot.hasData) {
                 if (homeSnapshot.data!.driverStatus ==
                     HomeScreenDashboardModel.statusOnline) {
-                  _goToPickOrderPage(context);
+                  return HomeMapPage(
+                    model: homeSnapshot.data!,
+                    locModel: locSnapshot.data!,
+                  );
+                  //_goToPickOrderPage(context);
                 } else {
                   return HomeMapPage(
                     model: homeSnapshot.data!,
@@ -209,7 +214,9 @@ class _HomePageState extends State<HomePage> {
       await _appBloc.fetchOrderRequestData();
       final acceptedStatus = await _appBloc.getOrderAcceptedStatus();
       if (acceptedStatus == null) {
+        // print("");
         // app runs first time
+        await Get.offAll<void>(() => OrderConfirmPage());
         // await Get.offAll<void>(OrderConfirmPage());
       } else if (acceptedStatus) {
         // if order was accepted
