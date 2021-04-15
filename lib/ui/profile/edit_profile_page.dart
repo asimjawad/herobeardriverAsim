@@ -41,20 +41,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    openGallery();
-                  },
-                  child: _imageSelected == null
-                      ? Image.network(
-                          snapshot.data!.image,
-                          width: _sizeImgProfile,
-                          height: _sizeImgProfile,
-                        )
-                      : Image.file(
-                          _imageSelected!,
-                          width: _sizeImgProfile,
-                          height: _sizeImgProfile,
-                        ),
-                ),
+                      openGallery();
+                    },
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: _imageSelected == null
+                          ? Image.network(
+                              snapshot.data!.image,
+                              width: _sizeImgProfile,
+                              height: _sizeImgProfile,
+                            )
+                          : Image.file(
+                              _imageSelected!,
+                              width: _sizeImgProfile,
+                              height: _sizeImgProfile,
+                            ),
+                    )),
                 SizedBox(
                   height: Dimens.insetM,
                 ),
