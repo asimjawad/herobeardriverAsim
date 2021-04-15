@@ -21,7 +21,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _email = TextEditingController();
   final _mobileNo = TextEditingController();
 
-  // final _formKey=GlobalKey<FormState>();
   File? _imageSelected;
   final _appBloc = Get.find<AppBloc>();
 
@@ -41,7 +40,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                      openGallery();
+                    _showPicker(context);
                     },
                     child: Container(
                       clipBehavior: Clip.hardEdge,
@@ -55,9 +54,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               height: _sizeImgProfile,
                             )
                           : Image.file(
-                              _imageSelected!,
+                        _imageSelected!,
                               width: _sizeImgProfile,
                               height: _sizeImgProfile,
+                              fit: BoxFit.cover,
                             ),
                     )),
                 SizedBox(
@@ -161,7 +161,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.photo_library),
+                      title: Text('Gallery'),
+                      onTap: () {
+                        openGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text('Camera'),
+                    onTap: () {
+                      openCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   void _onSave(BuildContext context) {
     showDialog<void>(
@@ -186,6 +214,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void openGallery() async {
     var pickedFile = (await ImagePicker().getImage(
       source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    ));
+    if (pickedFile != null) {
+      setState(() {
+        _imageSelected = File(pickedFile.path);
+      });
+    } else {
+      print('Nothing is selected');
+    }
+  }
+
+  void openCamera() async {
+    var pickedFile = (await ImagePicker().getImage(
+      source: ImageSource.camera,
       maxWidth: 1800,
       maxHeight: 1800,
     ));
