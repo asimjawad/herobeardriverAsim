@@ -54,6 +54,7 @@ class LoginPage extends StatelessWidget {
 
   void _onLogin(BuildContext context, String phoneNo, String password) {
     showDialog<void>(
+      barrierDismissible: false,
       context: context,
       builder: (builderContext) {
         () async {

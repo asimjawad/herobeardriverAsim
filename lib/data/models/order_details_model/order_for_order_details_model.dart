@@ -27,7 +27,7 @@ class OrderForOrderDetailsModel {
     required this.image,
     this.deliverImage,
     required this.deliveryAddress,
-    required this.scheduledDate,
+    this.scheduledDate,
     required this.dLat,
     required this.dLng,
     required this.orderedTime,
@@ -78,7 +78,7 @@ class OrderForOrderDetailsModel {
   @JsonKey(name: 'delivery_address')
   String deliveryAddress;
   @JsonKey(name: 'scheduled_date')
-  DateTime scheduledDate;
+  DateTime? scheduledDate;
   @JsonKey(name: 'd_lat')
   String dLat;
   @JsonKey(name: 'd_lng')

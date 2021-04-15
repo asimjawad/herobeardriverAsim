@@ -7,6 +7,7 @@ class MyImgs {
   static const diamondLogo = 'assets/images/diamond.png';
   static const noProfile = 'assets/images/no_profile.png';
   static const blueDot = 'assets/images/blue_dot.png';
+  static const mapPin = 'assets/images/map_pin.png';
 
   MyImgs._();
 }

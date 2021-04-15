@@ -150,6 +150,7 @@ class OrderConfirmPage extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () async {
                           await showDialog<void>(
+                              barrierDismissible: false,
                               context: context,
                               builder: (_) {
                                 return Center(
@@ -161,7 +162,7 @@ class OrderConfirmPage extends StatelessWidget {
                           var response = await _appBloc.orderAcceptByDriver(
                               orderNo: _appBloc.orderDetailsModel.orderNos![0],
                               image: f,
-                              status: '3');
+                              status: '1');
                           if (response) {
                             await _appBloc.setOrderAcceptedStatus(true);
                             await Get.offAll<void>(() => PickOrderPage());
