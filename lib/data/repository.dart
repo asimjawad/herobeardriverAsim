@@ -46,7 +46,9 @@ class Repository implements Closable {
       password: password,
       deviceToken: token,
     );
-    await _sharedPrefClient.setUser(user);
+    if (user.approved == UserLoginModel.sApproved) {
+      await _sharedPrefClient.setUser(user);
+    }
     return user;
   }
 
