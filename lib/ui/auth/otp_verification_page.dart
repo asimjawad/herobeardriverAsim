@@ -1,19 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/ui/auth/change_password_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String phoneNo;
-  final String verificationId;
-  final Duration timeOut;
 
   OtpVerificationPage({
     required this.phoneNo,
-    required this.verificationId,
-    required this.timeOut,
   });
 
   @override
@@ -25,11 +21,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   static const _styleDisabledText = TextStyle(
     color: Colors.grey,
   );
-  final _appBloc = Get.find<AppBloc>();
   final _focusNodes = List.generate(_otpCharCount, (_) => FocusNode());
   final _textControllers =
       List.generate(_otpCharCount, (_) => TextEditingController());
   bool _enableResend = false;
+  bool _codeSent = false;
+  String? _verificationId;
 
   @override
   void initState() {
@@ -39,64 +36,79 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         backwardsCompatibility: false,
         title: Text(Strings.forgotPassword),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(Dimens.insetM),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              Strings.verificationCode,
-              style: textTheme.headline2,
+      body: _codeSent
+          ? _buildOtpContent(context)
+          : Center(
+              child: CircularProgressIndicator(),
             ),
-            SizedBox(
-              height: 20,
+    );
+  }
+
+  Widget _buildOtpContent(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.insetM),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            Strings.verificationCode,
+            style: textTheme.headline2,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(Strings.msgEnterVerification),
+          SizedBox(
+            height: 20,
+          ),
+          _buildOtpRow(context),
+          SizedBox(
+            height: 20,
+          ),
+          InkWell(
+            onTap: _onResendOtp,
+            child: Text(
+              Strings.resendOtp,
+              textAlign: TextAlign.end,
+              style: _enableResend ? null : _styleDisabledText,
             ),
-            Text(Strings.msgEnterVerification),
-            SizedBox(
-              height: 20,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Builder(
+            builder: (context) => ElevatedButton(
+              onPressed: () => _onNext(context),
+              child: Text(Strings.next),
             ),
-            _buildOtpRow(context),
-            SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: _onResendOtp,
-              child: Text(
-                Strings.resendOtp,
-                textAlign: TextAlign.end,
-                style: _enableResend ? null : _styleDisabledText,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Builder(
-              builder: (context) => ElevatedButton(
-                onPressed: () => _onNext(context),
-                child: Text(Strings.next),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  void _onceAfterBuild() async {
-    try {
-      await _appBloc.onOtpAutoVerificationComplete();
-      Get.offAll<void>(() => ChangePasswordPage(
-            phoneNo: widget.phoneNo,
-          ));
-    } catch (e) {
-      setState(() => _enableResend = true);
-    }
+  void _onceAfterBuild() {
+    FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: widget.phoneNo,
+      verificationCompleted: (credential) {},
+      verificationFailed: (exception) {},
+      codeSent: (verificationId, resendToken) {
+        _verificationId = verificationId;
+        setState(() => _codeSent = true);
+      },
+      codeAutoRetrievalTimeout: (verificationId) {
+        setState(() => _enableResend = true);
+      },
+      timeout: Duration(
+        seconds: 60,
+      ),
+    );
   }
 
   Widget _buildOtpRow(BuildContext context) {
@@ -108,28 +120,27 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         ...List.generate(_otpCharCount, (index) => index)
             .map((index) => _buildOtpCell(
                   context,
-                  node: _focusNodes[index],
-                  onFilled: () {
-                    // exclude last node
-                    if (index < _focusNodes.length - 1) {
-                      _focusNodes[index + 1].requestFocus();
-                    }
-                  },
-                  onClear: () {
-                    // exclude first node
-                    if (index > 0) {
-                      _focusNodes[index - 1].requestFocus();
-                    }
-                  },
-                  autoFocus: index == 0,
-                  controller: _textControllers[index],
-                )),
+              node: _focusNodes[index],
+              onFilled: () {
+                // exclude last node
+                if (index < _focusNodes.length - 1) {
+                  _focusNodes[index + 1].requestFocus();
+                }
+              },
+              onClear: () {
+                // exclude first node
+                if (index > 0) {
+                  _focusNodes[index - 1].requestFocus();
+                }
+              },
+              autoFocus: index == 0,
+              controller: _textControllers[index],
+            )),
       ],
     );
   }
 
-  static Widget _buildOtpCell(
-    BuildContext context, {
+  static Widget _buildOtpCell(BuildContext context, {
     FocusNode? node,
     void Function()? onFilled,
     void Function()? onClear,
@@ -173,9 +184,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       showDialog<void>(
         context: context,
         builder: (builderContext) {
-          () async {
+              () async {
             try {
-              await _appBloc.verifySmsCode(smsCode);
+              final credential = PhoneAuthProvider.credential(
+                verificationId: _verificationId!,
+                smsCode: smsCode,
+              );
+              await FirebaseAuth.instance.signInWithCredential(credential);
               Get.offAll<void>(() => ChangePasswordPage(
                     phoneNo: widget.phoneNo,
                   ));
@@ -199,6 +214,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   }
 
   void _onResendOtp() {
-    setState(() => _enableResend = false);
+    setState(() {
+      _codeSent = false;
+      _enableResend = false;
+    });
+    _onceAfterBuild();
   }
 }
