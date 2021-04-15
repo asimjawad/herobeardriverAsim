@@ -11,6 +11,8 @@ import 'package:hero_bear_driver/ui/diamond/diamond_page.dart';
 import 'package:hero_bear_driver/ui/driver_earning/driver_earning_page.dart';
 import 'package:hero_bear_driver/ui/home/home_map_page.dart';
 import 'package:hero_bear_driver/ui/loading_page.dart';
+import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
+import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/profile/profile_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
@@ -142,7 +144,13 @@ class _HomePageState extends State<HomePage> {
     final reqData = await _appBloc.orderRequest();
     if (reqData.data != null) {
       await _appBloc.fetchOrderRequestData();
-      await Get.offAll<void>(() => PickOrderPage());
+      if (reqData.data!.orders[0].status == 'assign') {
+        await Get.offAll<void>(() => OrderConfirmPage());
+      } else if (reqData.data!.orders[0].status == 'accepted') {
+        await Get.offAll<void>(() => PickOrderPage());
+      } else if (reqData.data!.orders[0].status == 'pickup') {
+        await Get.offAll<void>(() => DeliverOrderPage());
+      }
     } else {
       await Get.offAll<void>(
           () => HomeMapPage(model: model, locModel: locModel));
