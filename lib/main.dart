@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Styles.appTheme,
       initialBinding: BindingsBuilder.put(
-        () => AppBloc(),
+            () => AppBloc(),
         permanent: true,
       ),
       getPages: [
