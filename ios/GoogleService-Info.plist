@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>859100409663-pth7bd6g135mcco4lgu13e7a01qugmia.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.859100409663-pth7bd6g135mcco4lgu13e7a01qugmia</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>859100409663-3guo9io28pknuvq5cva3s09rogv2i6ci.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAk0u2HbD2foIn_QnY2BhBKWwPOlYN6-bg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>859100409663</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sigitechnologies.HeroBear-Driver</string>
+	<key>PROJECT_ID</key>
+	<string>herobeardelivery-4eabd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>herobeardelivery-4eabd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:859100409663:ios:25648195919462ea77ad8a</string>
+	<key>DATABASE_URL</key>
+	<string>https://herobeardelivery-4eabd.firebaseio.com</string>
+</dict>
+</plist>
