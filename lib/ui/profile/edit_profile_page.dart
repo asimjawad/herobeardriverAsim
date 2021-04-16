@@ -47,6 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
+                      alignment: Alignment.center,
                       child: _imageSelected == null
                           ? Image.network(
                               snapshot.data!.image,
@@ -54,7 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               height: _sizeImgProfile,
                             )
                           : Image.file(
-                        _imageSelected!,
+                              _imageSelected!,
                               width: _sizeImgProfile,
                               height: _sizeImgProfile,
                               fit: BoxFit.cover,
