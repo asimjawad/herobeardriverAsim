@@ -135,7 +135,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     if (_formKey1.currentState!.validate()) {
-                                      _formKey1.currentState!.save();
+                                      // _formKey1.currentState!.save();
                                       _onSave(context);
                                     }
                                     ;
@@ -197,11 +197,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       context: context,
       builder: (context) {
         // todo: handle on edit profile here
-        late bool res;
+        var res = false;
         () async {
           res = await _appBloc.editProfile(
               name: _name.text, email: _email.text, image: _imageSelected);
         }.call();
+
         if (res) {
           Get.back<void>();
         }

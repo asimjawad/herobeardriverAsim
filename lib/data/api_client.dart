@@ -281,7 +281,7 @@ class ApiClient {
         _pDriverId: driverId,
         _pName: name,
         _pEmail: email,
-        _pImage: image,
+        _pImage: await MultipartFile.fromFile(image!.path),
       }),
     );
     if (response.statusCode == HttpStatus.accepted) {
