@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -57,6 +58,7 @@ class ApiClient {
 
   static const _pName = 'name';
   static const _pEmail = 'email';
+  static const _preason = 'reason';
 
   final _dio = Dio(BaseOptions(
     baseUrl: _baseUrl,
@@ -123,11 +125,9 @@ class ApiClient {
   }
 
   // Get Earning History Data
-  Future<EarningModel> getDriverEarningHistory(
-    int userId,
-    DateTime startDate,
-    DateTime endDate,
-  ) async {
+  Future<EarningModel> getDriverEarningHistory(int userId,
+      DateTime startDate,
+      DateTime endDate,) async {
     final response = await _dio.post<Map<String, dynamic>>(
       '$_epDriverEarningHistory/$userId',
       data: {_pStartDate: startDate, _pEndDate: startDate},
@@ -241,7 +241,7 @@ class ApiClient {
   //request order
   Future<OrderDetailsModel> orderRequest({required int driverId}) async {
     final response =
-        await _dio.get<Map<String, dynamic>>('$_epOrderRequest/$driverId');
+    await _dio.get<Map<String, dynamic>>('$_epOrderRequest/$driverId');
     if (response.statusCode == HttpStatus.ok) {
       return OrderDetailsModel.fromJson(response.data!);
     }
@@ -270,11 +270,10 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
-  Future<bool> editProfile(
-      {required int driverId,
-      required String name,
-      required String email,
-      File? image}) async {
+  Future<bool> editProfile({required int driverId,
+    required String name,
+    required String email,
+    File? image}) async {
     final response = await _dio.post<dynamic>(
       _epDriverUpdateProfile,
       data: FormData.fromMap(<String, dynamic>{
@@ -308,14 +307,23 @@ class ApiClient {
     required String orderNo,
     // required File image,
     required int status}) async {
-    var formData = FormData.fromMap(<String, dynamic>{
-      _pOrderNo: ['$orderNo'],
-      _pDriverId: driverId,
-      _pStatus: status,
-      // _pImage: await MultipartFile.fromFile(image.path,),
-    });
-    final response = await _dio
-        .post<Map<String, dynamic>>(_epOrderAcceptByDriver, data: formData);
+    // var formData = FormData.fromMap(<String, dynamic>{
+    //   _pOrderNo: ['$orderNo'],
+    //   _pDriverId: '$driverId',
+    //   _pStatus: status,
+    //   // _pImage: await MultipartFile.fromFile(image.path,),
+    // });
+    final response = await _dio.post<Map<String, dynamic>>(
+      _epOrderAcceptByDriver,
+      data: {
+        _pOrderNo: jsonEncode(["$orderNo"]),
+        _pDriverId: driverId,
+        _pStatus: status,
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
     if (response.statusCode == HttpStatus.ok) {
       if (response.data!['status'] == true) {
         return true;
@@ -349,11 +357,10 @@ class ApiClient {
 
 
   // order completed by driver
-  Future<bool> orderCompleteByDriver(
-      {required int driverId,
-      required String orderNo,
-      required File image,
-      required int userId}) async {
+  Future<bool> orderCompleteByDriver({required int driverId,
+    required String orderNo,
+    required File image,
+    required int userId}) async {
     var formData = FormData.fromMap(<String, dynamic>{
       _pOrderNo: orderNo,
       _pDriverId: driverId,
@@ -370,6 +377,31 @@ class ApiClient {
         return true;
       }
       return false;
+    }
+    throw (Exception(response.statusMessage));
+  }
+
+  // reject the order
+  Future<bool> rejectOrderRequest({
+    required String orderNo,
+    required String reason,
+    required int status,
+    required String driverId,
+  }) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      _epRejectOrderRequest,
+      data: {
+        _pStatus: "$status",
+        _pDriverId: driverId,
+        _preason: reason,
+        _pOrderNo: jsonEncode(["$orderNo"]),
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      return true;
     }
     throw (Exception(response.statusMessage));
   }

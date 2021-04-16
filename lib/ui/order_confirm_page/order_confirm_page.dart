@@ -149,7 +149,7 @@ class OrderConfirmPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: Dimens.insetM),
                       child: GestureDetector(
                         onTap: () async {
-                          await showDialog<void>(
+                           showDialog<void>(
                               barrierDismissible: false,
                               context: context,
                               builder: (_) {

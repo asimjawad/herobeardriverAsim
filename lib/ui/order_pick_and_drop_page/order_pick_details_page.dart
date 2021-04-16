@@ -280,7 +280,7 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
   }
 
   void orderAcceptByDriver(BuildContext context) async {
-    await showDialog<void>(
+    showDialog<void>(
         context: context,
         barrierDismissible: false,
         builder: (_) {

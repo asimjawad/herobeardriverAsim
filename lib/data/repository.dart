@@ -224,4 +224,15 @@ class Repository implements Closable {
     return await _apiClient.orderCompleteByDriver(
         driverId: driverId, orderNo: orderNo, image: image, userId: userId);
   }
+
+  // reject the order
+  Future<bool> rejectOrderRequest({
+    required String orderNo,
+    required String reason,
+    required int status,
+    required String driverId,
+  }) async {
+    return await _apiClient.rejectOrderRequest(
+        orderNo: orderNo, reason: reason, status: status, driverId: driverId);
+  }
 }

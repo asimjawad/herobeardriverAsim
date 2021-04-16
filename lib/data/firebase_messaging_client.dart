@@ -68,6 +68,10 @@ class FirebaseMessagingClient implements Closable {
             ),
           ),
         );
+        /* print('data from the notifications');
+        print(notification.body.toString());
+        print(notification.title.toString());
+        print(notification.toString());*/
       }
     });
   }
