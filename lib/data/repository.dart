@@ -195,13 +195,23 @@ class Repository implements Closable {
     return await _sharedPrefClient.getOrderDeliveryStatus();
   }
 
-  //order accept from restaurant
+  //order accept
   Future<bool> orderAcceptByDriver(
       {required int driverId,
       required String orderNo,
-      required File image,
-      required String status}) async {
+      // required File image,
+      required int status}) async {
     return await _apiClient.orderAcceptByDriver(
+        driverId: driverId, orderNo: orderNo, status: status);
+  }
+
+  // accept order from restaurant
+  Future<bool> orderPickedFromRestaurant(
+      {required int driverId,
+      required String orderNo,
+      required File image,
+      required int status}) async {
+    return await _apiClient.orderPickedFromRestaurant(
         driverId: driverId, orderNo: orderNo, image: image, status: status);
   }
 
@@ -213,5 +223,16 @@ class Repository implements Closable {
       required int userId}) async {
     return await _apiClient.orderCompleteByDriver(
         driverId: driverId, orderNo: orderNo, image: image, userId: userId);
+  }
+
+  // reject the order
+  Future<bool> rejectOrderRequest({
+    required String orderNo,
+    required String reason,
+    required int status,
+    required String driverId,
+  }) async {
+    return await _apiClient.rejectOrderRequest(
+        orderNo: orderNo, reason: reason, status: status, driverId: driverId);
   }
 }

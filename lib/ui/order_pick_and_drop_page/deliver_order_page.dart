@@ -290,7 +290,7 @@ class DeliverOrderPage extends StatelessWidget {
   }
 
   void ordeCompleteByDriver(BuildContext context) async {
-    await showDialog<void>(
+    showDialog<void>(
         barrierDismissible: false,
         context: context,
         builder: (_) {

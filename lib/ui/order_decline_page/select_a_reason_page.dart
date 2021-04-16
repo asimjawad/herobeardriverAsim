@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/get_reason_model/get_reason_model.dart';
+import 'package:hero_bear_driver/ui/home/home_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class SelectAReason extends StatelessWidget {
@@ -42,7 +43,16 @@ class SelectAReason extends StatelessWidget {
             ListView.builder(
               itemBuilder: (BuildContext context, index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    final res = await _appBloc.rejectOrderRequest(
+                      orderNo: _appBloc.orderDetailsModel.orderNos![0],
+                      reason: model.data[index].reason,
+                      status: 0,
+                    );
+                    if (res) {
+                      await Get.offAll<void>(HomePage());
+                    }
+                  },
                   child: _container(model.data[index].reason),
                 );
               },

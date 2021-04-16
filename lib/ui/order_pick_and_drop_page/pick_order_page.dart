@@ -79,9 +79,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
   void _onMapCreated(GoogleMapController controllerParam) async {
     List<LatLng> latlng = await getPolyline();
     LatLng getOrigin = await currentUserLocation();
-    final _icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(Dimens.sizeMapPin, Dimens.sizeMapPin)),
-        MyImgs.mapPin);
+    final _icon = await MapUtil.getBitmapDescriptor(
+        context, MyImgs.mapPin, Dimens.sizeMapPin);
     setState(() {
       //adding markers for user location and destination
       _markers.add(Marker(
