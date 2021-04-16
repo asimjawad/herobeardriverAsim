@@ -284,7 +284,7 @@ class ApiClient {
         _pImage: await MultipartFile.fromFile(image!.path),
       }),
     );
-    if (response.statusCode == HttpStatus.accepted) {
+    if (response.statusCode == HttpStatus.ok) {
       if (response.data['status'] == true) {
         return true;
       } else if (response.data['status'] == false) {
