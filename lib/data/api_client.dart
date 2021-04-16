@@ -303,19 +303,16 @@ class ApiClient {
     throw (Exception(response.statusMessage));
   }
 
-  // accept order from restaurant
-  Future<bool> orderAcceptByDriver(
-      {required int driverId,
-      required String orderNo,
-      required File image,
-      required String status}) async {
+  // accept order
+  Future<bool> orderAcceptByDriver({required int driverId,
+    required String orderNo,
+    // required File image,
+    required int status}) async {
     var formData = FormData.fromMap(<String, dynamic>{
-      _pOrderNo: orderNo,
+      _pOrderNo: ['$orderNo'],
       _pDriverId: driverId,
       _pStatus: status,
-      _pImage: await MultipartFile.fromFile(
-        image.path,
-      ),
+      // _pImage: await MultipartFile.fromFile(image.path,),
     });
     final response = await _dio
         .post<Map<String, dynamic>>(_epOrderAcceptByDriver, data: formData);
@@ -327,6 +324,29 @@ class ApiClient {
     }
     throw (Exception(response.statusMessage));
   }
+
+  // accept order from restaurant
+  Future<bool> orderPickedFromRestaurant({required int driverId,
+    required String orderNo,
+    required File image,
+    required int status}) async {
+    var formData = FormData.fromMap(<String, dynamic>{
+      _pOrderNo: orderNo,
+      _pDriverId: driverId,
+      _pStatus: status,
+      _pImage: await MultipartFile.fromFile(image.path,),
+    });
+    final response = await _dio
+        .post<Map<String, dynamic>>(_epOrderAcceptByDriver, data: formData);
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data!['status'] == true) {
+        return true;
+      }
+      return false;
+    }
+    throw (Exception(response.statusMessage));
+  }
+
 
   // order completed by driver
   Future<bool> orderCompleteByDriver(

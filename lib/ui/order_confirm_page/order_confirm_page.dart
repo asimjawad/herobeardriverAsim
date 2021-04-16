@@ -157,14 +157,14 @@ class OrderConfirmPage extends StatelessWidget {
                                   child: CircularProgressIndicator(),
                                 );
                               });
-                          var f = await getImageFileFromAssets(
-                              'assets/images/no_profile.png');
+                          // var f = await getImageFileFromAssets(
+                          //     'assets/images/no_profile.png');
                           var response = await _appBloc.orderAcceptByDriver(
                               orderNo: _appBloc.orderDetailsModel.orderNos![0],
-                              image: f,
-                              status: '1');
+                              // image: f,
+                              status: 1);
                           if (response) {
-                            await _appBloc.setOrderAcceptedStatus(true);
+                            // await _appBloc.setOrderAcceptedStatus(true);
                             await Get.offAll<void>(() => PickOrderPage());
                           } else {
                             Navigator.pop(context);

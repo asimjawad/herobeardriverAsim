@@ -288,10 +288,10 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
             child: CircularProgressIndicator(),
           );
         });
-    final res = await _appBloc.orderAcceptByDriver(
+    final res = await _appBloc.orderPickedFromRestaurant(
         orderNo: _appBloc.orderDetailsModel.orderNos![0],
         image: imageSelected!,
-        status: '3');
+        status: 3);
     if (res == true) {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(true);

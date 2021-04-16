@@ -243,13 +243,23 @@ class AppBloc extends DisposableInterface {
     return await _repository.getOrderDeliveryStatus();
   }
 
-  //order accept from restaurant
+  //order accept
   Future<bool> orderAcceptByDriver(
       {required String orderNo,
-      required File image,
-      required String status}) async {
+      // required File image,
+      required int status}) async {
     final user = await this.user;
     return await _repository.orderAcceptByDriver(
+        driverId: user.userId, orderNo: orderNo, status: status);
+  }
+
+  // accept order from restaurant
+  Future<bool> orderPickedFromRestaurant(
+      {required String orderNo,
+      required File image,
+      required int status}) async {
+    final user = await this.user;
+    return await _repository.orderPickedFromRestaurant(
         driverId: user.userId, orderNo: orderNo, image: image, status: status);
   }
 
