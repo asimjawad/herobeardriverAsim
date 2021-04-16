@@ -47,6 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
+                      alignment: Alignment.center,
                       child: _imageSelected == null
                           ? Image.network(
                               snapshot.data!.image,
@@ -54,7 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               height: _sizeImgProfile,
                             )
                           : Image.file(
-                        _imageSelected!,
+                              _imageSelected!,
                               width: _sizeImgProfile,
                               height: _sizeImgProfile,
                               fit: BoxFit.cover,
@@ -134,7 +135,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     if (_formKey1.currentState!.validate()) {
-                                      _formKey1.currentState!.save();
+                                      // _formKey1.currentState!.save();
                                       _onSave(context);
                                     }
                                     ;
@@ -196,14 +197,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
       context: context,
       builder: (context) {
         // todo: handle on edit profile here
-        late bool res;
+        //bool res;
         () async {
-          res = await _appBloc.editProfile(
+          var res = await _appBloc.editProfile(
               name: _name.text, email: _email.text, image: _imageSelected);
+          if (res) {
+            Navigator.pop(context);
+          }
         }.call();
-        if (res) {
-          Get.back<void>();
-        }
+
         return Center(
           child: CircularProgressIndicator(),
         );
