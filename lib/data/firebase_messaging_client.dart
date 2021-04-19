@@ -48,7 +48,6 @@ class FirebaseMessagingClient implements Closable {
       sound: true,
     );
   }
-
   void listenNotifications() {
     _subNotif = FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;

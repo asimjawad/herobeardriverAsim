@@ -12,6 +12,7 @@ import 'package:hero_bear_driver/ui/order_pick_and_drop_page/deliver_order_page.
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/util/map_util.dart';
+import 'package:tuple/tuple.dart';
 
 class HomeMapPage extends StatefulWidget {
   final HomeScreenDashboardModel model;
@@ -170,29 +171,25 @@ class _HomeMapPageState extends State<HomeMapPage> {
   }
 
   Widget _buildMap(BuildContext context) {
-    return FutureBuilder<BitmapDescriptor>(
-      future: MapUtil.getBitmapDescriptor(context, MyImgs.blueDot, _sizeMapPin),
+    final _future = () async {
+      return Tuple2<BitmapDescriptor, LocationModel>(
+        await MapUtil.getBitmapDescriptor(context, MyImgs.blueDot, _sizeMapPin),
+        await _appBloc.location,
+      );
+    }.call();
+    return FutureBuilder<Tuple2<BitmapDescriptor, LocationModel>>(
+      future: _future,
       builder: (context, snapshot) {
-        final icon = snapshot.data;
+        final icon = snapshot.data!.item1;
         return GoogleMap(
           initialCameraPosition: CameraPosition(
-            target: LatLng(widget.locModel.latLng.latitude,
-                widget.locModel.latLng.longitude),
+            target: snapshot.data!.item2.latLng,
             zoom: _mapZoomLvl,
           ),
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
           zoomGesturesEnabled: true,
           myLocationEnabled: true,
-          markers: icon != null
-              ? {
-                  Marker(
-                    markerId: MarkerId('placeholder_marker_id'),
-                    icon: icon,
-                    position: widget.locModel.latLng,
-                  ),
-                }
-              : {},
         );
       },
     );

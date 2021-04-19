@@ -121,6 +121,8 @@ class SplashPage extends StatelessWidget {
   }
 
   void _checkSessionAndProceed() async {
+    // call method here
+    await _appBloc.updateUserCurrentLocation();
     if (await _appBloc.isUserLoggedIn()) {
       Get.to<void>(HomePage());
     } else {

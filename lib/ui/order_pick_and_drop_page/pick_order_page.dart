@@ -70,8 +70,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
 //getting destination location
   LatLng getDestination() {
     LatLng _destination = LatLng(
-        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng));
+        double.parse(_appBloc.orderDetailsModel.data!.latitude),
+        double.parse(_appBloc.orderDetailsModel.data!.longitude));
 
     return _destination;
   }
@@ -166,9 +166,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
           GoogleMap(
             initialCameraPosition: CameraPosition(
               target: LatLng(
-                  double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-                  double.parse(
-                      _appBloc.orderDetailsModel.data!.orders[0].dLng)),
+                  double.parse(_appBloc.orderDetailsModel.data!.latitude),
+                  double.parse(_appBloc.orderDetailsModel.data!.longitude)),
             ),
             polylines: _polyline,
             markers: _markers,
