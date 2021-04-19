@@ -89,6 +89,8 @@ class Strings {
   static const String trans = 'Trans-';
   static const String transaction = 'Transaction';
   static const String diamond = 'Diamond:';
+  static const String gallery = 'Gallery';
+  static const String camera = 'Camera';
 
   static const String driverEarning = 'Driver Earning';
   static const String totalEarning = 'Total Earning';

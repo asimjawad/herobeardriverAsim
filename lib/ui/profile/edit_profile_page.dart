@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
 import 'package:hero_bear_driver/data/models/user_login_model.dart';
+import 'package:hero_bear_driver/ui/home/home_page.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 import 'package:hero_bear_driver/ui/widgets/no_internet_wgt.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,7 +136,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     if (_formKey1.currentState!.validate()) {
-                                      // _formKey1.currentState!.save();
                                       _onSave(context);
                                     }
                                     ;
@@ -172,14 +172,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 children: <Widget>[
                   ListTile(
                       leading: Icon(Icons.photo_library),
-                      title: Text('Gallery'),
+                      title: Text(Strings.gallery),
                       onTap: () {
                         openGallery();
                         Navigator.of(context).pop();
                       }),
                   ListTile(
                     leading: Icon(Icons.photo_camera),
-                    title: Text('Camera'),
+                    title: Text(Strings.camera),
                     onTap: () {
                       openCamera();
                       Navigator.of(context).pop();
@@ -197,12 +197,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       context: context,
       builder: (context) {
         // todo: handle on edit profile here
-        //bool res;
+
         () async {
-          var res = await _appBloc.editProfile(
+          bool res = await _appBloc.editProfile(
               name: _name.text, email: _email.text, image: _imageSelected);
           if (res) {
-            Navigator.pop(context);
+            await Get.to<void>(HomePage());
           }
         }.call();
 
