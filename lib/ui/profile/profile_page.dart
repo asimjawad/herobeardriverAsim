@@ -48,13 +48,13 @@ class ProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ],
-                ),
-              ),
-            ),
-          ];
-        },
+                          ),
+                        ),
+                      ),
+                    ];
+                  },
                   body: ListView.builder(
-                      padding: EdgeInsets.all(Dimens.insetM / 2),
+                    padding: EdgeInsets.all(Dimens.insetM / 2),
                     itemCount: reviews.length,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -114,12 +114,16 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(
                   height: Dimens.insetS,
                 ),
-                ClipOval(
-                  child: Container(
+                Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  alignment: Alignment.center,
+                  child: Image.network(
+                    driver.data.image,
                     height: _sizeProfileBadge,
                     width: _sizeProfileBadge,
-                    color: Colors.white,
-                    child: Image.network(driver.data.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
