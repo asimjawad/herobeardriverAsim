@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_bear_driver/data/models/commission_model/comission_model.dart';
@@ -23,12 +24,22 @@ class AppBloc extends DisposableInterface {
   late String message;
   final _subjectHomeData = BehaviorSubject<HomeScreenDashboardModel>();
   BehaviorSubject<OrderDetailsModel> _orderDetailsSubject = BehaviorSubject();
+  LocationModel? _locationModel;
 
   Future<LocationModel> get location async {
-    // todo: replace with real location
+    /*  // todo: replace with real location
     return LocationModel(
       latLng: LatLng(31.4643699, 74.2414676),
-    );
+    );*/
+    if (_locationModel != null) {
+      return _locationModel!;
+    } else {
+      final location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      _locationModel =
+          LocationModel(latLng: LatLng(location.latitude, location.longitude));
+      return _locationModel!;
+    }
   }
 
   Future<UserLoginModel> get user async {
@@ -285,5 +296,14 @@ class AppBloc extends DisposableInterface {
         reason: reason,
         status: status,
         driverId: user.userId.toString());
+  }
+
+  // update the user current location
+
+  Future<void> updateUserCurrentLocation() async {
+    final location = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    _locationModel =
+        LocationModel(latLng: LatLng(location.latitude, location.longitude));
   }
 }
