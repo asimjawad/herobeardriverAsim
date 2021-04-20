@@ -180,17 +180,20 @@ class _HomeMapPageState extends State<HomeMapPage> {
     return FutureBuilder<Tuple2<BitmapDescriptor, LocationModel>>(
       future: _future,
       builder: (context, snapshot) {
-        final icon = snapshot.data!.item1;
-        return GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: snapshot.data!.item2.latLng,
-            zoom: _mapZoomLvl,
-          ),
-          myLocationButtonEnabled: false,
-          zoomControlsEnabled: false,
-          zoomGesturesEnabled: true,
-          myLocationEnabled: true,
-        );
+        // final icon = snapshot.data!.item1;
+        if (snapshot.hasData) {
+          return GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: snapshot.data!.item2.latLng,
+              zoom: _mapZoomLvl,
+            ),
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            zoomGesturesEnabled: true,
+            myLocationEnabled: true,
+          );
+        }
+        return Container();
       },
     );
   }

@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class ProgressTimerWidget extends StatefulWidget {
+  final Function() func;
+
+  ProgressTimerWidget({required this.func});
+
   @override
   _ProgressTimerWidgetState createState() => _ProgressTimerWidgetState();
 }
+
 /*Widget build(BuildContext context) {
 
   return  Scaffold(
@@ -37,7 +42,8 @@ class _ProgressTimerWidgetState extends State<ProgressTimerWidget> {
             (Timer timer) => setState(() {
           if (_start >= 60) {
             timer.cancel();
-          } else {
+                widget.func();
+              } else {
             _start = _start + 1;
           }
         }));
