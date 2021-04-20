@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/closable.dart';
+import 'package:hero_bear_driver/ui/order_confirm_page/order_confirm_page.dart';
 
 class FirebaseMessagingClient implements Closable {
   /// Initialize the [FlutterLocalNotificationsPlugin] package.
@@ -48,7 +50,8 @@ class FirebaseMessagingClient implements Closable {
       sound: true,
     );
   }
-  void listenNotifications() {
+
+  void listenNotifications() async {
     _subNotif = FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
       final android = message.notification?.android;
@@ -67,6 +70,9 @@ class FirebaseMessagingClient implements Closable {
             ),
           ),
         );
+        if (notification.title.toString() == 'New Order') {
+          Get.to<void>(OrderConfirmPage());
+        }
         /* print('data from the notifications');
         print(notification.body.toString());
         print(notification.title.toString());
