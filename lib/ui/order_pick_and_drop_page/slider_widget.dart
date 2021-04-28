@@ -17,7 +17,7 @@ class SliderWidget extends StatefulWidget {
 class SliderWidgetState extends State<SliderWidget> {
   ValueNotifier<double> valueListener = ValueNotifier(.0);
   static const double _containerH = 50.0;
-  final double _imageH = 40.0;
+  final double _imageH = 50.0;
 
   @override
   void initState() {
@@ -50,11 +50,17 @@ class SliderWidgetState extends State<SliderWidget> {
           final handle = GestureDetector(
             onHorizontalDragUpdate: (details) {
               valueListener.value = (valueListener.value +
-                  details.delta.dx / (context.size!.width-50))
+                      details.delta.dx / (context.size!.width - 50))
                   .clamp(.0, 1.0);
               // print(valueListener.value);
             },
-            child: Image.asset(MyImgs.doubleArrow,height: _imageH,width: _imageH,color: Colors.white,),
+            child: Image.asset(
+              MyImgs.doubleArrow,
+              height: double.infinity,
+              width: _imageH,
+              color: Colors.white,
+              isAntiAlias: true,
+            ),
           );
 
           return AnimatedBuilder(

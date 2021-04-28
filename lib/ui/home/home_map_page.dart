@@ -117,21 +117,23 @@ class _HomeMapPageState extends State<HomeMapPage> {
 
   Widget _buildButton(BuildContext context, HomeScreenDashboardModel model) {
     var online =
-        widget.model.driverStatus == HomeScreenDashboardModel.statusOnline;
+        widget.model.driverStatus != HomeScreenDashboardModel.statusOffline;
     return ElevatedButton(
       onPressed: () => _onToggleOnline(context, model),
       style: online
           ? ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(MyColors.red500),
-            )
+        backgroundColor: MaterialStateProperty.all(MyColors.red500),
+      )
           : null,
       child: Text(online ? Strings.returnToDelivery : Strings.goOnline),
     );
   }
 
   Widget _buildOnlineWgt(BuildContext context, HomeScreenDashboardModel model) {
-    if (model.driverStatus == HomeScreenDashboardModel.statusOnline) {
-      final textTheme = Theme.of(context).textTheme;
+    if (model.driverStatus != HomeScreenDashboardModel.statusOffline) {
+      final textTheme = Theme
+          .of(context)
+          .textTheme;
       return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(_badgeRadius),
@@ -225,7 +227,8 @@ class _HomeMapPageState extends State<HomeMapPage> {
         ),
       );
     } else {
-      Get.to<void>(() => LoadingPage());
+      // Get.to<void>(() => LoadingPage());
+      _getOrderRequest();
     }
   }
 
@@ -325,12 +328,30 @@ class _HomeMapPageState extends State<HomeMapPage> {
       await _appBloc.fetchOrderRequestData();
       print(reqData.data!.orders[0].status);
       if (reqData.data!.orders[0].status == 'assign') {
-        await Get.offAll<void>(() => OrderConfirmPage());
+        await Get.to<void>(() => OrderConfirmPage());
       } else if (reqData.data!.orders[0].status == 'accepted') {
-        await Get.offAll<void>(() => PickOrderPage());
+        await Get.to<void>(() => PickOrderPage());
       } else if (reqData.data!.orders[0].status == 'pickup') {
-        await Get.offAll<void>(() => DeliverOrderPage());
+        await Get.to<void>(() => DeliverOrderPage());
       }
     }
+  }
+
+  void _getOrderRequest() async {
+    final reqData = await _appBloc.orderRequest();
+    if (reqData.data != null) {
+      await _appBloc.fetchOrderRequestData();
+      if (reqData.data!.orders[0].status == 'assign') {
+        await Get.to<void>(() => OrderConfirmPage());
+      } else if (reqData.data!.orders[0].status == 'accepted') {
+        await Get.to<void>(() => PickOrderPage());
+      } else if (reqData.data!.orders[0].status == 'pickup') {
+        await Get.to<void>(() => DeliverOrderPage());
+      }
+    }
+    // else {
+    //   await Get.offAll<void>(
+    //       () => HomeMapPage(model: model, locModel: locModel));
+    // }
   }
 }

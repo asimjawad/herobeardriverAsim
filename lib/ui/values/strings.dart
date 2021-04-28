@@ -1,5 +1,5 @@
 class Strings {
-  static const sCurrency = r'$';
+  static const sCurrency = r'₱';
 
   static const heroBear = 'Hero Bear';
   static const heroBearDriver = 'Hero Bear Driver';
@@ -22,6 +22,7 @@ class Strings {
   static const youAreOnlineIn = 'You are Online in';
   static const endDelivery = 'End Delivery';
   static const returnToDelivery = 'Return to delivery';
+  static const completeYourOrderFirst = 'Complete your orders first';
 
   static const diamonds = 'Diamonds';
   static const commission = 'Commission';
