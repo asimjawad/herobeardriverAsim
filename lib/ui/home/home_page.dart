@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text(Strings.logOut),
-            onTap: _onLogOut,
+            onTap: () => _onLogOut(context),
           ),
         ],
       ),
@@ -145,11 +145,11 @@ class _HomePageState extends State<HomePage> {
     if (reqData.data != null) {
       await _appBloc.fetchOrderRequestData();
       if (reqData.data!.orders[0].status == 'assign') {
-        await Get.offAll<void>(() => OrderConfirmPage());
+        await Get.to<void>(() => OrderConfirmPage());
       } else if (reqData.data!.orders[0].status == 'accepted') {
-        await Get.offAll<void>(() => PickOrderPage());
+        await Get.to<void>(() => PickOrderPage());
       } else if (reqData.data!.orders[0].status == 'pickup') {
-        await Get.offAll<void>(() => DeliverOrderPage());
+        await Get.to<void>(() => DeliverOrderPage());
       }
     }
     // else {
@@ -213,8 +213,29 @@ class _HomePageState extends State<HomePage> {
 
   void _onLookingOrders() => Get.to<void>(() => LoadingPage());
 
-  void _onLogOut() async {
-    await _appBloc.logOut();
-    Get.offAll<void>(() => LoginPage());
+  void _onLogOut(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+    final response = await _appBloc.orderRequest();
+    if (response.data == null) {
+      await _appBloc.logOut();
+      Get.offAll<void>(() => LoginPage());
+    } else {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text(
+          Strings.completeYourOrderFirst,
+          style: Styles.appTheme.textTheme.bodyText1!
+              .copyWith(color: MyColors.yellow400),
+        ),
+        duration: Duration(milliseconds: 2000),
+      ));
+    }
   }
 }

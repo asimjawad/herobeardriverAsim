@@ -206,13 +206,18 @@ class _PickOrderPageState extends State<PickOrderPage> {
                           ),
                         ),
                         _directionsAndCallRow(
-                            callFunc: () => _makeCall(
-                                number: _appBloc.orderDetailsModel.data!.phone),
-                            mapFunc: () => _openMaps(
-                                lat: double.parse(
-                                    _appBloc.orderDetailsModel.data!.latitude),
-                                lon: double.parse(_appBloc
-                                    .orderDetailsModel.data!.longitude))),
+                            color: MyColors.yellow400,
+                            callFunc: () =>
+                                _makeCall(
+                                    number: _appBloc.orderDetailsModel.data!
+                                        .phone),
+                            mapFunc: () =>
+                                _openMaps(
+                                    lat: double.parse(
+                                        _appBloc.orderDetailsModel.data!
+                                            .latitude),
+                                    lon: double.parse(_appBloc
+                                        .orderDetailsModel.data!.longitude))),
                         Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: Dimens.insetS),
@@ -236,14 +241,19 @@ class _PickOrderPageState extends State<PickOrderPage> {
                           padding: const EdgeInsets.symmetric(
                               vertical: PickOrderPage._rowV),
                           child: _directionsAndCallRow(
-                              mapFunc: () => _openMaps(
-                                  lat: double.parse(_appBloc
-                                      .orderDetailsModel.data!.orders[0].dLat),
-                                  lon: double.parse(_appBloc
-                                      .orderDetailsModel.data!.orders[0].dLng)),
-                              callFunc: () => _makeCall(
-                                  number: _appBloc.orderDetailsModel.data!
-                                      .orders[0].user.phone)),
+                              color: MyColors.grey,
+                              mapFunc: () =>
+                                  _openMaps(
+                                      lat: double.parse(_appBloc
+                                          .orderDetailsModel.data!.orders[0]
+                                          .dLat),
+                                      lon: double.parse(_appBloc
+                                          .orderDetailsModel.data!.orders[0]
+                                          .dLng)),
+                              callFunc: () =>
+                                  _makeCall(
+                                      number: _appBloc.orderDetailsModel.data!
+                                          .orders[0].user.phone)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(
@@ -339,7 +349,7 @@ class _PickOrderPageState extends State<PickOrderPage> {
   }
 
   Widget _directionsAndCallRow(
-      {required void Function() mapFunc, required void Function() callFunc}) {
+      {required void Function() mapFunc, required void Function() callFunc, required Color color}) {
     return Row(
       children: [
         GestureDetector(
@@ -349,7 +359,7 @@ class _PickOrderPageState extends State<PickOrderPage> {
           child: Container(
             height: _containerH,
             // width: 90,
-            color: MyColors.yellow400,
+            color: color,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -380,7 +390,7 @@ class _PickOrderPageState extends State<PickOrderPage> {
           child: Container(
             height: _containerH,
             // width: 90,
-            color: MyColors.yellow400,
+            color: color,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(

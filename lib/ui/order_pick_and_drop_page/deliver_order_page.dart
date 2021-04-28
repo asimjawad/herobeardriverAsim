@@ -388,9 +388,6 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
               children: [
                 Stack(
                   children: [
-                    SliderWidget(
-                      func: () => OrderDeliveredDialog(context),
-                    ),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: DeliverOrderPage._rowV),
@@ -400,6 +397,9 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
                         style: Styles.appTheme.textTheme.bodyText1?.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w700),
                       )),
+                    ),
+                    SliderWidget(
+                      func: () => OrderDeliveredDialog(context),
                     ),
                   ],
                 ),
