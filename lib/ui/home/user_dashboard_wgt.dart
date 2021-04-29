@@ -50,22 +50,30 @@ class UserDashboardWgt extends StatelessWidget {
               children: data
                   .map(
                     (e) => Column(
-                  children: [
-                    Icon(e.item1),
-                    SizedBox(
-                      height: Dimens.insetS,
+                      children: [
+                        e.item1 == Icons.attach_money
+                            ? Text(
+                                Strings.sCurrency,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              )
+                            : Icon(e.item1),
+                        SizedBox(
+                          height: Dimens.insetS,
+                        ),
+                        Text(
+                          e.item3,
+                          style: theme.accentTextTheme.headline4,
+                        ),
+                        SizedBox(
+                          height: Dimens.insetXs,
+                        ),
+                        Text(e.item2),
+                      ],
                     ),
-                    Text(
-                      e.item3,
-                      style: theme.accentTextTheme.headline4,
-                    ),
-                    SizedBox(
-                      height: Dimens.insetXs,
-                    ),
-                    Text(e.item2),
-                  ],
-                ),
-              )
+                  )
                   .toList(),
             ),
           ],
