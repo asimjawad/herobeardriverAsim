@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
     WidgetsBinding.instance?.addPostFrameCallback((_) => _afterBuild(context));
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor: Colors.white,
       body: Center(
         // same size as native splash
         child: Image.asset(
