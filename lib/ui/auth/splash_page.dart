@@ -75,7 +75,6 @@ class SplashPage extends StatelessWidget {
     // print("#buildNoInternetWgt");
     final imgSize = 200.0;
     return Container(
-      height: MediaQuery.of(context).size.height / 2,
       padding: EdgeInsets.all(Dimens.insetM),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
