@@ -54,8 +54,8 @@ class LoginPageState extends State<LoginFormWgt> {
                           MediaQuery.of(context).padding.top),
                   showDropDownButton: true,
                   onChanged: (code) => _selectedDialCode = code.dialCode,
-                  initialSelection: 'IT',
-                  favorite: ['+39', 'FR'],
+                  initialSelection: 'PH',
+                  favorite: ['+63', 'PH'],
                   flagDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
                   ),

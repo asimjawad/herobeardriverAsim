@@ -110,14 +110,13 @@ class SplashPage extends StatelessWidget {
       showDialog<void>(
         barrierDismissible: false,
         barrierColor: Colors.transparent,
-    context: context,
-    builder: (context) => Center(
-    child: AskLocationWgt(
-    child: AskLocationWgt(
-    onLocationEnabled: _checkSessionAndProceed,
-    ),
-    ),
-    );
+        context: context,
+        builder: (context) => Center(
+          child: AskLocationWgt(
+            onLocationEnabled: _checkSessionAndProceed,
+          ),
+        ),
+      );
     }
   }
 
