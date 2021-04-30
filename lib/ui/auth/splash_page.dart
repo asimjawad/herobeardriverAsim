@@ -17,7 +17,7 @@ class SplashPage extends StatelessWidget {
     WidgetsBinding.instance?.addPostFrameCallback((_) => _afterBuild(context));
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor: Colors.white,
       body: Center(
         // same size as native splash
         child: Image.asset(
@@ -110,13 +110,14 @@ class SplashPage extends StatelessWidget {
       showDialog<void>(
         barrierDismissible: false,
         barrierColor: Colors.transparent,
-        context: context,
-        builder: (context) => Center(
-          child: AskLocationWgt(
-            onLocationEnabled: _checkSessionAndProceed,
-          ),
-        ),
-      );
+    context: context,
+    builder: (context) => Center(
+    child: AskLocationWgt(
+    child: AskLocationWgt(
+    onLocationEnabled: _checkSessionAndProceed,
+    ),
+    ),
+    );
     }
   }
 
