@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hero_bear_driver/data/app_bloc.dart';
@@ -63,7 +64,14 @@ class _HomePageState extends State<HomePage> {
             onTap: _onLookingOrders,
           ),
           ListTile(
-            leading: Icon(Icons.attach_money),
+            leading: Text(
+              Strings.sCurrency,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey.shade500,
+              ),
+            ),
             title: Text(Strings.earnings),
             onTap: _onEarningPressed,
           ),
@@ -78,7 +86,14 @@ class _HomePageState extends State<HomePage> {
             onTap: _oDiamondPressed,
           ),
           ListTile(
-            leading: Icon(Icons.attach_money),
+            leading: Text(
+              Strings.sCurrency,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey.shade500,
+              ),
+            ),
             title: Text(Strings.commission),
             onTap: _onCommissionPressed,
           ),
@@ -178,8 +193,8 @@ class _HomePageState extends State<HomePage> {
                 );
               } else if (homeSnapshot.hasError) {
                 return NoInternetWgt(
-                    // todo: add [onTryAgain]
-                    );
+                  // todo: add [onTryAgain]
+                );
               }
               return Center(
                 child: CircularProgressIndicator(),
@@ -189,8 +204,8 @@ class _HomePageState extends State<HomePage> {
         }
         if (locSnapshot.hasError) {
           return NoInternetWgt(
-              // todo: add [onTryAgain]
-              );
+            // todo: add [onTryAgain]
+          );
         }
         return Center(
           child: CircularProgressIndicator(),
