@@ -7,7 +7,6 @@ import 'package:hero_bear_driver/ui/profile/review_tile_wgt.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
 
 class ProfilePage extends StatelessWidget {
-  static const _heightHeader = 200.0;
   static const _sizeProfileBadge = 70.0;
   final _appBloc = Get.find<AppBloc>();
 
@@ -96,7 +95,6 @@ class ProfilePage extends StatelessWidget {
           ),
         );
     return Container(
-      height: _heightHeader,
       color: colorScheme.primary,
       padding: EdgeInsets.all(Dimens.insetM),
       child: SafeArea(
