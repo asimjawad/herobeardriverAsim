@@ -103,6 +103,7 @@ class AppBloc extends DisposableInterface {
     var response = await _repository.setCapital(user.userId, capital);
     if (response == true) {
       message = Strings.msgSuccessCapitalUpdate;
+      _updateHomeDataStream();
     } else {
       message = Strings.msgFailCapitalUpdate;
     }

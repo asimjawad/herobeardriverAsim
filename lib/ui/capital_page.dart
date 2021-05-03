@@ -27,7 +27,7 @@ class _CapitalPageState extends State<CapitalPage> {
     ),
     _CapitalData(
       label: Strings.unlimited,
-      value: double.infinity,
+      value: 10000,
     ),
   ];
   _CapitalData? _selection;

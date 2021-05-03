@@ -37,7 +37,7 @@ class UserDashboardWgt extends StatelessWidget {
               children: [
                 Text(Strings.heroBear),
                 Text(
-                  '${Strings.workingCapital}: ${Strings.sCurrency}$capital',
+                  '${Strings.workingCapital}: ${capital < 10000 ? NumberFormat.compactCurrency(symbol: Strings.sCurrency).format(capital) : Strings.unlimited}',
                   style: theme.textTheme.subtitle1,
                 ),
               ],
