@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:location/location.dart';
 
 class AskLocationWgt extends StatefulWidget {
   void Function()? onLocationEnabled;
@@ -64,13 +65,13 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
     final colorScheme = Theme.of(context).colorScheme;
     return _loading
         ? SizedBox(
-            height: _indicatorSize,
-            width: _indicatorSize,
-            child: CircularProgressIndicator(
-              strokeWidth: _indicatorStrokeWidth,
-              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
-            ),
-          )
+      height: _indicatorSize,
+      width: _indicatorSize,
+      child: CircularProgressIndicator(
+        strokeWidth: _indicatorStrokeWidth,
+        valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
+      ),
+    )
         : Text(Strings.sContinue);
   }
 
@@ -81,20 +82,23 @@ class _AskLocationWgtState extends State<AskLocationWgt> {
       await Future<void>.delayed(Duration(
         seconds: 1,
       ));
-      if (await Geolocator.isLocationServiceEnabled()) {
+      final location = Location();
+      if (await location.serviceEnabled()) {
         try {
-          final perm = await Geolocator.requestPermission();
-          if (perm == LocationPermission.always ||
-              perm == LocationPermission.whileInUse) {
+          final perm = await location.requestPermission();
+          if (perm == PermissionStatus.granted ||
+              perm == PermissionStatus.grantedLimited) {
             widget.onLocationEnabled?.call();
           } else {
-            await Geolocator.openAppSettings();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(Strings.msgNoLoc),
+            ));
           }
         } catch (e) {
           // may throw [PermissionRequestInProgressException]
         }
       } else {
-        await Geolocator.openLocationSettings();
+        await location.requestPermission();
       }
       setState(() => _loading = false);
     }

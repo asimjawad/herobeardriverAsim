@@ -217,4 +217,5 @@ class Strings {
   static const msgReenterPassword = 'Please Re-enter New Password';
   static const msgNotApproved =
       'Your account has been deactivated. Please contact admin.';
+  static const msgNoLoc = 'Location Permission was denied.';
 }
