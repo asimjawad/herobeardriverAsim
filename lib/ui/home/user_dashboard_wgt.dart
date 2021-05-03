@@ -18,11 +18,11 @@ class UserDashboardWgt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var f = NumberFormat('###.0#', 'en_US');
+    var f = NumberFormat('##0.00#', 'en_US');
     final data = <Tuple3<IconData, String, String>>[
       Tuple3(Icons.beenhere, Strings.acceptance, '${f.format(acceptance)} %'),
       Tuple3(Icons.attach_money, Strings.todaysEarning,
-          '${Strings.sCurrency}$earning'),
+          '${Strings.sCurrency}${f.format(earning)}'),
       Tuple3(Icons.cancel, Strings.completion, '${f.format(completion)} %'),
     ];
     final theme = Theme.of(context);
