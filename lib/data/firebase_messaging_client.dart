@@ -65,8 +65,7 @@ class FirebaseMessagingClient implements Closable {
               _channel.id,
               _channel.name,
               _channel.description,
-              // TODO add a proper drawable resource to android, for now using
-              icon: 'launch_background',
+              icon: '@drawable/launch_background',
             ),
           ),
         );

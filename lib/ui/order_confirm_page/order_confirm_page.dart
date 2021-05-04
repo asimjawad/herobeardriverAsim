@@ -12,6 +12,7 @@ import 'package:hero_bear_driver/ui/order_decline_page/order_decline_page.dart';
 import 'package:hero_bear_driver/ui/order_pick_and_drop_page/pick_order_page.dart';
 import 'package:hero_bear_driver/ui/plain_scroll_behavior.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:hero_bear_driver/util/map_util.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -37,11 +38,15 @@ class OrderConfirmPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // String dateTime = dateFormat.format(_appBloc.orderDetailsModel.data!.orders[0].deliveredTime.);
     return Scaffold(
-      body: FutureBuilder(
-        future: Future.wait(
-            [_appBloc.orderRequest(), _appBloc.fetchOrderRequestData()]),
+      body: FutureBuilder<List<dynamic>>(
+        future: Future.wait<dynamic>([
+          _appBloc.orderRequest(),
+          _appBloc.fetchOrderRequestData(),
+          MapUtil.getBitmapDescriptor(context, MyImgs.mapPin, 35),
+        ]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            final bmpDescriptor = snapshot.data![2] as BitmapDescriptor;
             return Column(
               children: [
                 Expanded(
@@ -58,6 +63,8 @@ class OrderConfirmPage extends StatelessWidget {
                                     .orderDetailsModel.data!.longitude)),
                             zoom: 12,
                           ),
+                          markers: _prepareMapMarkers(bmpDescriptor),
+                          onMapCreated: _zoomCameraToBounds,
                           myLocationButtonEnabled: false,
                           zoomControlsEnabled: false,
                         ),
@@ -66,33 +73,33 @@ class OrderConfirmPage extends StatelessWidget {
                           right: posR,
                           child: SafeArea(
                               child: InkWell(
-                            onTap: () async {
-                              /*  final res = await _appBloc.orderRequest();
+                                onTap: () async {
+                                  /*  final res = await _appBloc.orderRequest();
                           print(res.data?.toJson());*/
-                              Get.to<void>(OrderDeclinePage());
-                            },
-                            child: Container(
-                              height: height,
-                              width: width,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: Offset(0.0, 1.0), //(x,y)
-                                    blurRadius: Dimens.elevationM,
+                                  Get.to<void>(OrderDeclinePage());
+                                },
+                                child: Container(
+                                  height: height,
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: Dimens.elevationM,
+                                      ),
+                                    ],
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(posC),
                                   ),
-                                ],
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(posC),
-                              ),
-                              child: Center(
-                                  child: Text(
-                                Strings.decline,
-                                style: Styles.appTheme.textTheme.bodyText2
-                                    ?.copyWith(color: Colors.white),
+                                  child: Center(
+                                      child: Text(
+                                        Strings.decline,
+                                        style: Styles.appTheme.textTheme.bodyText2
+                                            ?.copyWith(color: Colors.white),
+                                      )),
+                                ),
                               )),
-                            ),
-                          )),
                         )
                       ],
                     ),
@@ -183,11 +190,11 @@ class OrderConfirmPage extends StatelessWidget {
                                 // var f = await getImageFileFromAssets(
                                 //     'assets/images/no_profile.png');
                                 var response =
-                                    await _appBloc.orderAcceptByDriver(
-                                        orderNo: _appBloc
-                                            .orderDetailsModel.orderNos![0],
-                                        // image: f,
-                                        status: 1);
+                                await _appBloc.orderAcceptByDriver(
+                                    orderNo: _appBloc
+                                        .orderDetailsModel.orderNos![0],
+                                    // image: f,
+                                    status: 1);
                                 if (response) {
                                   // await _appBloc.setOrderAcceptedStatus(true);
                                   await Get.offAll<void>(() => PickOrderPage());
@@ -249,5 +256,35 @@ class OrderConfirmPage extends StatelessWidget {
 
   void _gotoHome() {
     Get.offAll<void>(HomePage());
+  }
+
+  Set<Marker> _prepareMapMarkers(BitmapDescriptor icon) {
+    return {
+      Marker(
+        markerId: MarkerId('marker_id_1'),
+        icon: icon,
+        position: LatLng(
+            double.parse(_appBloc.orderDetailsModel.data!.latitude),
+            double.parse(_appBloc.orderDetailsModel.data!.longitude)),
+      ),
+      Marker(
+        icon: icon,
+        markerId: MarkerId('marker_id_2'),
+        position: LatLng(
+            double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
+            double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng)),
+      ),
+    };
+  }
+
+  void _zoomCameraToBounds(GoogleMapController controller) {
+    final orderRequest = _appBloc.orderDetailsModel.data!;
+    final bounds = MapUtil.getLatLngBounds(
+      LatLng(double.parse(orderRequest.latitude),
+          double.parse(orderRequest.longitude)),
+      LatLng(double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
+          double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng)),
+    );
+    controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 25));
   }
 }
