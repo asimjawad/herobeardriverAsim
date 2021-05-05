@@ -35,8 +35,8 @@ class OrdersListPage extends StatelessWidget {
                           Get.to<void>(() => OrderDetailPage());
                         },
                         child: OrderCard(
-                            price: double.parse(_appBloc
-                                .orderDetailsModel.data!.orders[0].total),
+                            price: _appBloc
+                                .orderDetailsModel.data!.orders[0].total,
                             completeAddress: _appBloc.orderDetailsModel.data!
                                 .orders[0].deliveryAddress,
                             orderNo: _appBloc.orderDetailsModel.orderNos![0],

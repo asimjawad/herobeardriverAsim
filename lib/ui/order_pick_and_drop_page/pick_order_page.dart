@@ -69,9 +69,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
 
 //getting destination location
   LatLng getDestination() {
-    LatLng _destination = LatLng(
-        double.parse(_appBloc.orderDetailsModel.data!.latitude),
-        double.parse(_appBloc.orderDetailsModel.data!.longitude));
+    LatLng _destination = LatLng(_appBloc.orderDetailsModel.data!.latitude,
+        _appBloc.orderDetailsModel.data!.longitude);
 
     return _destination;
   }
@@ -165,9 +164,8 @@ class _PickOrderPageState extends State<PickOrderPage> {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  double.parse(_appBloc.orderDetailsModel.data!.latitude),
-                  double.parse(_appBloc.orderDetailsModel.data!.longitude)),
+              target: LatLng(_appBloc.orderDetailsModel.data!.latitude,
+                  _appBloc.orderDetailsModel.data!.longitude),
             ),
             polylines: _polyline,
             markers: _markers,
@@ -207,17 +205,12 @@ class _PickOrderPageState extends State<PickOrderPage> {
                         ),
                         _directionsAndCallRow(
                             color: MyColors.yellow400,
-                            callFunc: () =>
-                                _makeCall(
-                                    number: _appBloc.orderDetailsModel.data!
-                                        .phone),
-                            mapFunc: () =>
-                                _openMaps(
-                                    lat: double.parse(
-                                        _appBloc.orderDetailsModel.data!
-                                            .latitude),
-                                    lon: double.parse(_appBloc
-                                        .orderDetailsModel.data!.longitude))),
+                            callFunc: () => _makeCall(
+                                number: _appBloc.orderDetailsModel.data!.phone),
+                            mapFunc: () => _openMaps(
+                                lat: _appBloc.orderDetailsModel.data!.latitude,
+                                lon: _appBloc
+                                    .orderDetailsModel.data!.longitude)),
                         Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: Dimens.insetS),
@@ -242,18 +235,14 @@ class _PickOrderPageState extends State<PickOrderPage> {
                               vertical: PickOrderPage._rowV),
                           child: _directionsAndCallRow(
                               color: MyColors.grey,
-                              mapFunc: () =>
-                                  _openMaps(
-                                      lat: double.parse(_appBloc
-                                          .orderDetailsModel.data!.orders[0]
-                                          .dLat),
-                                      lon: double.parse(_appBloc
-                                          .orderDetailsModel.data!.orders[0]
-                                          .dLng)),
-                              callFunc: () =>
-                                  _makeCall(
-                                      number: _appBloc.orderDetailsModel.data!
-                                          .orders[0].user.phone)),
+                              mapFunc: () => _openMaps(
+                                  lat: _appBloc
+                                      .orderDetailsModel.data!.orders[0].dLat,
+                                  lon: _appBloc
+                                      .orderDetailsModel.data!.orders[0].dLng),
+                              callFunc: () => _makeCall(
+                                  number: _appBloc.orderDetailsModel.data!
+                                      .orders[0].user.phone)),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                         Padding(

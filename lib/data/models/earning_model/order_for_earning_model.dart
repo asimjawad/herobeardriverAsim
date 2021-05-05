@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'order_for_earning_model.g.dart';
@@ -24,18 +25,18 @@ class OrderForEarningModel {
 
   @JsonKey(name: 'order_no')
   String orderNo;
-  @JsonKey(name: 'earning')
-  String earning;
+  @JsonKey(name: 'earning', fromJson: JsonUtil.parseDouble)
+  double earning;
   @JsonKey(name: 'delivery')
   DateTime delivery;
-  @JsonKey(name: 'admin_earning')
-  String adminEarning;
+  @JsonKey(name: 'admin_earning', fromJson: JsonUtil.parseDouble)
+  double adminEarning;
   @JsonKey(name: 'items')
   int items;
-  @JsonKey(name: 'lat')
-  String lat;
-  @JsonKey(name: 'lng')
-  String lng;
+  @JsonKey(name: 'lat', fromJson: JsonUtil.parseDouble)
+  double lat;
+  @JsonKey(name: 'lng', fromJson: JsonUtil.parseDouble)
+  double lng;
   @JsonKey(name: 'delivery_address')
   String deliveryAddress;
   @JsonKey(name: 'user_name')
@@ -48,12 +49,13 @@ class OrderForEarningModel {
   String restaurantName;
   @JsonKey(name: 'restaurant_address')
   String restaurantAddress;
-  @JsonKey(name: 'restaurant_lat')
-  String restaurantLat;
-  @JsonKey(name: 'restaurant_lng')
-  String restaurantLng;
+  @JsonKey(name: 'restaurant_lat', fromJson: JsonUtil.parseDouble)
+  double restaurantLat;
+  @JsonKey(name: 'restaurant_lng', fromJson: JsonUtil.parseDouble)
+  double restaurantLng;
 
-  factory OrderForEarningModel.fromJson(Map<String, dynamic> json) => _$OrderForEarningModelFromJson(json);
+  factory OrderForEarningModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderForEarningModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderForEarningModelToJson(this);
 }

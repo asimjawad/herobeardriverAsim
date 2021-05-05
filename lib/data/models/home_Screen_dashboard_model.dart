@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'home_Screen_dashboard_model.g.dart';
@@ -18,39 +19,19 @@ class HomeScreenDashboardModel {
 
   @JsonKey(name: 'status')
   bool status;
-  @JsonKey(name: 'acceptance')
+  @JsonKey(name: 'acceptance', fromJson: JsonUtil.parseDouble)
   num acceptance;
-  @JsonKey(name: 'decline')
+  @JsonKey(name: 'decline', fromJson: JsonUtil.parseDouble)
   num decline;
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'todaysEarning', fromJson: JsonUtil.parseDouble)
   double todaysEarning;
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'capital', fromJson: JsonUtil.parseDouble)
   double capital;
   @JsonKey(name: 'driver_status')
   String? driverStatus;
 
-  factory HomeScreenDashboardModel.fromJson(Map<String, dynamic> json) {
-    final model = _$HomeScreenDashboardModelFromJson(json);
-    dynamic capital = json['capital'];
-    if (capital is String) {
-      model.capital = double.parse(capital);
-    } else if (capital is int) {
-      model.capital = capital.toDouble();
-    }
-    dynamic todaysEarning = json['todaysEarning'];
-    if (todaysEarning is String) {
-      model.todaysEarning = double.parse(todaysEarning);
-    } else if (todaysEarning is int) {
-      model.todaysEarning = todaysEarning.toDouble();
-    }
-   /* dynamic acceptance = json['acceptance'];
-    if(acceptance is double){
-      model.acceptance =  acceptance.toDouble();
-    }else if(acceptance is int){
-      model.acceptance = double.parse(acceptance.toString());
-    }*/
-    return model;
-  }
+  factory HomeScreenDashboardModel.fromJson(Map<String, dynamic> json) =>
+      _$HomeScreenDashboardModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HomeScreenDashboardModelToJson(this);
 }

@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'delivery_summary_model.g.dart';
@@ -15,12 +16,13 @@ class DeliverSummary {
   bool status;
   @JsonKey(name: 'base')
   String base;
-  @JsonKey(name: 'tip')
-  String tip;
-  @JsonKey(name: 'total')
-  int total;
+  @JsonKey(name: 'tip', fromJson: JsonUtil.parseDouble)
+  double tip;
+  @JsonKey(name: 'total', fromJson: JsonUtil.parseDouble)
+  double total;
 
-  factory DeliverSummary.fromJson(Map<String, dynamic> json) => _$DeliverSummaryFromJson(json);
+  factory DeliverSummary.fromJson(Map<String, dynamic> json) =>
+      _$DeliverSummaryFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeliverSummaryToJson(this);
 }

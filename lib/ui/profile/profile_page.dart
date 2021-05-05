@@ -61,7 +61,7 @@ class ProfilePage extends StatelessWidget {
                         child: ReviewTileWgt(
                           title: reviews[index].name,
                           subtitle: reviews[index].reviews,
-                          rating: double.parse(reviews[index].rating).toInt(),
+                          rating: reviews[index].rating.toInt(),
                           image: Image.network(
                               '${driverData.baseUrlProfile}${reviews[index].image}',
                               fit: BoxFit.fill),

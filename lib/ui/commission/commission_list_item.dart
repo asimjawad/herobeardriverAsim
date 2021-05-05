@@ -17,7 +17,7 @@ class CommissionListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              commissionData.transactionId,
+              commissionData.transactionId.toString(),
               style: Theme.of(context).textTheme.headline6,
             ),
             Text(

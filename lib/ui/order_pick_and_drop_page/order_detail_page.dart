@@ -95,8 +95,8 @@ class OrderDetailPage extends StatelessWidget {
                 itemBuilder: (BuildContext context, index) {
                     return _Container(
                       comment: _comment,
-                      quantity: int.parse(_appBloc.orderDetailsModel.data!
-                          .orders[0].orderProduct[0].qty),
+                      quantity: _appBloc.orderDetailsModel.data!.orders[0]
+                          .orderProduct[0].qty,
                       dishName: _appBloc.orderDetailsModel.data!.orders[0]
                           .orderProduct[0].product!.name,
                     );

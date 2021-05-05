@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'order_for_earning_model.dart';
@@ -16,16 +17,17 @@ class EarningModel {
 
   @JsonKey(name: 'status')
   bool status;
-  @JsonKey(name: 'totalEarning')
-  int totalEarning;
-  @JsonKey(name: 'adminEarning')
-  int adminEarning;
+  @JsonKey(name: 'totalEarning', fromJson: JsonUtil.parseDouble)
+  double totalEarning;
+  @JsonKey(name: 'adminEarning', fromJson: JsonUtil.parseDouble)
+  double adminEarning;
   @JsonKey(name: 'order')
   List<OrderForEarningModel> order;
   @JsonKey(name: 'diamond')
   String? diamond;
 
-  factory EarningModel.fromJson(Map<String, dynamic> json) => _$EarningModelFromJson(json);
+  factory EarningModel.fromJson(Map<String, dynamic> json) =>
+      _$EarningModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$EarningModelToJson(this);
 }
