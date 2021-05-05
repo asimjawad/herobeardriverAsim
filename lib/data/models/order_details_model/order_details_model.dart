@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'order_details_data.dart';
@@ -19,7 +20,7 @@ class OrderDetailsModel {
   List<String>? orderNos;
   @JsonKey(name: 'data')
   OrderDetailsData? data;
-  @JsonKey(name: 'count')
+  @JsonKey(name: 'count', fromJson: JsonUtil.parseInt)
   int count;
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) => _$OrderDetailsModelFromJson(json);

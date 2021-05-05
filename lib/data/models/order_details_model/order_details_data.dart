@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'order_for_order_details_model.dart';
@@ -51,10 +52,10 @@ class OrderDetailsData {
     required this.orders,
   });
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
-  @JsonKey(name: 'user_id')
-  String userId;
+  @JsonKey(name: 'user_id', fromJson: JsonUtil.parseInt)
+  int userId;
   @JsonKey(name: 'name')
   String name;
   @JsonKey(name: 'user_name')
@@ -73,26 +74,26 @@ class OrderDetailsData {
   String coverImage;
   @JsonKey(name: 'services')
   String services;
-  @JsonKey(name: 'service_charges')
-  String? serviceCharges;
-  @JsonKey(name: 'delivery_charges')
-  String deliveryCharges;
+  @JsonKey(name: 'service_charges', fromJson: JsonUtil.tryParseDouble)
+  double? serviceCharges;
+  @JsonKey(name: 'delivery_charges', fromJson: JsonUtil.parseDouble)
+  double deliveryCharges;
   @JsonKey(name: 'city')
   String city;
-  @JsonKey(name: 'tax')
-  String tax;
+  @JsonKey(name: 'tax', fromJson: JsonUtil.parseDouble)
+  double tax;
   @JsonKey(name: 'address')
   String address;
-  @JsonKey(name: 'latitude')
-  String latitude;
-  @JsonKey(name: 'longitude')
-  String longitude;
+  @JsonKey(name: 'latitude', fromJson: JsonUtil.parseDouble)
+  double latitude;
+  @JsonKey(name: 'longitude', fromJson: JsonUtil.parseDouble)
+  double longitude;
   @JsonKey(name: 'phone')
   String phone;
   @JsonKey(name: 'description')
   String description;
-  @JsonKey(name: 'min_order')
-  String minOrder;
+  @JsonKey(name: 'min_order', fromJson: JsonUtil.parseDouble)
+  double minOrder;
   @JsonKey(name: 'avg_delivery_time')
   String avgDeliveryTime;
   @JsonKey(name: 'avg_pickup_time')
@@ -111,8 +112,8 @@ class OrderDetailsData {
   String vouchers;
   @JsonKey(name: 'deal')
   String deal;
-  @JsonKey(name: 'is_open')
-  String isOpen;
+  @JsonKey(name: 'is_open', fromJson: JsonUtil.parseInt)
+  int isOpen;
   @JsonKey(name: 'featured')
   String featured;
   @JsonKey(name: 'keywords')

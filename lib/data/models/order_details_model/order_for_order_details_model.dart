@@ -1,4 +1,5 @@
 import 'package:hero_bear_driver/data/models/order_details_model/user_for_order_details_model.dart';
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'order_product_for_order_details_model.dart';
@@ -39,36 +40,36 @@ class OrderForOrderDetailsModel {
     required this.user,
   });
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
-  @JsonKey(name: 'user_id')
-  String userId;
-  @JsonKey(name: 'restaurant_id')
-  String restaurantId;
+  @JsonKey(name: 'user_id', fromJson: JsonUtil.parseInt)
+  int userId;
+  @JsonKey(name: 'restaurant_id', fromJson: JsonUtil.parseInt)
+  int restaurantId;
   @JsonKey(name: 'order_no')
   String orderNo;
-  @JsonKey(name: 'product_id')
-  String productId;
-  @JsonKey(name: 'qty')
-  String qty;
-  @JsonKey(name: 'driver_id')
-  String driverId;
+  @JsonKey(name: 'product_id', fromJson: JsonUtil.parseInt)
+  int productId;
+  @JsonKey(name: 'qty', fromJson: JsonUtil.parseInt)
+  int qty;
+  @JsonKey(name: 'driver_id', fromJson: JsonUtil.parseInt)
+  int driverId;
   @JsonKey(name: 'offer_discount')
-  String offerDiscount;
-  @JsonKey(name: 'tax')
-  String tax;
-  @JsonKey(name: 'delivery_charges')
-  String deliveryCharges;
-  @JsonKey(name: 'sub_total')
-  String subTotal;
-  @JsonKey(name: 'total')
-  String total;
-  @JsonKey(name: 'admin_commission')
-  String adminCommission;
-  @JsonKey(name: 'restaurant_commission')
-  String restaurantCommission;
-  @JsonKey(name: 'driver_tip')
-  String driverTip;
+  double offerDiscount;
+  @JsonKey(name: 'tax', fromJson: JsonUtil.parseDouble)
+  double tax;
+  @JsonKey(name: 'delivery_charges', fromJson: JsonUtil.parseDouble)
+  double deliveryCharges;
+  @JsonKey(name: 'sub_total', fromJson: JsonUtil.parseDouble)
+  double subTotal;
+  @JsonKey(name: 'total', fromJson: JsonUtil.parseDouble)
+  double total;
+  @JsonKey(name: 'admin_commission', fromJson: JsonUtil.parseDouble)
+  double adminCommission;
+  @JsonKey(name: 'restaurant_commission', fromJson: JsonUtil.parseDouble)
+  double restaurantCommission;
+  @JsonKey(name: 'driver_tip', fromJson: JsonUtil.parseDouble)
+  double driverTip;
   @JsonKey(name: 'status')
   String status;
   @JsonKey(name: 'image')
@@ -79,10 +80,10 @@ class OrderForOrderDetailsModel {
   String deliveryAddress;
   @JsonKey(name: 'scheduled_date')
   DateTime? scheduledDate;
-  @JsonKey(name: 'd_lat')
-  String dLat;
-  @JsonKey(name: 'd_lng')
-  String dLng;
+  @JsonKey(name: 'd_lat', fromJson: JsonUtil.parseDouble)
+  double dLat;
+  @JsonKey(name: 'd_lng', fromJson: JsonUtil.parseDouble)
+  double dLng;
   @JsonKey(name: 'ordered_time')
   DateTime orderedTime;
   @JsonKey(name: 'preparing_time')

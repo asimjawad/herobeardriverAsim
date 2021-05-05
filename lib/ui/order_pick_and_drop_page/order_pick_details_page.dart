@@ -122,8 +122,8 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
                 itemBuilder: (BuildContext context, index) {
                     return _Container(
                       comment: ' ',
-                      quantity: int.parse(
-                          _appBloc.orderDetailsModel.data!.orders[index].qty),
+                      quantity:
+                          _appBloc.orderDetailsModel.data!.orders[index].qty,
                       dishName: _appBloc.orderDetailsModel.data!.orders[index]
                           .orderProduct[0].product!.name,
                     );
@@ -271,8 +271,7 @@ class _OrderPickDetailsPageState extends State<OrderPickDetailsPage> {
         context: context,
         builder: (context) {
           return PickPhotoAndConfirmDialog(
-            total: double.parse(
-                _appBloc.orderDetailsModel.data!.orders[0].subTotal),
+            total: _appBloc.orderDetailsModel.data!.orders[0].subTotal,
             func: () => orderAcceptByDriver(context),
             photoCallBack: imageCallBack,
           );

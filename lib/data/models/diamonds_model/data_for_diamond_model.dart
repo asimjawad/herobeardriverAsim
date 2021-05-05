@@ -1,16 +1,17 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'data_for_diamond_model.g.dart';
 
 @JsonSerializable()
 class DataForDiamondModel{
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
-  @JsonKey(name: 'driver_id')
-  String driverId;
+  @JsonKey(name: 'driver_id', fromJson: JsonUtil.parseInt)
+  int driverId;
   @JsonKey(name: 'diamond')
   String diamond;
-  @JsonKey(name: 'transaction_id')
+  @JsonKey(name: 'transaction_id', fromJson: JsonUtil.forceString)
   String transactionId;
   @JsonKey(name: 'amount')
   String amount;
@@ -24,9 +25,9 @@ class DataForDiamondModel{
   DataForDiamondModel(
       {required this.id,
       required this.driverId,
-      required this.diamond,
-      required this.transactionId,
-      required this.amount,
+    required this.diamond,
+    required this.transactionId,
+    required this.amount,
     required this.status,
     required this.createdAt,
     required this.updatedAt

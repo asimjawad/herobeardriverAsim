@@ -57,10 +57,8 @@ class OrderConfirmPage extends StatelessWidget {
                         GoogleMap(
                           initialCameraPosition: CameraPosition(
                             target: LatLng(
-                                double.parse(
-                                    _appBloc.orderDetailsModel.data!.latitude),
-                                double.parse(_appBloc
-                                    .orderDetailsModel.data!.longitude)),
+                                _appBloc.orderDetailsModel.data!.latitude,
+                                _appBloc.orderDetailsModel.data!.longitude),
                             zoom: 12,
                           ),
                           markers: _prepareMapMarkers(bmpDescriptor),
@@ -263,16 +261,14 @@ class OrderConfirmPage extends StatelessWidget {
       Marker(
         markerId: MarkerId('marker_id_1'),
         icon: icon,
-        position: LatLng(
-            double.parse(_appBloc.orderDetailsModel.data!.latitude),
-            double.parse(_appBloc.orderDetailsModel.data!.longitude)),
+        position: LatLng(_appBloc.orderDetailsModel.data!.latitude,
+            _appBloc.orderDetailsModel.data!.longitude),
       ),
       Marker(
         icon: icon,
         markerId: MarkerId('marker_id_2'),
-        position: LatLng(
-            double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-            double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng)),
+        position: LatLng(_appBloc.orderDetailsModel.data!.orders[0].dLat,
+            _appBloc.orderDetailsModel.data!.orders[0].dLng),
       ),
     };
   }
@@ -280,10 +276,9 @@ class OrderConfirmPage extends StatelessWidget {
   void _zoomCameraToBounds(GoogleMapController controller) {
     final orderRequest = _appBloc.orderDetailsModel.data!;
     final bounds = MapUtil.getLatLngBounds(
-      LatLng(double.parse(orderRequest.latitude),
-          double.parse(orderRequest.longitude)),
-      LatLng(double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-          double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng)),
+      LatLng(orderRequest.latitude, orderRequest.longitude),
+      LatLng(_appBloc.orderDetailsModel.data!.orders[0].dLat,
+          _appBloc.orderDetailsModel.data!.orders[0].dLng),
     );
     controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 25));
   }

@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'data_for_get_reason_model.g.dart';
@@ -12,7 +13,7 @@ class DataForGetReason {
     required this.updatedAt,
   });
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
   @JsonKey(name: 'reason')
   String reason;

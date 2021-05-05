@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_login_model.g.dart';
@@ -15,9 +16,9 @@ class UserLoginModel {
     required this.message,
   });
 
-  static const sApproved = "1";
+  static const sApproved = 1;
 
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: 'user_id', fromJson: JsonUtil.parseInt)
   int userId;
   @JsonKey(name: 'name')
   String name;
@@ -25,11 +26,11 @@ class UserLoginModel {
   String email;
   @JsonKey(name: 'image')
   String image;
-  @JsonKey(name: 'approved')
-  String approved;
+  @JsonKey(name: 'approved', fromJson: JsonUtil.parseInt)
+  int approved;
   @JsonKey(name: 'status')
   bool status;
-  @JsonKey(name: 'status_code')
+  @JsonKey(name: 'status_code', fromJson: JsonUtil.parseInt)
   int statusCode;
   @JsonKey(name: 'message')
   String message;

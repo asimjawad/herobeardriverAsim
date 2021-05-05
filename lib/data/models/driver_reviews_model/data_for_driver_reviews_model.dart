@@ -1,4 +1,5 @@
 import 'package:hero_bear_driver/data/models/driver_reviews_model/review_for_driver_reviews_model.dart';
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'data_for_driver_reviews_model.g.dart';
@@ -38,10 +39,10 @@ class DataForDriverReviewsModel {
     required this.reviews,
   });
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
-  @JsonKey(name: 'restaurant_id')
-  String? restaurantId;
+  @JsonKey(name: 'restaurant_id', fromJson: JsonUtil.tryParseInt)
+  int? restaurantId;
   @JsonKey(name: 'name')
   String name;
   @JsonKey(name: 'phone')
@@ -64,16 +65,16 @@ class DataForDriverReviewsModel {
   String password;
   @JsonKey(name: 'wallet')
   String wallet;
-  @JsonKey(name: 'capital')
-  String capital;
+  @JsonKey(name: 'capital', fromJson: JsonUtil.parseDouble)
+  double capital;
   @JsonKey(name: 'diamond')
   String diamond;
   @JsonKey(name: 'address')
   String address;
-  @JsonKey(name: 'latitude')
-  String latitude;
-  @JsonKey(name: 'longitude')
-  String longitude;
+  @JsonKey(name: 'latitude', fromJson: JsonUtil.parseDouble)
+  double latitude;
+  @JsonKey(name: 'longitude', fromJson: JsonUtil.parseDouble)
+  double longitude;
   @JsonKey(name: 'device_token')
   String deviceToken;
   @JsonKey(name: 'account_name')
@@ -88,8 +89,8 @@ class DataForDriverReviewsModel {
   String branchName;
   @JsonKey(name: 'branch_address')
   String branchAddress;
-  @JsonKey(name: 'approved')
-  String approved;
+  @JsonKey(name: 'approved', fromJson: JsonUtil.parseInt)
+  int approved;
   @JsonKey(name: 'status')
   String status;
   @JsonKey(name: 'created_at')
@@ -99,7 +100,8 @@ class DataForDriverReviewsModel {
   @JsonKey(name: 'reviews')
   List<ReviewForDriverReviewsModel> reviews;
 
-  factory DataForDriverReviewsModel.fromJson(Map<String, dynamic> json) => _$DataForDriverReviewsModelFromJson(json);
+  factory DataForDriverReviewsModel.fromJson(Map<String, dynamic> json) =>
+      _$DataForDriverReviewsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataForDriverReviewsModelToJson(this);
 }

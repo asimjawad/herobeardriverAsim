@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hero_bear_driver/data/models/earning_model/order_for_earning_model.dart';
 import 'package:hero_bear_driver/ui/values/values.dart';
+import 'package:intl/intl.dart';
 
 class DriverEarningListItem extends StatelessWidget {
   final OrderForEarningModel orderData;
@@ -24,7 +25,7 @@ class DriverEarningListItem extends StatelessWidget {
               style: Styles.appTheme.accentTextTheme.headline6
                   ?.copyWith(color: Colors.black26),
             ),
-                Text(orderData.earning,
+                Text(NumberFormat('00.00').format(orderData.earning),
                 style: Styles.appTheme.accentTextTheme.headline6
                     ?.copyWith(color: Colors.black26)),
               ]),

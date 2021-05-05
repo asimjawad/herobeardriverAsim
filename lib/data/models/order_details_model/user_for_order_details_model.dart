@@ -1,3 +1,4 @@
+import 'package:hero_bear_driver/util/json_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_for_order_details_model.g.dart';
@@ -17,7 +18,7 @@ class UserForOrderDetailsModel {
     required this.updatedAt,
   });
 
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', fromJson: JsonUtil.parseInt)
   int id;
   @JsonKey(name: 'name')
   String name;

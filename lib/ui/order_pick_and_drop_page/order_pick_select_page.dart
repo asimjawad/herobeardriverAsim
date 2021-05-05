@@ -58,8 +58,8 @@ class OrderPickSelectPage extends StatelessWidget {
                                   .orders[index].orderNo,
                               completeAddress: _appBloc.orderDetailsModel.data!
                                   .orders[0].deliveryAddress,
-                              price: double.parse(_appBloc
-                                  .orderDetailsModel.data!.orders[0].total)),
+                              price: _appBloc
+                                  .orderDetailsModel.data!.orders[0].total),
                         ),
                         ShowlineFull(widthMax: true, color: Colors.black54),
                       ],

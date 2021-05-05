@@ -65,8 +65,8 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
 //getting destination location
   LatLng getDestination() {
     LatLng _destination = LatLng(
-        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-        double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLng));
+        _appBloc.orderDetailsModel.data!.orders[0].dLat,
+        _appBloc.orderDetailsModel.data!.orders[0].dLng);
 
     return _destination;
   }
@@ -144,10 +144,8 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  double.parse(_appBloc.orderDetailsModel.data!.orders[0].dLat),
-                  double.parse(
-                      _appBloc.orderDetailsModel.data!.orders[0].dLng)),
+              target: LatLng(_appBloc.orderDetailsModel.data!.orders[0].dLat,
+                  _appBloc.orderDetailsModel.data!.orders[0].dLng),
             ),
             polylines: _polyline,
             markers: _markers,
@@ -258,16 +256,10 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
                                         GestureDetector(
                                           onTap: () {
                                             _launchMapsUrl(
-                                                double.parse(_appBloc
-                                                    .orderDetailsModel
-                                                    .data!
-                                                    .orders[0]
-                                                    .dLat),
-                                                double.parse(_appBloc
-                                                    .orderDetailsModel
-                                                    .data!
-                                                    .orders[0]
-                                                    .dLng));
+                                                _appBloc.orderDetailsModel.data!
+                                                    .orders[0].dLat,
+                                                _appBloc.orderDetailsModel.data!
+                                                    .orders[0].dLng);
                                           },
                                           child: Container(
                                             color: Colors.black26,
@@ -417,8 +409,7 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
         context: context,
         builder: (context) {
           return DeliverPhotoAndConfirmDialog(
-            total:
-                double.parse(_appBloc.orderDetailsModel.data!.orders[0].total),
+            total: _appBloc.orderDetailsModel.data!.orders[0].total,
             callApi: () => ordeCompleteByDriver(context),
             imageCallBack: imageCallBack,
           );
@@ -437,7 +428,7 @@ class _DeliverOrderPageState extends State<DeliverOrderPage> {
     final res = await _appBloc.orderCompleteByDriver(
         orderNo: _appBloc.orderDetailsModel.orderNos![0],
         image: imageSelected!,
-        userId: int.parse(_appBloc.orderDetailsModel.data!.orders[0].userId));
+        userId: _appBloc.orderDetailsModel.data!.orders[0].userId);
     if (res == true) {
       await _appBloc.setOrderAcceptedStatus(false);
       await _appBloc.setOrderDeliveryStatus(false);
