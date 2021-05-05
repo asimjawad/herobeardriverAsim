@@ -11,8 +11,8 @@ class DataForDiamondModel{
   int driverId;
   @JsonKey(name: 'diamond')
   String diamond;
-  @JsonKey(name: 'transaction_id', fromJson: JsonUtil.parseInt)
-  int transactionId;
+  @JsonKey(name: 'transaction_id', fromJson: JsonUtil.forceString)
+  String transactionId;
   @JsonKey(name: 'amount')
   String amount;
   @JsonKey(name: 'status')
@@ -22,8 +22,9 @@ class DataForDiamondModel{
   @JsonKey(name: 'updated_at')
   DateTime updatedAt;
 
-  DataForDiamondModel({required this.id,
-    required this.driverId,
+  DataForDiamondModel(
+      {required this.id,
+      required this.driverId,
     required this.diamond,
     required this.transactionId,
     required this.amount,

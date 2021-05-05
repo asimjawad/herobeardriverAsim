@@ -9,5 +9,7 @@ class JsonUtil {
   static double? tryParseDouble(dynamic input) =>
       double.tryParse(input.toString());
 
+  static String forceString(dynamic input) => input.toString();
+
   JsonUtil._();
 }
