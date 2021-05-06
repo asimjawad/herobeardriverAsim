@@ -94,7 +94,7 @@ class OrderDetailsData {
   String description;
   @JsonKey(name: 'min_order', fromJson: JsonUtil.parseDouble)
   double minOrder;
-  @JsonKey(name: 'avg_delivery_time')
+  @JsonKey(name: 'avg_delivery_time', fromJson: JsonUtil.forceString)
   String avgDeliveryTime;
   @JsonKey(name: 'avg_pickup_time')
   dynamic avgPickupTime;
@@ -102,10 +102,10 @@ class OrderDetailsData {
   dynamic deliveryRange;
   @JsonKey(name: 'polygone')
   String polygone;
-  @JsonKey(name: 'admin_commission')
-  String adminCommission;
-  @JsonKey(name: 'approved')
-  String approved;
+  @JsonKey(name: 'admin_commission', fromJson: JsonUtil.parseDouble)
+  double adminCommission;
+  @JsonKey(name: 'approved', fromJson: JsonUtil.parseInt)
+  int approved;
   @JsonKey(name: 'delivery')
   String delivery;
   @JsonKey(name: 'vouchers')
@@ -114,8 +114,8 @@ class OrderDetailsData {
   String deal;
   @JsonKey(name: 'is_open', fromJson: JsonUtil.parseInt)
   int isOpen;
-  @JsonKey(name: 'featured')
-  String featured;
+  @JsonKey(name: 'featured', fromJson: JsonUtil.parseInt)
+  int featured;
   @JsonKey(name: 'keywords')
   dynamic keywords;
   @JsonKey(name: 'account_name')
