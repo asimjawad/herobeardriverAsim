@@ -21,8 +21,6 @@ class OrderForOrderDetailsModel {
     required this.deliveryCharges,
     required this.subTotal,
     required this.total,
-    required this.adminCommission,
-    required this.restaurantCommission,
     required this.driverTip,
     required this.status,
     required this.image,
@@ -65,10 +63,6 @@ class OrderForOrderDetailsModel {
   @JsonKey(name: 'total', fromJson: JsonUtil.parseDouble)
   double total;
   @JsonKey(name: 'admin_commission', fromJson: JsonUtil.parseDouble)
-  double adminCommission;
-  @JsonKey(name: 'restaurant_commission', fromJson: JsonUtil.parseDouble)
-  double restaurantCommission;
-  @JsonKey(name: 'driver_tip', fromJson: JsonUtil.parseDouble)
   double driverTip;
   @JsonKey(name: 'status')
   String status;
@@ -93,13 +87,14 @@ class OrderForOrderDetailsModel {
   @JsonKey(name: 'created_at')
   DateTime createdAt;
   @JsonKey(name: 'updated_at')
-  DateTime updatedAt;
+  DateTime? updatedAt;
   @JsonKey(name: 'order_product')
   List<OrderProductForOrderDetailsModel> orderProduct;
   @JsonKey(name: 'user')
   UserForOrderDetailsModel user;
 
-  factory OrderForOrderDetailsModel.fromJson(Map<String, dynamic> json) => _$OrderForOrderDetailsModelFromJson(json);
+  factory OrderForOrderDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderForOrderDetailsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderForOrderDetailsModelToJson(this);
 }

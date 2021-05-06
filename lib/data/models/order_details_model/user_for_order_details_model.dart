@@ -30,8 +30,8 @@ class UserForOrderDetailsModel {
   String image;
   @JsonKey(name: 'phone')
   String phone;
-  @JsonKey(name: 'blocked')
-  String blocked;
+  @JsonKey(name: 'blocked', fromJson: JsonUtil.parseInt)
+  int blocked;
   @JsonKey(name: 'type')
   String type;
   @JsonKey(name: 'created_at')
@@ -39,7 +39,8 @@ class UserForOrderDetailsModel {
   @JsonKey(name: 'updated_at')
   DateTime updatedAt;
 
-  factory UserForOrderDetailsModel.fromJson(Map<String, dynamic> json) => _$UserForOrderDetailsModelFromJson(json);
+  factory UserForOrderDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$UserForOrderDetailsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserForOrderDetailsModelToJson(this);
 }
