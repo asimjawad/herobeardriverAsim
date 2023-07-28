@@ -1,6 +1,6 @@
 # hero_bear_driver
 
-A new Flutter application.
+An application which was done for as a driver app for the hero bear service provider
 
 ## Getting Started
 
